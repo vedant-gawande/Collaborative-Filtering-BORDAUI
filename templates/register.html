@@ -9,7 +9,7 @@
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
 
 	</head>
 	<body>
@@ -75,7 +75,7 @@
 											<div class="col-md-12">
 												<div class="form-group">
 													<input type="submit" class="btn btn-primary">
-													<a href="index.html"><input type="button" class="btn btn-primary" value="Back"></a>
+													<a href="admin_login"><input type="button" class="btn btn-primary" value="Back"></a>
 													<div class="submitting"></div>
 												</div>
 											</div>
