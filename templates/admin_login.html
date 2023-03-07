@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+    {% block head %}
     <meta charset="UTF-8" />
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/styles.css') }}" />
+    {% endblock %}
   </head>
   <body>
+    {% block page_content %}
  <div class="background-wrap">
   <div class="background"></div>
 </div>
@@ -31,5 +34,6 @@
     <input type="submit" id="go" value="Authorize">
   </p>
 </form>
+{% endblock %}
   </body>
 </html>
