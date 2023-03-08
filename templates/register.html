@@ -31,32 +31,32 @@
 				      		<div id="form-message-success" class="mb-4">
 				            Your message was sent, thank you!
 				      		</div>
-									<form action="" method="post" id="contactForm">
+									<form action="register_user" method="post" id="contactForm">
 										<div class="row">
 										<div class="col-md-12">
 												<div class="form-group">
-													<input type="text" class="form-control" name="cname" id="name" placeholder="Enter Name" required>
+													<input type="text" class="form-control" name="reg_name" id="name" placeholder="Enter Name" required>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<input type="email" class="form-control" name="cemail" id="name" placeholder="Enter Email" required>
+													<input type="email" class="form-control" name="reg_email" id="name" placeholder="Enter Email" required>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<input type="password" class="form-control" name="cmob" id="subject" placeholder="Enter Password" required>
+													<input type="password" class="form-control" name="reg_password" id="subject" placeholder="Enter Password" minlength=5 required>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<input type="number" class="form-control" name="cage" id="subject" placeholder="Enter Phone number" required>
+													<input type="number" class="form-control" name="reg_phone_number" id="subject" placeholder="Enter Phone number" required>
 												</div>
 											</div>
 											<div class="col-md-6"> 
 												<div class="form-group">
                                                     <label>Occupation</label>
-                                                    <select name="coccup">
+                                                    <select name="reg_occupation">
                                                         <optgroup label="STUDENT">
                                                             <option>B.TECH</option>
                                                             <option>M.TECH</option>

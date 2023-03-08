@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/style.css') }}" />
 </head>
 <style>
     form {
@@ -116,7 +116,7 @@
     <div class="background-wrap">
         <div class="background"></div>
     </div>
-    <h1>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;WELCOME TO ADMIN HOME<span style="text-decoration: none;color: red; font-size: 23px;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="index.html">LOGOUT</a></span></h1>
+    <h1>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;WELCOME TO ADMIN HOME<span style=" font-size: 23px;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="admin_login" style="text-decoration: none; color: red; cursor: pointer;" >LOGOUT</a></span></h1>
     <form id="accesspanel">
         <h1 id="litheader">MENU</h1>
 
