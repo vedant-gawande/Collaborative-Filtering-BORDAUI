@@ -29,7 +29,7 @@ def login(request:Request):
 @router.post('/register_user',response_class=HTMLResponse)
 async def register_user(request:Request,db:Session = Depends(get_db)):
     form = await request.form()
-    new_user = models.Create_user(username = form.get('reg_name'),email = form.get('reg_email'),
+    new_user = models.Users(username = form.get('reg_name'),email = form.get('reg_email'),
                                   password = Hash.bcrypt(form.get('reg_password')),
                                   phone_number = form.get('reg_phone_number') , occupation = form.get('reg_occupation'))
     db.add(new_user)

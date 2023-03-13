@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 # import uvicorn
-from routers import start_menu,verify,admin
+from routers import start_menu,verify,admin,user
 from fastapi.staticfiles import StaticFiles
 from database import Base,engine
 
@@ -14,6 +14,7 @@ Base.metadata.create_all(bind=engine)
 app.include_router(start_menu.router)
 app.include_router(verify.router)
 app.include_router(admin.router)
+app.include_router(user.router)
 
 
 # if __name__ == '__main__':

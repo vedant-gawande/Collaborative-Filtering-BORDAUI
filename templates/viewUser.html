@@ -2,8 +2,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',path='/css/util.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',path='/css/main.css') }}">
 	<style>
 * {box-sizing: border-box;}
 
@@ -107,16 +107,17 @@ color:orange;
                     <div class="table100-body js-pscroll">
 		<table>
 			<tbody>
+				{% for users in users_list %}
 				<tr class="row100 body">
-					<td class="cell100 column1"></td>
-					<td class="cell100 column2"></td>
-					<td class="cell100 column3"></td>
-					<td class="cell100 column4"></td>
+					<td class="cell100 column1">{{users.username}}</td>
+					<td class="cell100 column2">{{users.email}}</td>
+					<td class="cell100 column3">{{users.phone_number}}</td>
+					<td class="cell100 column4">{{users.occupation}}</td>
 					<td class="cell100 column5"></td>
 					<td class="cell100 column6"></td>
 					
 				</tr>
-
+				{% endfor %}
 	</tbody>
 		</table>
 	</div>					

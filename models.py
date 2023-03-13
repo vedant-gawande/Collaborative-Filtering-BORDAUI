@@ -10,7 +10,7 @@ class Admin(Base):
     username = Column(String,unique=True)
     password = Column(String)
 
-class Create_user(Base):
+class Users(Base):
 
     __tablename__ = 'Users'
 
