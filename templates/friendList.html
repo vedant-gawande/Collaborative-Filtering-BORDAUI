@@ -1,9 +1,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+<title>Friend List</title>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',path='/css/util.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='/css/main.css')}}">
 	<style>
 * {box-sizing: border-box;}
 
@@ -74,13 +74,19 @@ text-align:center;
 color:orange;
 }
 </style>
+<script>
+	if(performance.navigation.type == performance.navigation.TYPE_RELOAD)
+	{
+		window.location.href='user_friend_list';
+	}
+</script>
 </head>
 <body>
 <body>
-<form action="" method="post">
+<form action="/user_search_friend_list" method="get">
 <div class="topnav">
-  <a href="user.html">BACK</a>
-  <input type="text" placeholder="Search user" name="mob">
+  <a href="/user_menu">BACK</a>
+  <input type="text" placeholder="Search user" name="search_value">
   <input type="submit" value="Search">
 </div><br>
 <h1>FRIEND LIST</h1>
@@ -102,15 +108,26 @@ color:orange;
 					</div>
                     <div class="table100-body js-pscroll">
 		<table>
-			<tbody>
+			<tbody style="text-align: center;">
+				{% if bool %}
+				{% set count = namespace(value=0) %}
+				{% for friend in fr_list %}
+				{% for user in users %}
+				{% if friend == user.id|string %}
 				<tr class="row100 body">
-					<td class="cell100 column2"></td>
-					<td class="cell100 column2"></td>
-					
-					
-					
+					<td class="cell100 column2">{{user.username}}</td>
+					<td class="cell100 column2">{{fr_fr_list[count.value]}}</td>
+					{% set count.value = count.value + 1 %}
 				</tr>
-
+				{% endif %}
+				{% endfor %}
+				{% endfor %}
+				{% else %}
+				<tr class="row100 body">
+					<td class="cell100 column2">{{user.username}}</td>
+					<td class="cell100 column2">{{fr_list}}</td>
+				</tr>
+				{% endif %}
 	</tbody>
 		</table>
 	</div>					

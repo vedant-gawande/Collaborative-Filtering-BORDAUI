@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>View Users</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',path='/css/util.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static',path='/css/main.css') }}">
 	<style>
@@ -74,31 +74,37 @@ text-align:center;
 color:orange;
 }
 </style>
+<script>
+	if(performance.navigation.type == performance.navigation.TYPE_RELOAD)
+	{
+		window.location.href='admin_view_users';
+	}
+</script>
 </head>
 <body>
-<body>
-<form action="" method="post">
+<body >
+<form action="admin_search_users" method="get">
 <div class="topnav">
-  <a href="admin.html">BACK</a>
-  <input type="text" placeholder="Search user" name="mob">
+  <a style="cursor: pointer;" href="admin_menu">BACK</a>
+  <input type="text" placeholder="Search user" name="search_users">
   <input type="submit" value="Search">
 </div><br>
 <h1>VIEW ALL USERS</h1>
 </form>
 <div class="limiter">
 		<div class="container-table100">
-			<div class="wrap-table100">
-				<div class="table100 ver1 m-b-110">
+			<div class="wrap-table100" >
+				<div class="table100 ver1 m-b-110" >
 					<div class="table100-head">
 					<table>
 							<thead>
-								<tr class="row100 head">
+								<tr class="row100 head" >
 									<th class="cell100 column1" >USERNAME</th>
 									<th class="cell100 column2">EMAIL</th>
 									<th class="cell100 column3">CONTACT NUMBER</th>
 									<th class="cell100 column4">OCCUPATION</th>
-									<th class="cell100 column5">ACTIVATION STATUS</th>
-									<th class="cell100 column6">DE-ACTIVATION STATUS</th>
+									<!-- <th class="cell100 column5">ACTIVATION STATUS</th>
+									<th class="cell100 column6">DE-ACTIVATION STATUS</th> -->
 									
 								</tr>
 							</thead>
@@ -106,18 +112,33 @@ color:orange;
 					</div>
                     <div class="table100-body js-pscroll">
 		<table>
-			<tbody>
+			<tbody style="text-align: center; ">
+				{% if bool %}
 				{% for users in users_list %}
-				<tr class="row100 body">
+				<tr class="row100 body" >
 					<td class="cell100 column1">{{users.username}}</td>
 					<td class="cell100 column2">{{users.email}}</td>
 					<td class="cell100 column3">{{users.phone_number}}</td>
 					<td class="cell100 column4">{{users.occupation}}</td>
-					<td class="cell100 column5"></td>
-					<td class="cell100 column6"></td>
+					<!-- <td class="cell100 column5"></td>
+					<td class="cell100 column6"></td> -->
 					
 				</tr>
 				{% endfor %}
+				{% else %}
+				{% for users in s_u_list %}
+				<tr class="row100 body" >
+					<td class="cell100 column1">{{users.username}}</td>
+					<td class="cell100 column2">{{users.email}}</td>
+					<td class="cell100 column3">{{users.phone_number}}</td>
+					<td class="cell100 column4">{{users.occupation}}</td>
+					<!-- <td class="cell100 column5"></td>
+					<td class="cell100 column6"></td> -->
+					
+				</tr>
+				{% endfor %}
+				{% endif %}
+				
 	</tbody>
 		</table>
 	</div>					

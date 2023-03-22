@@ -1,9 +1,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+<title>Recieved Requests</title>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',path='/css/util.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='/css/main.css')}}">
 	<style>
 * {box-sizing: border-box;}
 
@@ -74,13 +74,19 @@ text-align:center;
 color:orange;
 }
 </style>
+<script>
+	if(performance.navigation.type == performance.navigation.TYPE_RELOAD)
+	{
+		window.location.href='user_request';
+	}
+</script>
 </head>
 <body>
 <body>
-<form action="" method="post">
+<form action="/user_search_req" method="get">
 <div class="topnav">
-  <a href="user.html">BACK</a>
-  <input type="text" placeholder="Search user" name="mob">
+  <a href="user_menu">BACK</a>
+  <input type="text" placeholder="Search user" name="search_value">
   <input type="submit" value="Search">
 </div><br>
 <h1>VIEW ALL USERS REQUESTS</h1>
@@ -90,34 +96,65 @@ color:orange;
 			<div class="wrap-table100">
 				<div class="table100 ver1 m-b-110">
 					<div class="table100-head">
-					<table>
-							<thead>
-								<tr class="row100 head">
-									<th class="cell100 column2" >SENDER</th>
-									<th class="cell100 column2">RECIVER</th>
-									<th class="cell100 column3">SEND-DATE</th>
-									<th class="cell100 column1">ACCEPT</th>
-									<th class="cell100 column1">REJECT</th>
+					<table >
+							<thead >
+								<tr class="row100 head" >
+									<th class="cell100 column1" >SENDER</th>
+									<!-- <th class="cell100 column2">RECIVER</th> -->
+									<!-- <th class="cell100 column2">RECIEVE-DATE</th> -->
+									<th class="cell100 column2">PHONE NUMBER</th>
+									<th class="cell100 column3">ACCEPT/REJECT</th>
 									
 								</tr>
 							</thead>
 						</table>
 					</div>
-                    <div class="table100-body js-pscroll">
+                <div class="table100-body js-pscroll">
+			<form action="/user_operate_req" method="get">
 		<table>
-			<tbody>
+			<tbody style="text-align: center;">
+				{% if bool %}
+				{% for req in req_list %}
+				{% for user in users %}
+				{% if req == user.id %}
 				<tr class="row100 body">
-					<td class="cell100 column2"></td>
-					<td class="cell100 column2"></td>
-					<td class="cell100 column3"></td>
-					<td class="cell100 column1"></td>
-					<td class="cell100 column1"></td>
-					
-					
+					<td class="cell100 column1">{{user.username}}</td>
+					<td class="cell100 column3">{{user.phone_number}}</td>
+					<td class="cell100 column3">
+						<button type="submit" style="margin-right: 2rem;" name="req_status" value="{{user.id}},ACCEPT">
+						<img src="../static/images/right tick mark.png" height="17rem" width="20rem" alt="right tick" >
+					</button>
+						<button type="submit" name="req_status" value="{{user.id}},REJECT">
+							<img src="../static/images/wrong red cross symbol.png" height="17rem" width="20rem" alt="wrong tick">
+						</button>
+					</td>
+					<!-- <td class="cell100 column4"></td>
+					<td class="cell100 column5"></td> -->
 				</tr>
-
+				{% endif %}
+				{% endfor %}
+				{% endfor %}
+				{% else %}
+				{% if users.id in req_list %}
+				<tr class="row100 body">
+					<td class="cell100 column1">{{users.username}}</td>
+					<td class="cell100 column3">{{users.phone_number}}</td>
+					<td class="cell100 column3">
+						<button type="submit" style="margin-right: 2rem;" name="req_status" value="{{users.id}},ACCEPT">
+						<img src="../static/images/right tick mark.png" height="17rem" width="20rem" alt="right tick" >
+					</button>
+						<button type="submit" name="req_status" value="{{users.id}},REJECT">
+							<img src="../static/images/wrong red cross symbol.png" height="17rem" width="20rem" alt="wrong tick">
+						</button>
+					</td>
+					<!-- <td class="cell100 column4"></td>
+					<td class="cell100 column5"></td> -->
+				</tr>
+				{% endif %}
+				{% endif %}
 	</tbody>
 		</table>
+	</form>
 	</div>					
 
 					

@@ -3,7 +3,9 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 import database,models
+from routers.getset import Getset
 from hashing import Hash
+
 
 router = APIRouter(
     prefix='/verify_',
@@ -23,18 +25,24 @@ async def verify_admin(request:Request,db:Session = Depends(get_db)):
     if not Hash.verify(form.get('password'),user.password):
         return templates.TemplateResponse('admin_login.html',{'request':request})
     
+    Getset.set_lname(user.username)
+    Getset.set_uid(int(user.id))
+    
     return responses.RedirectResponse('/admin_menu',status_code=status.HTTP_302_FOUND)
 
 @router.post('user',response_class= HTMLResponse )
 async def verify_admin(request:Request,db:Session = Depends(get_db)):
     form = await request.form()
-    print(form.get('username'))
     user = db.query(models.Users).filter(models.Users.username == form.get('username')).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Invalid Credentials')
     
     if not Hash.verify(form.get('password'),user.password):
         return templates.TemplateResponse('user_login.html',{'request':request})
+    
+    Getset.set_lname(user.username) 
+    Getset.set_uid(int(user.id))
+    Getset.set_req_list([])
     
     return responses.RedirectResponse('/user_menu',status_code=status.HTTP_302_FOUND)
     
