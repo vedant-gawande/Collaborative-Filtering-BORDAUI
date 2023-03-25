@@ -1,4 +1,4 @@
-from sqlalchemy import Column,Integer,String,ForeignKey
+from sqlalchemy import Boolean, Column,Integer,String,ForeignKey,Text
 from database import Base
 
 
@@ -21,6 +21,8 @@ class Users(Base):
     phone_number = Column(Integer)
     occupation = Column(String)
     friends = Column(String) 
+    recommend = Column(String,default='') 
+    recommended = Column(String,default='')
 
 class Users_S_Req(Base):
 
@@ -37,3 +39,40 @@ class Users_R_Req(Base):
     rid = Column(Integer,primary_key=True,index=True)
     uid = Column(Integer,ForeignKey('Users.id'))
     rec_reqs = Column(String)
+
+class Videos(Base):
+    __tablename__ = 'Videos'
+    id = Column(Integer, primary_key=True)
+    Title = Column(String)
+    Src = Column(String)
+    Like = Column(Integer)
+    Dislike = Column(Integer)
+    Views = Column(Integer)
+
+    def __repr__(self):
+        return '<Videos %r>' % (self.id)
+    
+class Uinterest(Base):
+    __tablename__ = 'Uinterest'
+    id = Column(Integer, primary_key=True)
+    Uid = Column(Integer, ForeignKey('Users.id'))
+    UName = Column(String,ForeignKey('Users.username'))
+    UEmail = Column(String,ForeignKey('Users.email'))
+    Title = Column(String,ForeignKey('Videos.Title'))
+    Src = Column(String,ForeignKey('Videos.Src'))
+    Like = Column(Boolean, default=False)
+    Dislike = Column(Boolean, default=False)
+    Views = Column(Integer,default=0)
+    Rating = Column(Integer,default=0)
+    RatingRes = Column(Boolean,default=False)
+    Description = Column(Text,default='')
+    vid_id = Column(Integer,ForeignKey('Videos.id')) 
+
+    def __repr__(self):
+        return '<Uinterest %r>' % (self.id)
+    
+class Recommended_Vids(Base):
+    __tablename__ = 'Recommended_Vids'
+    id = Column(Integer, primary_key=True)
+    Uid = Column(Integer)
+    R_U_Videos = Column(String) 

@@ -1,5 +1,5 @@
 class Getset:
-    lname,uid='user2',2
+    lname,uid='user1',1
     req_list = []
 
     @classmethod

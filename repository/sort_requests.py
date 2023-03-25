@@ -41,6 +41,7 @@ class OpDB:
             fr_l = friends.split(',')
             if '' in fr_l:
                 fr_l.remove('')
+            fr_l.append(uid)    
             fr_l = sorted(set(fr_l))
             fr_l = ','.join(fr_l)
             update_user.update({'friends':fr_l})

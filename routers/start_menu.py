@@ -1,9 +1,10 @@
-from fastapi import APIRouter,Request,Depends
+from fastapi import APIRouter,Request,Depends,responses
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 import database,models
 from hashing import Hash
+from algo import cluster
 
 
 get_db = database.get_db
@@ -14,12 +15,19 @@ router = APIRouter(tags=['start_menu'])
 
 templates = Jinja2Templates(directory='templates')
 
+@router.get('/',response_class=HTMLResponse)
+async def default_router(db:Session=Depends(get_db)):
+    cluster(db)
+    return responses.RedirectResponse('/user_login')
+
 @router.get('/admin_login',response_class=HTMLResponse)
-def login(request:Request):
+def login(request:Request,db:Session=Depends(get_db)):
+    cluster(db)
     return templates.TemplateResponse('admin_login.html',{"request":request})
 
 @router.get('/user_login',response_class=HTMLResponse)
-def login(request:Request):
+def login(request:Request,db:Session=Depends(get_db)):
+    cluster(db)
     return templates.TemplateResponse('user_login.html',{"request":request})
 
 @router.get('/register_page',response_class=HTMLResponse)
