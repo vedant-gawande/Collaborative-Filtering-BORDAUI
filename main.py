@@ -4,7 +4,7 @@ from routers import start_menu,verify,admin,user
 from fastapi.staticfiles import StaticFiles
 from database import Base,engine
 
-app = FastAPI()
+app = FastAPI(max_upload_size = 50*1024*1024)
 
 
 app.mount("/static", StaticFiles(directory= "static"), name="static",)

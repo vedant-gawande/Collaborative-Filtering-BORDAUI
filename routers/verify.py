@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException,Request,Depends,status,responses
+from fastapi import APIRouter, HTTPException,Request,Depends,status,responses,Response
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-import database,models
+import database,models,token_1
 from routers.getset import Getset
 from hashing import Hash
 
@@ -25,24 +25,28 @@ async def verify_admin(request:Request,db:Session = Depends(get_db)):
     if not Hash.verify(form.get('password'),user.password):
         return templates.TemplateResponse('admin_login.html',{'request':request})
     
-    Getset.set_lname(user.username)
-    Getset.set_uid(int(user.id))
+    data = {'sub':user.username,'user_id':user.id}
+    access_token = token_1.create_access_token(data=data)
+    response = responses.RedirectResponse('/admin_menu',status_code=status.HTTP_302_FOUND)
+    response.set_cookie(key="access_token",value=f"Bearer {access_token}",httponly=True)
     
-    return responses.RedirectResponse('/admin_menu',status_code=status.HTTP_302_FOUND)
+    return response
 
 @router.post('user',response_class= HTMLResponse )
-async def verify_admin(request:Request,db:Session = Depends(get_db)):
+async def verify_user(request:Request,response:Response,db:Session = Depends(get_db)):
     form = await request.form()
     user = db.query(models.Users).filter(models.Users.username == form.get('username')).first()
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Invalid Credentials')
+        return templates.TemplateResponse('user_login.html',{'request':request})
+        # raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Invalid Credentials')
     
     if not Hash.verify(form.get('password'),user.password):
         return templates.TemplateResponse('user_login.html',{'request':request})
     
-    Getset.set_lname(user.username) 
-    Getset.set_uid(int(user.id))
-    Getset.set_req_list([])
-    
-    return responses.RedirectResponse('/user_menu',status_code=status.HTTP_302_FOUND)
+    data = {'sub':user.username,'user_id':user.id}
+    access_token = token_1.create_access_token(data=data)
+    response = responses.RedirectResponse('/user_menu',status_code=status.HTTP_302_FOUND)
+    response.set_cookie(key="access_token",value=f"Bearer {access_token}",httponly=True)
+    return response
+
     

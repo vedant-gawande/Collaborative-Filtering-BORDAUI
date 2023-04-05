@@ -74,3 +74,44 @@ class OpDB:
         fr_id = ','.join(fr_id)
         rem_friend.update({'sent_reqs':fr_id})
         db.commit()
+
+    def likes_dislikes(db:Session):
+        join = db.query(models.Uinterest.vid_id).join(models.Videos,models.Uinterest.vid_id==models.Videos.id).distinct(models.Videos.id).order_by(models.Videos.id)
+        # print(join[0][0])
+        for i in join:
+            likes,dislikes = 0,0
+            uinters = db.query(models.Uinterest).filter(models.Uinterest.vid_id==i[0])
+            video = db.query(models.Videos).filter(models.Videos.id==i[0])
+            for uint in uinters:
+                if uint.Like:
+                    likes+=1 
+                else:
+                    dislikes+=1
+            video.update({'Like':likes,'Dislike':dislikes})
+            db.commit()
+            # print(uinters)
+
+    def views(db:Session):
+        join = db.query(models.Uinterest.vid_id).join(models.Videos,models.Uinterest.vid_id==models.Videos.id).distinct(models.Videos.id).order_by(models.Videos.id)
+        for i in join:
+            v_views = 0
+            uinters = db.query(models.Uinterest).filter(models.Uinterest.vid_id==i[0])
+            video = db.query(models.Videos).filter(models.Videos.id==i[0])
+            for uint in uinters:
+                v_views += uint.Views
+                # print(uint.Views)
+            video.update({'Views':v_views})
+            db.commit()
+
+    def mng_req_list(Uid:int,db:Session,req_list):
+        req_list_query = db.query(models.Req_list).filter(models.Req_list.Uid == Uid)
+        if req_list_query.first():
+            req_list = ','.join(req_list)
+            req_list_query.update({'req_list':req_list})
+            db.commit()
+        else:
+            ReqList = models.Req_list(Uid=Uid,req_list = ",".join(req_list))
+            db.add(ReqList)
+            db.commit()
+            db.refresh(ReqList)
+        pass

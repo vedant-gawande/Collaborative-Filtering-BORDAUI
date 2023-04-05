@@ -2,25 +2,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>View Dataset</title>
-<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',path='/css/util.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='/css/main1.css')}}">
 	<style>
 * {box-sizing: border-box;}
-
+@import url(https://fonts.googleapis.com/css?family=Audiowide);
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Audiowide';
+  background: #002333;
 }
 
 .topnav {
   overflow: hidden;
-  background-color: #e9e9e9;
+  background: #002333;
 }
 
 .topnav a {
   float: left;
   display: block;
-  color: black;
+  color: red;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -73,55 +74,25 @@ h1{
 text-align:center;
 color:orange;
 }
+
 </style>
 </head>
 <body>
 <body>
 <form action="" method="post">
 <div class="topnav">
-  <a href="admin.html">BACK</a>
-  <input type="text" placeholder="Search user" name="mob">
-  <input type="submit" value="Search">
+  <a href="admin_menu" style="position: fixed;">BACK</a>
+	<!-- <input type="text" placeholder="Search user" name="mob">
+	<input type="submit" value="Search"> -->
 </div><br>
 <h1>VIEW DATASET</h1>
 </form>
 <div class="limiter">
 		<div class="container-table100">
 			<div class="wrap-table100">
-				<div class="table100 ver1 m-b-110">
-					<div class="table100-head">
-					<table>
-							<thead>
-								<tr class="row100 head">
-									<th class="cell100 column1" >VIDEO_ID</th>
-									<th class="cell100 column2">CATEGORY ID</th>
-									<th class="cell100 column3">TITLE</th>
-									<th class="cell100 column4">VIEW</th>
-									<th class="cell100 column5">LIKES</th>
-									<th class="cell100 column6">DISLIKES</th>
-                                    <th class="cell100 column7">COMMENT-COUNT</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-                    <div class="table100-body js-pscroll">
-		<table>
-			<tbody>
-				<tr class="row100 body">
-					<td class="cell100 column1">475643686</td>
-					<td class="cell100 column2">65</td>
-					<td class="cell100 column3">fkudfdsufysuf ydsiufydfudiyfdsyfidyfiduf dfydi</td>
-					<td class="cell100 column4">6575</td>
-					<td class="cell100 column5">4543</td>
-					<td class="cell100 column6">455</td>
-					<td class="cell100 column7">455</td>
+				<div class="table100 ver1 m-b-110" style="margin-right: -4rem;">
 					
-				</tr>
-
-	</tbody>
-		</table>
-	</div>					
-
+                    <img src="data:image/png;base64,{{ chart_image }}" alt="Chart"  style="position: relative; left: 2rem; "/>
 					
 				</div>
 				

@@ -1,10 +1,10 @@
-from typing import Optional
-from fastapi import APIRouter, Request,Depends,status,responses
+from fastapi import APIRouter, Request,Depends,status,responses,Response
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from typing import Optional
+from sqlalchemy import case
 from sqlalchemy.orm import Session
-import database,models
-from routers.getset import Getset
+import database,models,token_1
 from repository.sort_requests import OpDB
 
 router = APIRouter(
@@ -16,54 +16,72 @@ templates = Jinja2Templates(directory='templates')
 get_db = database.get_db
 
 @router.get('menu',response_class=HTMLResponse)
-def user_menu(request:Request):
-    return templates.TemplateResponse('user_menu.html',{'request':request})
+async def user_menu(request:Request,db:Session=Depends(get_db)):
+    OpDB.likes_dislikes(db)
+    OpDB.views(db)
+    user_token = token_1.get_token(request)
+    return templates.TemplateResponse('user_menu.html',{'request':request,'lname':user_token.get("sub")})
 
 @router.get('view_users',response_class=HTMLResponse)
-def view_user(request:Request,db:Session=Depends(get_db)):
+async def view_user(request:Request,db:Session=Depends(get_db)):
     users_list = db.query(models.Users,models.Users_S_Req).join(models.Users_S_Req,models.Users_S_Req.uid == models.Users.id,full=True).all()
-    friends = db.query(models.Users).filter(models.Users.id == Getset.get_uid()).first().friends
+    user_token = token_1.get_token(request)
+    user_id = int(user_token.get("user_id"))
+    friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
     req_list = []
     for index,user in enumerate(users_list):
-        print(index,user[0].friends)
-        if user[0].id == Getset.get_uid():
+        # print(index,user[0].friends)
+        if user[0].id == user_id:
             if user[1]:
                 req_list = user[1].sent_reqs.split(',')
                 if '' in req_list:
                     req_list.remove('')
+                # Getset.set_req_list(req_list)
+                OpDB.mng_req_list(user_id,db,req_list)
                 req_list = [int(i) for i in req_list] 
-                Getset.set_req_list(req_list)
             users_list.pop(index)
             break
     new_users_list = [l[0] for l in users_list]
     OpDB.rec_requests(db)
-    return templates.TemplateResponse('searchUser.html',{'request':request,'users_list':new_users_list,'req_list':req_list,'friends':friends,'bool':True})
+    return templates.TemplateResponse('searchUser.html',{'request':request,'users_list':new_users_list,'req_list':req_list,'friends':friends,'bool':True,'lname':user_token.get("sub")})
 
 @router.get('search_users',response_class=HTMLResponse)
-def search_users(search_value,request:Request,db:Session=Depends(get_db)):
+async def search_users(search_value,request:Request,db:Session=Depends(get_db)):
+    user_token = token_1.get_token(request)
+    user_id = int(user_token.get("user_id"))
+    friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
     string = search_value
     l1 = string.split(' ')
     OpDB.rec_requests(db)
     if bool(l1) and '' not in l1 :
-        if Getset.lname != string:
+        req_list = db.query(models.Req_list).filter(models.Req_list.Uid == user_id).first().req_list
+        if req_list:
+            req_list = req_list.split(" ")
+            if ' ' in req_list:
+                req_list.remove(' ')
+            req_list = [int(i) for i in req_list]
+        else:
+            req_list = []
+        if user_token.get("sub") != string:
             searched_users_list = db.query(models.Users).filter(models.Users.username == string)
-            print(searched_users_list.first(),Getset.get_req_list())    #for code testing and i.e. to check output and code flow
-            return templates.TemplateResponse('searchUser.html',{'request':request,'s_u_list':searched_users_list,'req_list':Getset.get_req_list(),'bool':False})
+            # print(searched_users_list.first(),Getset.get_req_list())    #for code testing and i.e. to check output and code flow
+            return templates.TemplateResponse('searchUser.html',{'request':request,'s_u_list':searched_users_list,'req_list':req_list,'bool':False,'friends':friends,'lname':user_token.get("sub")})
         else:
             searched_users_list = db.query(models.Users).filter(models.Users.username == ' ')
-            return templates.TemplateResponse('searchUser.html',{'request':request,'s_u_list':searched_users_list,'req_list':Getset.get_req_list(),'bool':False})
+            return templates.TemplateResponse('searchUser.html',{'request':request,'s_u_list':searched_users_list,'req_list':req_list,'bool':False,'friends':friends,'lname':user_token.get("sub")})
     else:
         # print(string,l1)              #for code testing and i.e. to check output and code flow 
         return responses.RedirectResponse('/user_view_users',status_code=status.HTTP_302_FOUND)
     
 
 @router.get('send_req',response_class=HTMLResponse)
-def send_requests(send_req,request:Request,db:Session=Depends(get_db)):
+async def send_requests(send_req,request:Request,db:Session=Depends(get_db)):
     uid = send_req
+    user_token = token_1.get_token(request)
     # print(type(uid))
-    pre_req = db.query(models.Users_S_Req).filter(models.Users_S_Req.uid == Getset.get_uid())
+    pre_req = db.query(models.Users_S_Req).filter(models.Users_S_Req.uid == int(user_token.get("user_id")))
     if not pre_req.first():
-        new_req = models.Users_S_Req(uid=Getset.get_uid(),sent_reqs=uid)
+        new_req = models.Users_S_Req(uid=int(user_token.get("user_id")),sent_reqs=uid)
         db.add(new_req)
         db.commit()
         db.refresh(new_req)
@@ -80,53 +98,64 @@ def send_requests(send_req,request:Request,db:Session=Depends(get_db)):
     return responses.RedirectResponse('/user_view_users')
 
 @router.get('request',response_class=HTMLResponse)
-def requests(request:Request,db:Session=Depends(get_db)):
+async def requests(request:Request,db:Session=Depends(get_db)):
     users_list = db.query(models.Users,models.Users_R_Req).join(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id,full=True).all()
     req_list = []
+    user_token = token_1.get_token(request)
     for index,user in enumerate(users_list):
         # print(index,user)
-        if user[0].id == Getset.get_uid():
+        if user[0].id == int(user_token.get("user_id")):
             if user[1]:
                 req_list = user[1].rec_reqs.split(',')
                 if '' in req_list:
                     req_list.remove('')
+                OpDB.mng_req_list(int(user_token.get("user_id")),db,req_list)
                 req_list = [int(i) for i in req_list] 
-                Getset.set_req_list(req_list)
             users_list.pop(index)
             break
     new_users_list = [l[0] for l in users_list]
     # print(req_list)
-    return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list,'req_list':req_list,'bool':True})
+    return templates.TemplateResponse('userReq.html',{'request':request,'lname':user_token.get("sub"),'users':new_users_list,'req_list':req_list,'bool':True})
 
 @router.get('search_req',response_class=HTMLResponse)
-def search_requests(search_value,request:Request,db:Session=Depends(get_db)):
+async def search_requests(search_value,request:Request,db:Session=Depends(get_db)):
     users_list = db.query(models.Users,models.Users_R_Req).join(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id,full=True).all()
+    user_token = token_1.get_token(request)
     string = search_value
     l1 = string.split(' ')
     new_users_list = db.query(models.Users).filter(models.Users.username == string)
-    req_list = Getset.get_req_list()
+    req_list = db.query(models.Req_list).filter(models.Req_list.Uid == int(user_token.get("user_id"))).first().req_list
+    print(req_list)
+    if req_list:
+        req_list = req_list.split(" ")
+        if ' ' in req_list:
+            req_list.remove(' ')
+        req_list = [int(i) for i in req_list]
+    else:
+        req_list = []
     if bool(l1) and '' not in l1:
-        if string!=Getset.get_lname():
+        if string!=user_token.get("sub"):
             for user in users_list:
                 if user[0].username == string:
                     new_users_list = user
                     break
-            print(new_users_list[0])
-            return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list[0],'req_list':req_list,'bool':False})
+            print(new_users_list[0],req_list)
+            return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list[0],'req_list':req_list,'lname':user_token.get("sub"),'bool':False})
         else:
-            return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list,'req_list':req_list,'bool':False})
+            return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list,'req_list':req_list,'bool':False,'lname':user_token.get("sub")})
     else:
         return responses.RedirectResponse('/user_request',status_code=status.HTTP_302_FOUND)
 
 @router.get('operate_req',response_class=HTMLResponse)
-def operate_req(req_status,db:Session=Depends(get_db)):
+async def operate_req(req_status,db:Session=Depends(get_db)):
     # print(req_status)
     OpDB.friend_mgmt(req_status,db)
     return responses.RedirectResponse('/user_request')
 
 @router.get('friend_list',response_class=HTMLResponse)
-def friend_list(request:Request,db:Session=Depends(get_db)):
-    user = db.query(models.Users).filter(models.Users.id == Getset.get_uid())
+async def friend_list(request:Request,db:Session=Depends(get_db)):
+    user_token = token_1.get_token(request)
+    user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id")))
     users = db.query(models.Users).all()
     fr_list = []
     if user.first():
@@ -138,63 +167,81 @@ def friend_list(request:Request,db:Session=Depends(get_db)):
         fr_fr = db.query(models.Users).filter(models.Users.id==friend).first()
         if fr_fr.friends:
             list_of_fr_fr = fr_fr.friends.split(',')
-            if str(Getset.get_uid()) in list_of_fr_fr:
-                list_of_fr_fr.remove(str(Getset.get_uid()))
+            if user_token.get("user_id") in list_of_fr_fr:
+                list_of_fr_fr.remove(user_token.get("user_id"))
             list_of_friends = []
             for fr in list_of_fr_fr:
                 for user1 in users:
-                    if user1.id == int(fr):
+                    if user1.id == int(fr) and user_token.get("sub") != user1.username:
                         list_of_friends.append(user1.username)
             fr_fr_list.append(list_of_friends:=', '.join(list_of_friends))
-    return templates.TemplateResponse('friendList.html',{'request':request,'users':users,'fr_list':fr_list,'fr_fr_list':fr_fr_list,'bool':True})
+    return templates.TemplateResponse('friendList.html',{'request':request,'users':users,'fr_list':fr_list,'fr_fr_list':fr_fr_list,'bool':True,'lname':user_token.get("sub")})
 
 @router.get('search_friend_list',response_class=HTMLResponse)
-def search_friend_list(search_value,request:Request,db:Session=Depends(get_db)):
+async def search_friend_list(search_value,request:Request,db:Session=Depends(get_db)):
     string = search_value
+    user_token = token_1.get_token(request)
     l1 = string.split(' ')
     users = db.query(models.Users).all()
-    user_friend_list = db.query(models.Users).filter(models.Users.username == Getset.get_lname()).first().friends
+    user_friend_list = db.query(models.Users).filter(models.Users.username == user_token.get("sub")).first().friends
     # user_friend_list = user_friend_list.friends
     if user_friend_list:
         user_friend_list = user_friend_list.split(',')
     fr_list=''
     if bool(l1) and '' not in l1 :
         searched_users_list = db.query(models.Users).filter(models.Users.username == string).first()
-        if Getset.get_lname() != string and searched_users_list and (str(searched_users_list.id) in user_friend_list):
+        if user_token.get("sub") != string and searched_users_list and (str(searched_users_list.id) in user_friend_list):
             friends_list,fr_list = searched_users_list.friends,[]
             if friends_list:
                 for friend in friends_list:
                     for user in users:
-                        if friend == str(user.id) and Getset.get_lname() != user.username:
+                        if friend == str(user.id) and user_token.get("sub") != user.username:
                             fr_list.append(user.username)
                 fr_list = ', '.join(fr_list)    
-            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False})
+            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False,'lname':user_token.get("sub")})
         else:
             searched_users_list = db.query(models.Users).filter(models.Users.username == ' ')
-            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False})
+            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False,'lname':user_token.get("sub")})
     else:
         # print(string,l1)              #for code testing and i.e. to check output and code flow 
         return responses.RedirectResponse('/user_friend_list',status_code=status.HTTP_302_FOUND)
     
 @router.get('view_videos',response_class=HTMLResponse)
-def see_videos(request:Request,db:Session=Depends(get_db)):
-    videos = db.query(models.Videos).order_by(models.Videos.id.asc())
-    user = db.query(models.Users).filter(models.Users.id == Getset.get_uid()).first()
+async def see_videos(request:Request,db:Session=Depends(get_db)):
+    user_token = token_1.get_token(request)
+    Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first().R_U_Videos
+    if Recommended_user_videos:
+        list_of_users = Recommended_user_videos.split(',')
+        if '' in list_of_users:
+            list_of_users.remove('')
+        list_of_users,video_ids = [int(i) for i in list_of_users],[]
+        video_query = db.query(models.Uinterest).filter(models.Uinterest.Uid.in_(list_of_users),models.Uinterest.Like==1)
+        for video in video_query:
+            video_ids.append(video.vid_id)
+        id_ordering = case(*[(models.Videos.id == value,index) for index,value in enumerate(video_ids)])
+        videos = db.query(models.Videos).order_by(id_ordering.desc())
+    else:
+        videos = db.query(models.Videos).order_by(models.Videos.id.asc())
+    user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     recommended_videos = ''
     if user.recommend:
         recommended_videos = user.recommend
-    return templates.TemplateResponse("view_Videos.html", {"request":request,"videos":videos,'recommend':recommended_videos}) 
+    OpDB.likes_dislikes(db)
+    OpDB.views(db)
+    return templates.TemplateResponse("view_Videos.html", {"request":request,'lname':user_token.get("sub"),"videos":videos,'recommend':recommended_videos}) 
 
 @router.get('videos/li_di/{video_id}')
-def like_dislike(lik_di,video_id:int,db:Session=Depends(get_db),boolean:Optional[bool]=True):
-    user = db.query(models.Users).filter(models.Users.id == Getset.get_uid()).first()
+async def like_dislike(lik_di,video_id:int,request:Request,db:Session=Depends(get_db),boolean:Optional[bool]=True):
+    user_token = token_1.get_token(request)
+    user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     video = db.query(models.Videos).filter(models.Videos.id == video_id).first()
+
     value = int(lik_di)
     like = True if value else False 
     dislike = not(like)
-    uinterest = db.query(models.Uinterest).filter(models.Uinterest.vid_id == video_id,models.Uinterest.Uid == Getset.get_uid())
+    uinterest = db.query(models.Uinterest).filter(models.Uinterest.vid_id == video_id,models.Uinterest.Uid == int(user_token.get("user_id")))
     if not uinterest.first():
-        add_uinterest = models.Uinterest(Uid = Getset.get_uid(),UName = user.username,UEmail = user.email,
+        add_uinterest = models.Uinterest(Uid = int(user_token.get("user_id")),UName = user.username,UEmail = user.email,
                                          Title = video.Title,Src = video.Src,Like = like,Dislike = dislike,vid_id = video.id)
         db.add(add_uinterest)
         db.commit()
@@ -202,15 +249,18 @@ def like_dislike(lik_di,video_id:int,db:Session=Depends(get_db),boolean:Optional
     else:
         uinterest.update({'Like':like,'Dislike':dislike})
         db.commit()
+    OpDB.likes_dislikes(db)
+    OpDB.views(db)
     if boolean:
         return responses.RedirectResponse('/user_view_videos')
     else:
         return responses.RedirectResponse('/user_recommended_videos')
 
 @router.get('videos_recommend/{video_id}')
-def recommend_videos(video_id:int,db:Session=Depends(get_db),boolean:Optional[bool]=True):
-    friends = db.query(models.Users).filter(models.Users.id == Getset.get_uid()).first().friends
-    user = db.query(models.Users).filter(models.Users.id == Getset.get_uid())
+async def recommend_videos(video_id:int,request:Request,db:Session=Depends(get_db),boolean:Optional[bool]=True):
+    user_token = token_1.get_token(request)
+    friends = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first().friends
+    user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id")))
     if friends:
         friends = friends.split(',')
         if '' in friends:
@@ -218,16 +268,16 @@ def recommend_videos(video_id:int,db:Session=Depends(get_db),boolean:Optional[bo
         friends = [int(i) for i in friends]
     for id in friends:
         friend = db.query(models.Users).filter(models.Users.id == id)
-        recommended = friend.first().recommended
+        recommendations = friend.first().recommendations
         recommend = user.first().recommend
-        if recommended==None or recommended=='':
-            recommended = str(video_id)
+        if recommendations==None or recommendations=='':
+            recommendations = str(video_id)
         else:
-            recommended = recommended.split(',')
-            recommended.append(str(video_id))
-            recommended = sorted(set(recommended))
-            recommended = ','.join(recommended)
-        friend.update({'recommended':recommended})
+            recommendations = recommendations.split(',')
+            recommendations.append(str(video_id))
+            recommendations = sorted(set(recommendations))
+            recommendations = ','.join(recommendations)
+        friend.update({'recommendations':recommendations})
         db.commit()
         if recommend==None or recommend=='':
             recommend = str(video_id)
@@ -238,25 +288,29 @@ def recommend_videos(video_id:int,db:Session=Depends(get_db),boolean:Optional[bo
             recommend = ','.join(recommend)
         user.update({'recommend':recommend})
         db.commit()
+    OpDB.likes_dislikes(db)
+    OpDB.views(db)
     if boolean:
         return responses.RedirectResponse('/user_view_videos')
     else:
         return responses.RedirectResponse('/user_recommended_videos')
 
 @router.get('video_rating/{video_id}')
-def video_rating(video_id:int,request:Request,boolean:Optional[bool]=True):
-    return templates.TemplateResponse('rating.html',{'request':request,'video_id':video_id,'boolean':boolean})
+async def video_rating(video_id:int,request:Request,boolean:Optional[bool]=True):
+    user_token = token_1.get_token(request)
+    return templates.TemplateResponse('rating.html',{'request':request,'video_id':video_id,'boolean':boolean,'lname':user_token.get("sub")})
 
 @router.get('video_rating/cal_rating/{video_id}')
 async def cal_rating(star:int,boolean:bool,descript,video_id:int,request:Request,db:Session=Depends(get_db)):
-    user = db.query(models.Users).filter(models.Users.id == Getset.get_uid()).first()
+    user_token = token_1.get_token(request)
+    user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     video = db.query(models.Videos).filter(models.Videos.id == video_id).first()
     value=0
     if star>2:
         value=1
-    uinterest = db.query(models.Uinterest).filter(models.Uinterest.id == video_id,models.Uinterest.Uid == Getset.get_uid())
+    uinterest = db.query(models.Uinterest).filter(models.Uinterest.id == video_id,models.Uinterest.Uid == int(user_token.get("user_id")))
     if not uinterest.first():
-        add_uinterest = models.Uinterest(Uid = Getset.get_uid(),UName = user.username,UEmail = user.email,
+        add_uinterest = models.Uinterest(Uid = int(user_token.get("user_id")),UName = user.username,UEmail = user.email,
                                          Title = video.Title,Src = video.Src,Rating = star, RatingRes = value,Description = descript,vid_id = video.id)
         db.add(add_uinterest)
         db.commit()
@@ -270,9 +324,23 @@ async def cal_rating(star:int,boolean:bool,descript,video_id:int,request:Request
         return responses.RedirectResponse('/user_recommended_videos')
 
 @router.get('recommended_videos',response_class=HTMLResponse)
-def recommended_videos_to_user(request:Request,db:Session=Depends(get_db)):
-    user = db.query(models.Users).filter(models.Users.id == Getset.get_uid()).first()
-    recommended_videos = user.recommended
+async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db)):
+    user_token = token_1.get_token(request)
+    user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
+    Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first().R_U_Videos
+    if Recommended_user_videos:
+        list_of_users = Recommended_user_videos.split(',')
+        if '' in list_of_users:
+            list_of_users.remove('')
+        list_of_users,video_ids = [int(i) for i in list_of_users],[]
+        video_query = db.query(models.Uinterest).filter(models.Uinterest.Uid.in_(list_of_users),models.Uinterest.Like==1)
+        for video in video_query:
+            video_ids.append(video.vid_id)
+        id_ordering = case(*[(models.Videos.id == value,index) for index,value in enumerate(video_ids)])
+        videos = db.query(models.Videos).order_by(id_ordering.desc())
+    else:
+        videos = db.query(models.Videos).order_by(models.Videos.id.asc())
+    recommended_videos = user.recommendations
     videos = db.query(models.Videos).all()
     if recommended_videos:
         recommended_videos = recommended_videos.split(',')
@@ -282,4 +350,36 @@ def recommended_videos_to_user(request:Request,db:Session=Depends(get_db)):
     recommended_videos_to = ''
     if user.recommend:
         recommended_videos_to = user.recommend
-    return templates.TemplateResponse('recommended_videos.html',{'request':request,'videos':videos,'recommend_from':recommended_videos,'recommend_to':recommended_videos_to})
+    OpDB.likes_dislikes(db)
+    OpDB.views(db)
+    return templates.TemplateResponse('recommended_videos.html',{'request':request,'videos':videos,'recommend_from':recommended_videos,'recommend_to':recommended_videos_to,'lname':user_token.get("sub")})
+
+@router.get('open_video/{vid_id}')
+async def open_video(url1,request:Request,vid_id:int,db:Session=Depends(get_db)):
+    user_token = token_1.get_token(request)
+    uinterest = db.query(models.Uinterest).filter(models.Uinterest.vid_id == vid_id,models.Uinterest.Uid == int(user_token.get("user_id")))
+    uint = uinterest.first()
+    if uint:
+        views = uint.Views
+        # print(views)
+        uinterest.update({'Views':views+1})
+        db.commit()
+    else:
+        video = db.query(models.Videos).filter(models.Videos.id == vid_id).first()
+        user = db.query(models.Users).filter(models.Users.username == user_token.get("sub")).first()
+        add_uint = models.Uinterest(Uid = user.id,UName = user.username,UEmail = user.email,Title = video.Title,Src = video.Src,vid_id = vid_id)
+        db.add(add_uint)
+        db.commit()
+        db.refresh(add_uint)
+    return responses.RedirectResponse(url1)
+
+@router.get('logout')
+async def logout(request:Request,response:Response,db:Session=Depends(get_db)):
+    user_token = token_1.get_token(request)
+    req_list = db.query(models.Req_list).filter(models.Req_list.Uid == int(user_token.get("user_id")))
+    if req_list.first():
+        req_list.delete(synchronize_session=False)
+        db.commit()
+    response = templates.TemplateResponse('/user_login.html',{'request':request})
+    response.delete_cookie(key="access_token")
+    return response

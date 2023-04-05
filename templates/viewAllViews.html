@@ -1,13 +1,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Friend List</title>
+<title>View Dataset</title>
 <link rel="stylesheet" type="text/css" href="{{url_for('static',path='/css/util.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='/css/main1.css')}}">
 	<style>
-@import url(https://fonts.googleapis.com/css?family=Audiowide);
 * {box-sizing: border-box;}
-
+@import url(https://fonts.googleapis.com/css?family=Audiowide);
 body {
   margin: 0;
   font-family: 'Audiowide';
@@ -75,79 +74,25 @@ h1{
 text-align:center;
 color:orange;
 }
-#lname{
-	font-size: 1.8rem;
-	position: relative;
-	left: 40%;
-	top: 1rem;
-	color: violet;
-}
-#lname:hover{
-	filter: invert(0.4);
-}
-#edit-img{
-	filter: invert(1);
-}
+
 </style>
-<script>
-	if(performance.navigation.type == performance.navigation.TYPE_RELOAD)
-	{
-		window.location.href='user_friend_list';
-	}
-</script>
 </head>
 <body>
 <body>
-<form action="/user_search_friend_list" method="get">
+<form action="" method="post">
 <div class="topnav">
-  <a href="/user_menu">BACK</a>
-  <span id="lname"><img src="../static/images/person-circle.svg" alt="person-circle" height="20" width="20" id="edit-img">  {{lname}}</span>
-  <input type="text" placeholder="Search user" name="search_value">
-  <input type="submit" value="Search">
+  <a href="admin_menu" style="position: fixed;">BACK</a>
+	<!-- <input type="text" placeholder="Search user" name="mob">
+	<input type="submit" value="Search"> -->
 </div><br>
-<h1>FRIEND LIST</h1>
+<h1>VIEW DATASET</h1>
 </form>
 <div class="limiter">
 		<div class="container-table100">
 			<div class="wrap-table100">
-				<div class="table100 ver1 m-b-110">
-					<div class="table100-head">
-					<table>
-							<thead>
-								<tr class="row100 head">
-									<th class="cell100 column2" >FRIENDS</th>
-									<th class="cell100 column2">VIEW FRIEND'S PEOPLE</th>
-									
-								</tr>
-							</thead>
-						</table>
-					</div>
-                    <div class="table100-body js-pscroll">
-		<table>
-			<tbody style="text-align: center;">
-				{% if bool %}
-				{% set count = namespace(value=0) %}
-				{% for friend in fr_list %}
-				{% for user in users %}
-				{% if friend == user.id|string %}
-				<tr class="row100 body">
-					<td class="cell100 column2">{{user.username}}</td>
-					<td class="cell100 column2">{{fr_fr_list[count.value]}}</td>
-					{% set count.value = count.value + 1 %}
-				</tr>
-				{% endif %}
-				{% endfor %}
-				{% endfor %}
-				{% else %}
-				<tr class="row100 body">
-					<td class="cell100 column2">{{user.username}}</td>
-					<td class="cell100 column2">{{fr_list}}</td>
-				</tr>
-				{% endif %}
-	</tbody>
-		</table>
-	</div>					
-
+				<div class="table100 ver1 m-b-110" style="margin-right: -4rem;">
+					
+                    <img src="data:image/png;base64,{{ chart_image }}" alt="Chart"  style="position: relative; left: 2rem; "/>
 					
 				</div>
 				

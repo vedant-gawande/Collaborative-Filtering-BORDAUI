@@ -13,14 +13,14 @@
         border-radius: .4em;
         bottom: 0;
         box-shadow: 0 5px 10px 5px rgba(0, 0, 0, 0.2);
-        height: 475px;
+        height: 23rem;
         left: 0;
         margin: auto;
         overflow: hidden;
         position: absolute;
         right: 0;
         top: 0;
-        width: 322px;
+        width: 24rem;
     }
 
     input[type=text],
@@ -116,7 +116,7 @@
     <div class="background-wrap">
         <div class="background"></div>
     </div>
-    <h1>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;WELCOME TO ADMIN HOME<span style=" font-size: 23px;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="admin_login" style="text-decoration: none; color: red; cursor: pointer;" >LOGOUT</a></span></h1>
+    <h1>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;WELCOME TO ADMIN HOME<span style=" font-size: 23px;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="admin_logout" style="text-decoration: none; color: red; cursor: pointer;" >LOGOUT</a></span></h1>
     <form id="accesspanel">
         <h1 id="litheader">MENU</h1>
 
@@ -124,27 +124,26 @@
             <a href="admin_view_users"><input type="button" id="go" value="VIEW USERS"></a>
         </p>
         <p class="p-container">
-            <a href="#"><input type="button" id="go" value="UPLOAD DATASET"></a>
+            <a href="admin_upload_dataset"><input type="button" id="go" value="UPLOAD DATASET"></a>
         </p>
 
-        <p class="p-container">
+        <!-- <p class="p-container">
             <a href="#"><input type="button" id="go" value="RECOMMEND VIDEO"></a>
+        </p> -->
+
+        <p class="p-container">
+            <a href="admin_viewDataset"><input type="button" id="go" value="VIEW DATASET"></a>
+        </p>
+        <p class="p-container">
+            <a href="admin_viewAllViews"><input type="button" id="go" value="VIEW ALL VIDEOS VIEWS IN GRAPH"></a>
         </p>
 
         <p class="p-container">
-            <a href="viewData.html"><input type="button" id="go" value="VIEW DATASET"></a>
+            <a href="admin_viewAllLikesDislikes"><input type="button" id="go" value="VIEW ALL VIDEOS LIKES / DISLIKES IN GRAPH"></a>
         </p>
-        <p class="p-container">
-            <a href="#"><input type="button" id="go" value="VIEW ALL VIDEOS VIEWS IN GRAPH"></a>
-        </p>
-
-        <p class="p-container">
-            <a href="#"><input type="button" id="go" value="VIEW ALL VIDEOS LIKES IN GRAPH"></a>
-        </p>
-        <p class="p-container">
-            <a href="#"><input type="button" id="go" value="VIEW ALL VIDEOS DIS-LIKES IN GRAPH"></a>
-        </p>
+        <!-- <p class="p-container">
+            <a href="admin_viewAllDislikes"><input type="button" id="go" value="VIEW ALL VIDEOS DIS-LIKES IN GRAPH"></a>
+        </p> -->
     </form>
 </body>
-
 </html>

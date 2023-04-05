@@ -10,7 +10,12 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	<link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
-
+<script>
+	// if(performance.navigation.type == performance.navigation.TYPE_RELOAD)
+	// {
+	// 	window.location.href='/register_page';
+	// }
+	</script>
 	</head>
 	<body>
 	<section class="ftco-section">
@@ -31,26 +36,31 @@
 				      		<div id="form-message-success" class="mb-4">
 				            Your message was sent, thank you!
 				      		</div>
-									<form action="register_user" method="post" id="contactForm">
+							<div style="color: red;">
+								{% if msg %}
+								{{msg}}
+								{% endif %}
+							</div>
+									<form action="register_user" method="post" id="myform1">
 										<div class="row">
 										<div class="col-md-12">
 												<div class="form-group">
-													<input type="text" class="form-control" name="reg_name" id="name" placeholder="Enter Name" required>
+													<input type="text" class="form-control" name="reg_name" id="username" placeholder="Enter Username" minlength="3" maxlength="15" required>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<input type="email" class="form-control" name="reg_email" id="name" placeholder="Enter Email" required>
+													<input type="email" class="form-control" name="reg_email" id="email" placeholder="Enter Email" required>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<input type="password" class="form-control" name="reg_password" id="subject" placeholder="Enter Password" minlength=5 required>
+													<input type="password" class="form-control" name="reg_password" id="password" placeholder="Enter Password" minlength=5 required>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<input type="number" class="form-control" name="reg_phone_number" id="subject" placeholder="Enter Phone number" required>
+													<input type="text" class="form-control" name="reg_phone_number" id="phone_num" placeholder="Enter Phone number" minlength="10" maxlength="10" required >
 												</div>
 											</div>
 											<div class="col-md-6"> 
@@ -74,7 +84,7 @@
 											
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="submit" class="btn btn-primary">
+													<input type="submit" class="btn btn-primary" onclick="validateForm()">
 													<a href="admin_login"><input type="button" class="btn btn-primary" value="Back"></a>
 													<div class="submitting"></div>
 												</div>
@@ -91,10 +101,48 @@
 			</div>
 		</div>
 	</section>
-
-	
-  
-
+	<script type="text/javascript">
+		
+		var username = document.getElementById('username');
+		var email = document.getElementById('email');
+		var password = document.getElementById('password');
+		var phone_num = document.getElementById('phone_num');
+		var form = document.getElementById('myform1');
+		function validateForm() {
+			let re = /^[a-zA-Z0-9_]+$/;
+			if (re.test(username.value)){
+			username.setCustomValidity('');
+		}
+		else{
+			username.style.border = 'red solid 3px';
+			username.setCustomValidity('Only alphanumeric characters and Underscores(`_`) are valid');
+		}
+		re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+		if (re.test(email.value)){
+		email.setCustomValidity('');
+		}
+		else{
+			email.style.border = 'red solid 3px';
+			email.setCustomValidity('Please Enter valid email address');
+		}
+		re = /^[a-zA-Z0-9`\-,!@#$%&()]*$/;
+		if (re.test(password.value)){
+		password.setCustomValidity('');
+		}
+		else{
+			password.style.border = 'red solid 3px';
+			password.setCustomValidity('Only alphanumeric characters and `-,!@#$%&\(\).+ are allowed');
+		}
+		re = /^[6-9]\d+$/;
+		if (re.test(phone_num.value)){
+		phone_num.setCustomValidity('');
+		}
+		else{
+			phone_num.style.border = 'red solid 3px';
+			phone_num.setCustomValidity('Please Enter valid Mobile Number');
+		}
+		}
+</script>
 	</body>
 </html>
 

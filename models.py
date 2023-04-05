@@ -22,7 +22,7 @@ class Users(Base):
     occupation = Column(String)
     friends = Column(String) 
     recommend = Column(String,default='') 
-    recommended = Column(String,default='')
+    recommendations = Column(String,default='')
 
 class Users_S_Req(Base):
 
@@ -42,15 +42,14 @@ class Users_R_Req(Base):
 
 class Videos(Base):
     __tablename__ = 'Videos'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True) 
+    Category = Column(String) 
     Title = Column(String)
     Src = Column(String)
-    Like = Column(Integer)
-    Dislike = Column(Integer)
-    Views = Column(Integer)
+    Like = Column(Integer,default=0)
+    Dislike = Column(Integer,default=0)
+    Views = Column(Integer,default=0)
 
-    def __repr__(self):
-        return '<Videos %r>' % (self.id)
     
 class Uinterest(Base):
     __tablename__ = 'Uinterest'
@@ -76,3 +75,9 @@ class Recommended_Vids(Base):
     id = Column(Integer, primary_key=True)
     Uid = Column(Integer)
     R_U_Videos = Column(String) 
+
+class Req_list(Base):
+    __tablename__ = 'Req_list'
+    id = Column(Integer,primary_key=True,index=True)
+    Uid = Column(Integer)
+    req_list = Column(String) 

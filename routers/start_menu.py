@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Request,Depends,responses
+from fastapi import APIRouter,Request,Depends,responses,status
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
@@ -37,10 +37,17 @@ def login(request:Request):
 @router.post('/register_user',response_class=HTMLResponse)
 async def register_user(request:Request,db:Session = Depends(get_db)):
     form = await request.form()
+    usernames = db.query(models.Users.username).all()
+    emails = db.query(models.Users.email).all()
+    usernames,emails = [i[0] for i in usernames],[i[0] for i in emails] 
+    if form.get('reg_name') in usernames:
+        return templates.TemplateResponse('register.html',{'request':request,'msg':'Username already exists'})
+    if form.get('reg_email') in emails:
+        return templates.TemplateResponse('register.html',{'request':request,'msg':'Email already exists'})
     new_user = models.Users(username = form.get('reg_name'),email = form.get('reg_email'),
                                   password = Hash.bcrypt(form.get('reg_password')),
                                   phone_number = form.get('reg_phone_number') , occupation = form.get('reg_occupation'))
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return templates.TemplateResponse('admin_login.html',{"request":request})
+    return responses.RedirectResponse('/register_page',status_code=303)

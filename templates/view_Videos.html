@@ -246,6 +246,19 @@ button{
 .red{
   color: red;
 }
+#lname{
+	font-size: 1.8rem;
+	position: absolute;
+    right: 2%;
+    top:2%;
+	color: violet;
+}
+#lname:hover{
+	filter: invert(0.4);
+}
+#edit-img{
+	filter: invert(1);
+}
 
 </style>
 {% block title %}
@@ -255,7 +268,10 @@ button{
 {% block content %}
 
 <section>
-    <h2 class="title"><a href="/user_menu">Back</a></h2>
+    <h2 class="title">
+        <span id="lname"><img src="../static/images/person-circle.svg" alt="person-circle" height="20" width="20" id="edit-img">  {{lname}}</span>
+        <a href="/user_menu" >Back</a>
+    </h2>
     <div class="container">
         <div id="video_player">
         <iframe controls id="main-Video" src="{{videos.Src}}" frameborder="0">
@@ -271,7 +287,7 @@ button{
                 {% for video in videos %}
                 <li li-index="{{video.id}}">
                     <div class="row">
-                       <a href="{{video.Src}}"><span onclick="">{{video.Title}} </span></a>
+                       <a href="/user_open_video/{{video.id}}?url1={{video.Src}}"><span>{{video.Title}} </span></a>
                     </div>
                     <span id="abc" class="duration" >
                         <form action="/user_videos/li_di/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
