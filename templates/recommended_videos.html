@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+{% block head %}
+<!-- THEMIFY FONTS -->
+<!--Fontawesome-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--Fonts-->
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    *
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body::-webkit-scrollbar
+{
+   width: 10px;
+}
+body::-webkit-scrollbar-thumb
+{
+   height: 80px;
+   background: #375666;
+   border: 8px solid transparent;
+   border-radius: 12px;
+}
+body::-webkit-scrollbar-thumb:active
+{
+    background: #003349;
+}
+body
+{
+    font-family: sans-serif;
+    background: #002333;
+}
+li
+{
+    list-style: none;
+}
+section
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 2.5%;
+    min-height: 100vh;
+}
+.title a
+{
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 500;
+    color: red;
+    text-align: right;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.container
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0fr 1fr;
+    overflow: hidden;
+    /* border: 2px solid red; */
+}
+
+.container #main-Video
+{
+    position: relative;
+    width: 100%;
+    height: 585px;
+    overflow: hidden;
+    outline: none;
+}
+
+.playlistBx
+{
+    position: relative;
+    height: 100%;
+    margin: 0 10px 0 10px;
+    /* border: 2px solid green; */
+}
+.playlist
+{
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 40px);
+    overflow-y: scroll;
+    border-top: 1px solid #dcdee1;
+}
+.playlist::-webkit-scrollbar
+{
+   width: 0px;
+}
+.playlistBx .row .AllLessons
+{
+   display: block;
+   text-align: left;
+   color: #FFbb00;
+   font-size: 25px;
+   font-weight: 700;
+   margin-left: 40px;
+   line-height: 40px;
+}
+.playlist li
+{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   list-style: none;
+   color: #dcdee1;
+   cursor: pointer;
+   border: 1px solid transparent;
+   padding: 15px 20px;
+   border-radius: 5px;
+}
+
+.playlist li:hover
+{
+    border: 0.5px solid #375666;
+}
+.playlist li .row span
+{
+    font-size: 20px;
+    font-weight: 400;
+    color: #dcdee1;
+    text-decoration: none;
+    display: inline-block;
+    text-align: left;
+}
+.playlist li .row span::before
+{
+    content: '\f01d';
+    font-family: FontAwesome;
+    color: #FFbb00;
+    margin-right: 15px;
+    font-size: 20px;
+}
+ul li.playing .row span::before
+{
+    content: '\f28c';
+    font-family: FontAwesome;
+    color: #FFbb00;
+    margin-right: 15px;
+    font-size: 20px;
+}
+.playlist li.playing .row span
+{
+   color: #FFbb00;
+}
+
+
+.playlist li span.duration
+{
+    font-size: 20px;
+    font-weight: 400;
+    display: inline-block;
+    color: red;
+    text-align: right;
+}
+
+.playlist li span.duration form
+{
+    display: inline-block;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #eee;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+}
+.playlist li.playing
+{
+   pointer-events: none;
+   background: #1d3541;
+   border: 0.5px solid #1d3541;
+}
+
+@media(max-width: 1092px){
+    section
+    {
+        padding: 30px 10px;
+    }
+    .container
+    {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+        overflow: hidden;
+    }
+    .container #main-Video
+    {
+        height: 400px;
+    }
+    .playlistBx
+    {
+        height: 380px;
+        margin-top: 10px;
+    }
+    .playlist
+    {
+        position: absolute;
+        width: 100%;
+        height: calc(100% - 40px);
+        overflow-y: scroll;
+    }
+}
+@media(max-width: 650px){
+    #main-Video
+    {
+        height: 300px !important;
+    }
+}
+@media(max-width: 500px){
+    #main-Video
+    {
+        height: 280px !important;
+    }
+}
+@media(max-width: 400px){
+    #main-Video
+    {
+        height: 250px !important;
+    }
+}
+
+button{
+  cursor: pointer;
+  outline: 0;
+  color: #AAA;
+    margin-left: 1rem;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.green{
+  color: green;
+}
+
+.red{
+  color: red;
+}
+#lname{
+	font-size: 1.8rem;
+	position: absolute;
+	right: 2%;
+	top: 2%;
+	color: violet;
+}
+#lname:hover{
+	filter: invert(0.4);
+}
+#edit-img{
+	filter: invert(1);
+}
+</style>
+{% block title %}
+<title>Recommended Videos</title>{% endblock %}
+{% endblock %}
+
+{% block content %}
+
+<section>
+    <h2 class="title">
+        <span id="lname"><img src="../static/images/person-circle.svg" alt="person-circle" height="20" width="20" id="edit-img">  {{lname}}</span>
+        <a href="/user_menu">Back</a></h2>
+    <div class="container">
+        <div id="video_player">
+        <iframe controls id="main-Video" src="{{videos.Src}}" frameborder="0">
+        </iframe>
+    </div>
+        <div class="playlistBx">
+            <div class="header">
+                <div class="row">
+                    <span class="AllLessons">Recommended Videos</span>
+                </div>
+            </div>
+            <ul class="playlist" id="playlist">
+                {% for video in videos %}
+                {% if video.id in recommend_from %}
+                <li li-index="{{video.id}}">
+                    <div class="row">
+                       <a href="{{video.Src}}"><span onclick="">{{video.Title}} </span></a>
+                    </div>
+                    <span id="abc" class="duration" >
+                        <form action="/user_videos/li_di/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
+
+                            <!-- <button id="li" >&nbsp;<img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px">Like</button>
+
+                            <button id="dli" >&nbsp;<img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button> -->
+                            <input type="hidden" name="boolean" value="False">
+                            <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+                            
+                            <button class="btn" id="green" name="lik_di" value="1" type="submit"><i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i></button>
+                            <button class="btn" id="red" name="lik_di" value="0" type="submit"><i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i></button>
+                            <!-- <select name="rating" id="cars">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5" selected>5</option>
+                            </select> -->
+                        </form>
+                        
+                        <form action="/user_videos_recommend/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
+                            <input type="hidden" name="boolean" value="False">
+                            {% if video.id|string in recommend_to %}
+                            <button id="rec" >&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommended</button>
+                            {% else %}
+                            <button id="rec" type="submit">&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommend</button>
+                            {% endif %}
+                        </form>
+                        <a href="/user_video_rating/{{video.id}}?boolean=False"><button id="rating" style="padding: 0.3rem 0.4rem 0rem 0.2rem; font-size: 1rem;" >&nbsp;Rating</button></a>
+                    </span>
+                </li>
+                {% endif %}
+                 {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+
+<script>
+    var btn1 = document.querySelector('#green');
+var btn2 = document.querySelector('#red');
+
+btn1.addEventListener('click', function() {
+  
+    if (btn2.classList.contains('red')) {
+      btn2.classList.remove('red');
+    } 
+  this.classList.toggle('green');
+  
+});
+
+btn2.addEventListener('click', function() {
+  
+    if (btn1.classList.contains('green')) {
+      btn1.classList.remove('green');
+    } 
+  this.classList.toggle('red');
+  
+});
+</script>
+
+
+
+{% endblock content %}
