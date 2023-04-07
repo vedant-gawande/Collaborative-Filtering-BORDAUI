@@ -6,6 +6,7 @@ import database,models,token_1,base64,io
 import pandas as pd
 import csv
 import matplotlib.pyplot as plt
+from repository.sort_requests import OpDB
 
 router = APIRouter(
     prefix='/admin_',
@@ -42,6 +43,8 @@ async def upload_dataset(request:Request):
 
 @router.get('viewDataset')
 def viewDataset(request:Request,db:Session=Depends(get_db)):
+    OpDB.views(db)
+    OpDB.likes_dislikes(db)
     videos = db.query(models.Videos).all()
     return templates.TemplateResponse('viewDataset.html',{'request':request,'videos':videos})
 
@@ -52,8 +55,9 @@ async def operation_on_dataset(file:UploadFile = File(...),db:Session=Depends(ge
     result = existing_data.all()
     data = [obj.__dict__  for obj in result]
     existing_data = pd.DataFrame(data)
-    existing_data = existing_data.drop(['_sa_instance_state','id'], axis=1)
-    existing_data = existing_data.reindex(columns=['Category','Title','Src'])
+    if data:
+        existing_data = existing_data.drop(['_sa_instance_state','id'], axis=1)
+        existing_data = existing_data.reindex(columns=['Category','Title','Src'])
     # print(existing_data)
     contents = await file.read()
     dataset_str = contents.decode("Windows-1252")
@@ -66,11 +70,19 @@ async def operation_on_dataset(file:UploadFile = File(...),db:Session=Depends(ge
         new_data.drop(0,axis=0,inplace=True)
         all_data = pd.concat([existing_data,new_data]).drop_duplicates()
         videos = db.query(models.Videos)
-        videos.delete(synchronize_session=False)
-        db.commit()
+        # videos.delete(synchronize_session=False)
+        # db.commit()
+        # videos = db.query(models.Videos)
+        # print(videos.all())
+        all_videos = videos.all()
+        length = len(all_videos)
+        Categories,Titles,links = ['']*length,['']*length,['']*length
+        for index,video in enumerate(all_videos):
+            Categories[index],Titles[index],links[index] = video.Category,video.Title,video.Src
         for _,row in all_data.iterrows():
-            new_row = models.Videos(Category=row['Category'],Title=row['Title'],Src=row['Src'])
-            db.merge(new_row)
+            if not(row['Category'] in Categories and row['Title'] in Titles and row['Src'] in links):
+                new_row = models.Videos(Category=row['Category'],Title=row['Title'],Src=row['Src'])
+                db.merge(new_row)
         db.commit()
         return responses.RedirectResponse(url='/admin_viewDataset',status_code=302)
     else:
@@ -86,13 +98,13 @@ async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db)):
         else:
             dict_of_views[obj.Category] = obj.Views
 
-    print(dict_of_views)
+    # print(dict_of_views)
     topics = list(dict_of_views.keys())
     values = list(dict_of_views.values())
     fig, ax = plt.subplots(figsize=(12.6, 6))
     ax.barh(topics, values)
-    ax.set_xlabel('Number of mentions')
-    ax.set_title('Mentions of different topics')
+    ax.set_xlabel('Number of Views')
+    ax.set_title('Different Categories')
     plt.yticks(fontsize=10)
     buffer = io.BytesIO()
     plt.savefig(buffer, format='png')
@@ -127,7 +139,7 @@ async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db)):
     fig = plt.figure(figsize=(12.5,6))
     plt.barh(r1, likes, color='green', height=bar_width, edgecolor='white', label='Likes')
     plt.barh(r2, dislikes, color='red', height=bar_width, edgecolor='white', label='Dislikes')
-    plt.xlabel('Number of mentions')
+    plt.xlabel('Number of Likes and Dislikes')
     plt.title('Likes and Dislikes for different topics')
     plt.yticks([r + bar_width/2 for r in range(len(likes))], topics)
     buffer = io.BytesIO()

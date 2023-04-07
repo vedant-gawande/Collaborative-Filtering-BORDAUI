@@ -1,9 +1,10 @@
-from routers.getset import Getset
+from fastapi import Request
 from sqlalchemy.orm import Session
-import models
+import models,token_1
 class OpDB:
-    def rec_requests(db:Session):
-        uid = Getset.get_uid()
+    def rec_requests(db:Session,request:Request):
+        user_token = token_1.get_token(request)
+        uid = int(user_token.get("user_id"))
         user = db.query(models.Users_S_Req).filter(models.Users_S_Req.uid == uid).first()
         if user:
             req_list = user.sent_reqs.split(',')
@@ -29,10 +30,12 @@ class OpDB:
                     db.commit()
             # print(req_list)
 
-    def friend_mgmt(req_status,db:Session):
+    def friend_mgmt(req_status,db:Session,request:Request):
+        user_token = token_1.get_token(request)
+        user_id = int(user_token.get("user_id"))
         operate_req_list = req_status.split(',')
         uid,status = operate_req_list[0],operate_req_list[1]
-        update_user = db.query(models.Users).filter(models.Users.id == Getset.get_uid())
+        update_user = db.query(models.Users).filter(models.Users.id == user_id)
         update_user1 = update_user.first()
         friends = update_user1.friends
         if status == "ACCEPT":
@@ -55,12 +58,12 @@ class OpDB:
             fr_l = friends.split(',')
             if '' in fr_l:
                 fr_l.remove('')
-            fr_l.append(str(Getset.get_uid()))
+            fr_l.append(str(user_id))
             fr_l = sorted(set(fr_l))
             fr_l = ','.join(fr_l)
             update_user.update({'friends':fr_l})
             db.commit()
-        rem_friend = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == Getset.get_uid())
+        rem_friend = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == user_id)
         rem_friend1 = rem_friend.first()
         fr_id = rem_friend1.rec_reqs.split(',')
         fr_id.remove(uid)
@@ -70,7 +73,7 @@ class OpDB:
         rem_friend = db.query(models.Users_S_Req).filter(models.Users_S_Req.uid == int(uid))
         rem_friend1 = rem_friend.first()
         fr_id = rem_friend1.sent_reqs.split(',')
-        fr_id.remove(str(Getset.get_uid()))
+        fr_id.remove(str(user_id))
         fr_id = ','.join(fr_id)
         rem_friend.update({'sent_reqs':fr_id})
         db.commit()

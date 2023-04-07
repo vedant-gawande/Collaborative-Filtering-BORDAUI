@@ -42,7 +42,8 @@ async def view_user(request:Request,db:Session=Depends(get_db)):
             users_list.pop(index)
             break
     new_users_list = [l[0] for l in users_list]
-    OpDB.rec_requests(db)
+    OpDB.rec_requests(db,request)
+    print(req_list,friends)
     return templates.TemplateResponse('searchUser.html',{'request':request,'users_list':new_users_list,'req_list':req_list,'friends':friends,'bool':True,'lname':user_token.get("sub")})
 
 @router.get('search_users',response_class=HTMLResponse)
@@ -52,7 +53,7 @@ async def search_users(search_value,request:Request,db:Session=Depends(get_db)):
     friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
     string = search_value
     l1 = string.split(' ')
-    OpDB.rec_requests(db)
+    OpDB.rec_requests(db,request)
     if bool(l1) and '' not in l1 :
         req_list = db.query(models.Req_list).filter(models.Req_list.Uid == user_id).first().req_list
         if req_list:
@@ -147,9 +148,9 @@ async def search_requests(search_value,request:Request,db:Session=Depends(get_db
         return responses.RedirectResponse('/user_request',status_code=status.HTTP_302_FOUND)
 
 @router.get('operate_req',response_class=HTMLResponse)
-async def operate_req(req_status,db:Session=Depends(get_db)):
+async def operate_req(req_status,request:Request,db:Session=Depends(get_db)):
     # print(req_status)
-    OpDB.friend_mgmt(req_status,db)
+    OpDB.friend_mgmt(req_status,db,request)
     return responses.RedirectResponse('/user_request')
 
 @router.get('friend_list',response_class=HTMLResponse)
