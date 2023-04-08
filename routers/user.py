@@ -2,10 +2,11 @@ from fastapi import APIRouter, Request,Depends,status,responses,Response
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from typing import Optional
-from sqlalchemy import case
+from sqlalchemy import case,or_,text
 from sqlalchemy.orm import Session
 import database,models,token_1
 from repository.sort_requests import OpDB
+from algo import cluster
 
 router = APIRouter(
     prefix='/user_',
@@ -19,6 +20,7 @@ get_db = database.get_db
 async def user_menu(request:Request,db:Session=Depends(get_db)):
     OpDB.likes_dislikes(db)
     OpDB.views(db)
+    cluster(db)
     user_token = token_1.get_token(request)
     return templates.TemplateResponse('user_menu.html',{'request':request,'lname':user_token.get("sub")})
 
@@ -216,13 +218,17 @@ async def see_videos(request:Request,db:Session=Depends(get_db)):
         if '' in list_of_users:
             list_of_users.remove('')
         list_of_users,video_ids = [int(i) for i in list_of_users],[]
-        video_query = db.query(models.Uinterest).filter(models.Uinterest.Uid.in_(list_of_users),models.Uinterest.Like==1)
+        video_query = db.query(models.Uinterest).filter(models.Uinterest.Uid.in_(list_of_users),or_(models.Uinterest.Like==1,models.Uinterest.RatingRes==1))
         for video in video_query:
             video_ids.append(video.vid_id)
         id_ordering = case(*[(models.Videos.id == value,index) for index,value in enumerate(video_ids)])
-        videos = db.query(models.Videos).order_by(id_ordering.desc())
+        # print(id_ordering,video_ids)
+        # if video_ids:
+        videos = db.query(models.Videos).order_by(id_ordering.desc(),text("RANDOM()"))
+        # else:
+        #     videos = db.query(models.Videos).all()
     else:
-        videos = db.query(models.Videos).order_by(models.Videos.id.asc())
+        videos = db.query(models.Videos).order_by(text("RANDOM()"))
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     recommended_videos = ''
     if user.recommend:
@@ -338,9 +344,9 @@ async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db))
         for video in video_query:
             video_ids.append(video.vid_id)
         id_ordering = case(*[(models.Videos.id == value,index) for index,value in enumerate(video_ids)])
-        videos = db.query(models.Videos).order_by(id_ordering.desc())
+        videos = db.query(models.Videos).order_by(id_ordering.desc(),text("RANDOM()"))
     else:
-        videos = db.query(models.Videos).order_by(models.Videos.id.asc())
+        videos = db.query(models.Videos).order_by(text("RANDOM()"))
     recommended_videos = user.recommendations
     videos = db.query(models.Videos).all()
     if recommended_videos:
