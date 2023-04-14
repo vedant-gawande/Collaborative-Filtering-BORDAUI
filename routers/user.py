@@ -45,7 +45,7 @@ async def view_user(request:Request,db:Session=Depends(get_db)):
             break
     new_users_list = [l[0] for l in users_list]
     OpDB.rec_requests(db,request)
-    print(req_list,friends)
+    # print(req_list,friends)
     return templates.TemplateResponse('searchUser.html',{'request':request,'users_list':new_users_list,'req_list':req_list,'friends':friends,'bool':True,'lname':user_token.get("sub")})
 
 @router.get('search_users',response_class=HTMLResponse)
@@ -224,8 +224,10 @@ async def see_videos(request:Request,db:Session=Depends(get_db)):
         id_ordering = case(*[(models.Videos.id == value,index) for index,value in enumerate(video_ids)])
         # print(id_ordering,video_ids)
         # if video_ids:
-        videos = db.query(models.Videos).order_by(id_ordering.desc(),text("RANDOM()"))
-        # else:
+        if str(id_ordering) != 'CASE END':
+            videos = db.query(models.Videos).order_by(id_ordering.desc(),text("RANDOM()"))
+        else:
+            videos = db.query(models.Videos).order_by(text("RANDOM()"))
         #     videos = db.query(models.Videos).all()
     else:
         videos = db.query(models.Videos).order_by(text("RANDOM()"))
@@ -344,11 +346,14 @@ async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db))
         for video in video_query:
             video_ids.append(video.vid_id)
         id_ordering = case(*[(models.Videos.id == value,index) for index,value in enumerate(video_ids)])
-        videos = db.query(models.Videos).order_by(id_ordering.desc(),text("RANDOM()"))
+        if str(id_ordering) != 'CASE END':
+            videos = db.query(models.Videos).order_by(id_ordering.desc(),text("RANDOM()"))
+        else:
+            videos = db.query(models.Videos).order_by(text("RANDOM()"))
     else:
         videos = db.query(models.Videos).order_by(text("RANDOM()"))
     recommended_videos = user.recommendations
-    videos = db.query(models.Videos).all()
+    # videos = db.query(models.Videos).all()
     if recommended_videos:
         recommended_videos = recommended_videos.split(',')
         recommended_videos = sorted(map(int,recommended_videos))
