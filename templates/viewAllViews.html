@@ -1,132 +1,167 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>View Dataset</title>
-<link rel="stylesheet" type="text/css" href="{{url_for('static',path='/css/util.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='/css/main1.css')}}">
-	<style>
-* {box-sizing: border-box;}
-@import url(https://fonts.googleapis.com/css?family=Audiowide);
-body {
-  margin: 0;
-  font-family: 'Audiowide';
-  background: #002333;
-}
-
-.topnav {
-  overflow: hidden;
-  background: #002333;
-}
-
-.topnav a {
-  float: left;
-  display: block;
-  color: red;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.topnav a.active {
-  background-color: #2196F3;
-  color: white;
-}
-
-.topnav input[type=text] {
-  float: right;
-  padding: 6px;
-  margin-top: 8px;
-  margin-right: 16px;
-  border: none;
-  font-size: 17px;
-}
-.topnav input[type=submit] {
-  float: right;
-  padding: 6px;
-  margin-top: 8px;
-  margin-right: 16px;
-  border: none;
-  font-size: 17px;
-}
-
-
-@media screen and (max-width: 600px) {
-  .topnav a, .topnav input[type=text] {
-    float: none;
-    display: block;
-    text-align: left;
-    width: 100%;
-    margin: 0;
-    padding: 14px;
-  }
-  
-  .topnav input[type=text] {
-    border: 1px solid #ccc;  
-  }
-}
-h1{
-text-align:center;
-color:orange;
-}
-
-</style>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title></title>
+	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
 </head>
+<style>
+#lname{
+    font-size: 1.8rem;
+	color: green;
+}
+#lname:hover{
+    filter: grayscale();
+}
+
+#admin{
+    font-size: 1.8rem;
+	color: red;
+}
+#admin:hover{
+    filter: grayscale();
+}
+</style>
+
 <body>
-<body>
-<form action="" method="post">
-<div class="topnav">
-  <a href="admin_menu" style="position: fixed;">BACK</a>
-	<!-- <input type="text" placeholder="Search user" name="mob">
-	<input type="submit" value="Search"> -->
-</div><br>
-<h1>VIEW DATASET</h1>
-</form>
-<div class="limiter">
-		<div class="container-table100">
-			<div class="wrap-table100">
-				<div class="table100 ver1 m-b-110" style="margin-right: -4rem;">
-					
-                    <img src="data:image/png;base64,{{ chart_image }}" alt="Chart"  style="position: relative; left: 2rem; "/>
-					
+
+<!-- for header part -->
+<header>
+
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
+
+	<div class="title">
+		<h3>COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+	<div class="searchbar">
+		<input type="text"
+			placeholder="Search">
+		<div class="searchbtn">
+		<img src="static/images/Untitled-design-(28).png"
+				class="icn srchicn"
+				alt="search-icon">
+		</div>
+	</div>
+
+	<div class="message">
+		<div class="circle"></div>
+		<img src="static/images/non_notify.png"
+			class="icn"
+			alt="">
+		<div class="dp">
+			<img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+		</div><span id="admin">Admin</span>
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+				<div class="nav-option option2">
+					<img src="static/images/home-white.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="/admin_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;"> Dashboard</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/user-white.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="admin_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> VIEW USERS</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/arrow-u-white.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="admin_upload_dataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> UPLOAD DATASET</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/eye-white.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="admin_viewDataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> VIEW DATASET</a></h3>
+				</div>
+
+				<div class="nav-option option1">
+					<img src="static/images/icon-72.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="admin_viewAllViews" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10px;"> VIEW ALL VIDEOS VIEWS IN GRAPH</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/icon-57.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="admin_viewAllLikesDislikes" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;"> VIEW ALL VIDEOS LIKES / DISLIKES IN GRAPH</a></h3>
 				</div>
 				
-			</tbody>
-						</table>
-					</div>
+			
+
+				<div class="nav-option logout">
+					<img src="static/images/power-white.png"
+						class="nav-img"
+						alt="logout">
+					<h3><a href="admin_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">Logout</a></h3>
 				</div>
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+		
+		<div class="limiter">
+            <div class="container-table101">
+                <div class="wrap-table100">
+                    <div class="table100 ver1 m-b-110" style="margin-right: -4rem;">
+                        
+                        <img src="data:image/png;base64,{{ chart_image }}" alt="Chart"  style="position: relative; left: 2rem; "/>
+                        
+                    </div>
+                    
+                </tbody>
+                            </table>
+                        </div>
+                    </div>
+    </div>
+
+		<footer style="color: red; padding: 65vh 0 0 71vh; justify-content: center;">
+			Copyright By 2023 All Rights Reserve
+		</footer>
+	</div>
 </div>
 
 
-<!--===============================================================================================-->	
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script>
-		$('.js-pscroll').each(function(){
-			var ps = new PerfectScrollbar(this);
-
-			$(window).on('resize', function(){
-				ps.update();
-			})
-		});
-			
+		let menuicn = document.querySelector(".menuicn");
+		let nav = document.querySelector(".navcontainer");
 		
+		menuicn.addEventListener("click",()=>
+		{
+			nav.classList.toggle("navclose");
+		})
 	</script>
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
 
-</body>
-
+	
 </body>
 </html>

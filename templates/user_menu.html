@@ -1,125 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" />
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title></title>
+	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
 </head>
 <style>
-    form {
-        background: #111;
-        border: 1px solid #191919;
-        border-radius: .4em;
-        bottom: 0;
-        box-shadow: 0 5px 10px 5px rgba(0, 0, 0, 0.2);
-        height: 350px;
-        left: 0;
-        margin: auto;
-        overflow: hidden;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 322px;
-    }
-
-    input[type=text],
-    input[type=password] {
-        background: linear-gradient(#1f2124, #27292c);
-        border: 1px solid #222;
-        border-radius: .3em;
-        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
-        color: #FFF;
-        font-size: 13px;
-        margin-bottom: 20px;
-        padding: 8px 5px;
-        width: 100%;
-    }
-
-    input[type=text]:disabled,
-    input[type=password]:disabled {
-        color: #999;
-    }
-
-    label[for=remember] {
-        color: #bbb;
-        display: inline-block;
-        height: 20px;
-        line-height: 20px;
-        vertical-align: top;
-        padding: 0 0 0 5px;
-    }
-
-    .p-container {
-        padding: 0 20px 20px;
-    }
-
-    .p-container:after {
-        clear: both;
-        content: "";
-        display: table;
-    }
-
-    .p-container span {
-        color: #0d93ff;
-        display: block;
-        float: left;
-        padding-top: 8px;
-    }
-
-    input[type=submit] {
-        background: #fb0;
-        border: 1px solid rgba(0, 0, 0, 0.4);
-        border-radius: .3em;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 10px 10px rgba(255, 255, 255, 0.1);
-        color: #873C00;
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: bold;
-        height: 40px;
-        padding: 5px 20px;
-        width: 100%;
-    }
-
-    input[type=button] {
-        background: #fb0;
-        border: 1px solid rgba(0, 0, 0, 0.4);
-        border-radius: .3em;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 10px 10px rgba(255, 255, 255, 0.1);
-        color: #873C00;
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: bold;
-        height: 40px;
-        padding: 5px 20px;
-        width: 100%;
-    }
-
-    .denied {
-        color: white !important;
-        text-shadow: 0 0 1px black;
-        background: #EE0000 !important;
-    }
-
-    input[type=submit]:hover,
-    input[type=submit]:focus {
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -10px 10px rgba(255, 255, 255, 0.1);
-    }
-
-    input[type=button]:hover,
-    input[type=button]:focus {
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -10px 10px rgba(255, 255, 255, 0.1);
-    }
-
-#edit-img{
-    cursor: pointer;
-    filter: invert(0.4);
-}
-#edit-img:hover{
-    filter: invert(1);
-}
 #lname{
     font-size: 1.8rem;
+	color: green;
 }
 #lname:hover{
     filter: grayscale();
@@ -127,34 +24,123 @@
 </style>
 
 <body>
-    <div class="background-wrap">
-        <div class="background"></div>
-    </div>
-    
-    <h1>
-      <img src="../static/images/person-circle.svg" alt="person-circle" height="20" width="20" id="edit-img"  /> <span id="lname"> {{lname}}</span>
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;WELCOME TO USER PANEL<span style=" font-size: 23px;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer;">LOGOUT</a></span></h1>
-    <form id="accesspanel">
-        <h1 id="litheader">MENU</h1>
 
-        <p class="p-container">
-            <a href="user_view_users"><input type="button" id="go" value="SEARCH FRIEND"></a>
-        </p>
-        <p class="p-container">
-            <a href="user_request"><input type="button" id="go" value="VIEW REQUESTS"></a>
-        </p>
+<!-- for header part -->
+<header>
 
-        <p class="p-container">
-            <a href="user_friend_list"><input type="button" id="go" value="VIEW FRIENDS LIST"></a>
-        </p>
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
 
-        <p class="p-container">
-            <a href="user_view_videos"><input type="button" id="go" value="VIEW ALL VIDEOS"></a>
-        </p>
-        <p class="p-container">
-            <a href="user_recommended_videos"><input type="button" id="go" value="FRIEND RECOMMENDED VIDEOS"></a>
-        </p>
-    </form>
+	<div class="title">
+		<h3>COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+	<div class="searchbar">
+		<input type="text"
+			placeholder="Search">
+		<div class="searchbtn">
+		<img src="static/images/Untitled-design-(28).png"
+				class="icn srchicn"
+				alt="search-icon">
+		</div>
+	</div>
+
+	<div class="message">
+		<div class="circle"></div>
+		<img src="static/images/non_notify.png"
+			class="icn"
+			alt="">
+		<div class="dp">
+			<img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+		</div><span id="lname">{{lname}}</span>
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+				<div class="nav-option option1">
+					<img src="static/images/home-white.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="/user_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;"> Dashboard</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/search.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="user_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> SEARCH FRIEND</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/non_notify.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="user_request" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> VIEW REQUESTS</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/eye-white.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="user_friend_list" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> VIEW FRIENDS LIST</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/vid.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="user_view_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> VIEW ALL VIDEOS</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/video-white.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="user_recommended_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;"> FRIENDS RECOMMENDED VIDEOS</a></h3>
+				</div>
+				
+			
+
+				<div class="nav-option logout">
+					<img src="static/images/power-white.png"
+						class="nav-img"
+						alt="logout">
+					<h3><a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">Logout</a></h3>
+				</div>
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+		
+		<center><h1>WELCOME TO USER PANEL</h1></center><br><br>
+		<marquee class="blink" width="100%" direction="left" height="50px">COLLABORATIVE FILTERING ALGORITHM IS ONE OF THE WIDELY USE APPROCHESE IN DAILY LIFE, SO HOW TO IMPROVE QUALITY AND EFFICENCY OF COLLABORATIVE FILTERING ALGORITHM IS AN ESSENTIAL PROBLEM USUALLY, SOME TRADITION ALGORITHM FOCUS ON USER RATING, WHILE THEY DON'T TAKE USER RATING USER RATING DIFFERENCE AND USER INTEREST INTO ACCOUNT. HOWEVER, USER HAVE LITTLE RATING DIFFERENCE.</marquee>
+		<footer style="color: red; padding: 65vh 0 0 71vh; justify-content: center;">
+			Copyright By 2023 All Rights Reserve
+		</footer>
+	</div>
+</div>
+
+
+	<script>
+		let menuicn = document.querySelector(".menuicn");
+		let nav = document.querySelector(".navcontainer");
+		
+		menuicn.addEventListener("click",()=>
+		{
+			nav.classList.toggle("navclose");
+		})
+	</script>
+
+	
 </body>
-
 </html>

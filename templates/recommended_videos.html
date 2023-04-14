@@ -1,11 +1,18 @@
-{% extends 'base.html' %}
-{% block head %}
-<!-- THEMIFY FONTS -->
-<!--Fontawesome-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!--Fonts-->
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title></title>
+	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
+</head>
 <style>
     *
 {
@@ -31,7 +38,7 @@ body::-webkit-scrollbar-thumb:active
 body
 {
     font-family: sans-serif;
-    background: #002333;
+    background: #cad7fda4;
 }
 li
 {
@@ -99,7 +106,7 @@ section
 {
    display: block;
    text-align: left;
-   color: #FFbb00;
+   color: black;
    font-size: 25px;
    font-weight: 700;
    margin-left: 40px;
@@ -121,42 +128,52 @@ section
 .playlist li:hover
 {
     border: 0.5px solid #375666;
+    background: #90aaf9a4;
 }
 .playlist li .row span
 {
-    font-size: 20px;
-    font-weight: 400;
-    color: #dcdee1;
+    font-size: 17px;
+    font-weight: 300;
+    color: #62057c;
     text-decoration: none;
     display: inline-block;
     text-align: left;
+    margin-left: 20px;
+    margin-top: 2px;
 }
-.playlist li .row span::before
+
+
+.playlist li .row video{
+    width: 80px;
+    border-radius: 5px;
+}
+
+/* .playlist li .row span::before
 {
     content: '\f01d';
     font-family: FontAwesome;
     color: #FFbb00;
     margin-right: 15px;
     font-size: 20px;
-}
-ul li.playing .row span::before
+} */
+/* ul li.playing .row span::before
 {
     content: '\f28c';
     font-family: FontAwesome;
     color: #FFbb00;
     margin-right: 15px;
     font-size: 20px;
-}
-.playlist li.playing .row span
+} */
+/* .playlist li.playing .row span
 {
    color: #FFbb00;
-}
+} */
 
 
 .playlist li span.duration
 {
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 300;
     display: inline-block;
     color: red;
     text-align: right;
@@ -246,109 +263,187 @@ button{
 .red{
   color: red;
 }
+
+
 #lname{
-	font-size: 1.8rem;
-	position: absolute;
-	right: 2%;
-	top: 2%;
-	color: violet;
+    font-size: 1.8rem;
+	color: green;
 }
 #lname:hover{
-	filter: invert(0.4);
-}
-#edit-img{
-	filter: invert(1);
+    filter: grayscale();
 }
 </style>
-{% block title %}
-<title>Recommended Videos</title>{% endblock %}
-{% endblock %}
 
-{% block content %}
+<body>
 
-<section>
-    <h2 class="title">
-        <span id="lname"><img src="../static/images/person-circle.svg" alt="person-circle" height="20" width="20" id="edit-img">  {{lname}}</span>
-        <a href="/user_menu">Back</a></h2>
-    <div class="container">
-        <div id="video_player">
-        <iframe controls id="main-Video" src="{{videos.Src}}" frameborder="0">
-        </iframe>
-    </div>
-        <div class="playlistBx">
-            <div class="header">
-                <div class="row">
-                    <span class="AllLessons">Recommended Videos</span>
-                </div>
-            </div>
-            <ul class="playlist" id="playlist">
-                {% for video in videos %}
-                {% if video.id in recommend_from %}
-                <li li-index="{{video.id}}">
-                    <div class="row">
-                       <a href="{{video.Src}}"><span onclick="">{{video.Title}} </span></a>
-                    </div>
-                    <span id="abc" class="duration" >
-                        <form action="/user_videos/li_di/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
+<!-- for header part -->
+<header>
 
-                            <!-- <button id="li" >&nbsp;<img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px">Like</button>
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
 
-                            <button id="dli" >&nbsp;<img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button> -->
-                            <input type="hidden" name="boolean" value="False">
-                            <script src="https://use.fontawesome.com/fe459689b4.js"></script>
-                            
-                            <button class="btn" id="green" name="lik_di" value="1" type="submit"><i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i></button>
-                            <button class="btn" id="red" name="lik_di" value="0" type="submit"><i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i></button>
-                            <!-- <select name="rating" id="cars">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5" selected>5</option>
-                            </select> -->
-                        </form>
-                        
-                        <form action="/user_videos_recommend/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
-                            <input type="hidden" name="boolean" value="False">
-                            {% if video.id|string in recommend_to %}
-                            <button id="rec" >&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommended</button>
-                            {% else %}
-                            <button id="rec" type="submit">&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommend</button>
-                            {% endif %}
-                        </form>
-                        <a href="/user_video_rating/{{video.id}}?boolean=False"><button id="rating" style="padding: 0.3rem 0.4rem 0rem 0.2rem; font-size: 1rem;" >&nbsp;Rating</button></a>
-                    </span>
-                </li>
-                {% endif %}
-                 {% endfor %}
-            </ul>
+	<div class="title">
+		<h3>COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+	<div class="searchbar">
+		<input type="text"
+			placeholder="Search">
+		<div class="searchbtn">
+		<img src="static/images/Untitled-design-(28).png"
+				class="icn srchicn"
+				alt="search-icon">
+		</div>
+	</div>
+
+	<div class="message">
+		<div class="circle"></div>
+		<img src="static/images/non_notify.png"
+			class="icn"
+			alt="">
+		<div class="dp">
+			<img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+		</div><span id="lname">{{lname}}</span>
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+				<div class="nav-option option2">
+					<img src="static/images/home-white.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="/user_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;"> Dashboard</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/search.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="user_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> SEARCH FRIEND</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/non_notify.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="user_request" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> VIEW REQUESTS</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/eye-white.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="user_friend_list" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> VIEW FRIENDS LIST</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<img src="static/images/vid.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="user_view_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> VIEW ALL VIDEOS</a></h3>
+				</div>
+
+				<div class="nav-option option1">
+					<img src="static/images/video-white.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3><a href="user_recommended_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;"> FRIENDS RECOMMENDED VIDEOS</a></h3>
+				</div>
+				
+			
+
+				<div class="nav-option logout">
+					<img src="static/images/power-white.png"
+						class="nav-img"
+						alt="logout">
+					<h3><a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">Logout</a></h3>
+				</div>
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+		
+		<div class="container">
+            <div id="video_player">
+            <iframe controls id="main-Video" src="{{videos.Src}}" frameborder="0">
+            </iframe>
         </div>
-    </div>
-</section>
+            <div class="playlistBx">
+                <div class="header">
+                    <div class="row">
+                        <span class="AllLessons">Recommended Videos</span>
+                    </div>
+                </div>
+                <ul class="playlist" id="playlist">
+                    {% for video in videos %}
+                    {% if video.id in recommend_from %}
+                    <li li-index="{{video.id}}">
+                        <div class="row"><video src="{{videos.Src}}" controls muted autoplay></video>
+                           <a href="{{video.Src}}"><span onclick="">{{video.Title}} </span></a>
+                        </div>
+                        <span id="abc" class="duration" >
+                            <form action="/user_videos/li_di/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
+    
+                                <!-- <button id="li" >&nbsp;<img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px">Like</button>
+    
+                                <button id="dli" >&nbsp;<img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button> -->
+                                <input type="hidden" name="boolean" value="False">
+                                <!-- <script src="https://use.fontawesome.com/fe459689b4.js"></script> -->
+                                
+                                <button class="btn" id="green" name="lik_di" value="1" type="submit"><img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px">Like</button><span style="padding-left: 5px;">{{video.Like}}</span>
+                                <button class="btn" id="red" name="lik_di" value="0" type="submit"><img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button>
+                                <!-- <select name="rating" id="cars">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5" selected>5</option>
+                                </select> -->
+                            </form>
+                            
+                            <form action="/user_videos_recommend/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
+                                <input type="hidden" name="boolean" value="False">
+                                {% if video.id|string in recommend_to %}
+                                <button id="rec" >&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommended</button>
+                                {% else %}
+                                <button id="rec" type="submit">&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommend</button>
+                                {% endif %}
+                            </form>
+                            <a href="/user_video_rating/{{video.id}}?boolean=False"><button id="rating" style="padding: 0.3rem 0.4rem 0rem 0.2rem; font-size: 1rem;" >&nbsp;Rating</button></a>
+                        </span>
+                    </li>
+                    {% endif %}
+                     {% endfor %}
+                </ul>
+            </div>
+        </div>
+		<footer style="color: red; padding: 0 0 0 71vh; justify-content: center;">
+			Copyright By 2023 All Rights Reserve
+		</footer>
+	</div>
+</div>
 
-<script>
-    var btn1 = document.querySelector('#green');
-var btn2 = document.querySelector('#red');
 
-btn1.addEventListener('click', function() {
-  
-    if (btn2.classList.contains('red')) {
-      btn2.classList.remove('red');
-    } 
-  this.classList.toggle('green');
-  
-});
+	<script>
+		let menuicn = document.querySelector(".menuicn");
+		let nav = document.querySelector(".navcontainer");
+		
+		menuicn.addEventListener("click",()=>
+		{
+			nav.classList.toggle("navclose");
+		})
+	</script>
 
-btn2.addEventListener('click', function() {
-  
-    if (btn1.classList.contains('green')) {
-      btn1.classList.remove('green');
-    } 
-  this.classList.toggle('red');
-  
-});
-</script>
-
-
-
-{% endblock content %}
+	
+</body>
+</html>
