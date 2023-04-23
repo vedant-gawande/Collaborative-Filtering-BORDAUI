@@ -5,3 +5,5 @@ sqlalchemy
 passlib
 python-multipart
 python-jose
+numpy
+scikit-learn
