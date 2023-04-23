@@ -6,4 +6,5 @@ passlib
 python-multipart
 python-jose
 numpy
+pandas
 scikit-learn
