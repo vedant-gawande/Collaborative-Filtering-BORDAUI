@@ -10,6 +10,30 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	<link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+	<style>
+		.message {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background-color: #f44336;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+      }
+      @media only screen and (max-width: 767px){
+        .message {
+          display: block;
+		  z-index: 2;
+        }
+		body > *:not(.message) {
+    		display: none;
+  		}
+	}
+	</style>
 <script>
 	// if(performance.navigation.type == performance.navigation.TYPE_RELOAD)
 	// {
@@ -18,6 +42,11 @@
 	</script>
 	</head>
 	<body>
+
+		<div class="message">
+			This website is designed for desktop mode only. Please view on a desktop or laptop computer for the best experience.
+		  </div>
+
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">

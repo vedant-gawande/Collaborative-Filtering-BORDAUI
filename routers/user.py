@@ -17,15 +17,19 @@ templates = Jinja2Templates(directory='templates')
 get_db = database.get_db
 
 @router.get('menu',response_class=HTMLResponse)
-async def user_menu(request:Request,db:Session=Depends(get_db)):
+async def user_menu(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     OpDB.likes_dislikes(db)
     OpDB.views(db)
     cluster(db)
     user_token = token_1.get_token(request)
-    return templates.TemplateResponse('user_menu.html',{'request':request,'lname':user_token.get("sub")})
+    return templates.TemplateResponse('user_menu.html',{'request':request,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('view_users',response_class=HTMLResponse)
-async def view_user(request:Request,db:Session=Depends(get_db)):
+async def view_user(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     users_list = db.query(models.Users,models.Users_S_Req).join(models.Users_S_Req,models.Users_S_Req.uid == models.Users.id,full=True).all()
     user_token = token_1.get_token(request)
     user_id = int(user_token.get("user_id"))
@@ -46,10 +50,12 @@ async def view_user(request:Request,db:Session=Depends(get_db)):
     new_users_list = [l[0] for l in users_list]
     OpDB.rec_requests(db,request)
     # print(req_list,friends)
-    return templates.TemplateResponse('searchUser.html',{'request':request,'users_list':new_users_list,'req_list':req_list,'friends':friends,'bool':True,'lname':user_token.get("sub")})
+    return templates.TemplateResponse('searchUser.html',{'request':request,'users_list':new_users_list,'req_list':req_list,'friends':friends,'bool':True,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('search_users',response_class=HTMLResponse)
-async def search_users(search_value,request:Request,db:Session=Depends(get_db)):
+async def search_users(search_value,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     user_token = token_1.get_token(request)
     user_id = int(user_token.get("user_id"))
     friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
@@ -68,17 +74,17 @@ async def search_users(search_value,request:Request,db:Session=Depends(get_db)):
         if user_token.get("sub") != string:
             searched_users_list = db.query(models.Users).filter(models.Users.username == string)
             # print(searched_users_list.first(),Getset.get_req_list())    #for code testing and i.e. to check output and code flow
-            return templates.TemplateResponse('searchUser.html',{'request':request,'s_u_list':searched_users_list,'req_list':req_list,'bool':False,'friends':friends,'lname':user_token.get("sub")})
+            return templates.TemplateResponse('searchUser.html',{'request':request,'s_u_list':searched_users_list,'req_list':req_list,'bool':False,'friends':friends,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
         else:
             searched_users_list = db.query(models.Users).filter(models.Users.username == ' ')
-            return templates.TemplateResponse('searchUser.html',{'request':request,'s_u_list':searched_users_list,'req_list':req_list,'bool':False,'friends':friends,'lname':user_token.get("sub")})
+            return templates.TemplateResponse('searchUser.html',{'request':request,'s_u_list':searched_users_list,'req_list':req_list,'bool':False,'friends':friends,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
     else:
         # print(string,l1)              #for code testing and i.e. to check output and code flow 
-        return responses.RedirectResponse('/user_view_users',status_code=status.HTTP_302_FOUND)
+        return responses.RedirectResponse('/user_view_users',status_code=status.HTTP_302_FOUND,headers={"Cache-Control": "no-store, must-revalidate"})
     
 
 @router.get('send_req',response_class=HTMLResponse)
-async def send_requests(send_req,request:Request,db:Session=Depends(get_db)):
+async def send_requests(send_req,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
     uid = send_req
     user_token = token_1.get_token(request)
     # print(type(uid))
@@ -88,7 +94,7 @@ async def send_requests(send_req,request:Request,db:Session=Depends(get_db)):
         db.add(new_req)
         db.commit()
         db.refresh(new_req)
-        return responses.RedirectResponse('/user_view_users')
+        return responses.RedirectResponse('/user_view_users',headers={"Cache-Control": "no-store, must-revalidate"})
     pre_req1 = pre_req.first()
     list_req = pre_req1.sent_reqs.split(',')
     if '' in list_req:
@@ -98,10 +104,12 @@ async def send_requests(send_req,request:Request,db:Session=Depends(get_db)):
     # print(list_req)
     pre_req.update({'sid':pre_req1.sid,'uid':pre_req1.uid,'sent_reqs':",".join(list_req)})
     db.commit()
-    return responses.RedirectResponse('/user_view_users')
+    return responses.RedirectResponse('/user_view_users',headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('request',response_class=HTMLResponse)
-async def requests(request:Request,db:Session=Depends(get_db)):
+async def requests(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     users_list = db.query(models.Users,models.Users_R_Req).join(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id,full=True).all()
     req_list = []
     user_token = token_1.get_token(request)
@@ -118,10 +126,10 @@ async def requests(request:Request,db:Session=Depends(get_db)):
             break
     new_users_list = [l[0] for l in users_list]
     # print(req_list)
-    return templates.TemplateResponse('userReq.html',{'request':request,'lname':user_token.get("sub"),'users':new_users_list,'req_list':req_list,'bool':True})
+    return templates.TemplateResponse('userReq.html',{'request':request,'lname':user_token.get("sub"),'users':new_users_list,'req_list':req_list,'bool':True},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('search_req',response_class=HTMLResponse)
-async def search_requests(search_value,request:Request,db:Session=Depends(get_db)):
+async def search_requests(search_value,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
     users_list = db.query(models.Users,models.Users_R_Req).join(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id,full=True).all()
     user_token = token_1.get_token(request)
     string = search_value
@@ -143,20 +151,22 @@ async def search_requests(search_value,request:Request,db:Session=Depends(get_db
                     new_users_list = user
                     break
             print(new_users_list[0],req_list)
-            return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list[0],'req_list':req_list,'lname':user_token.get("sub"),'bool':False})
+            return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list[0],'req_list':req_list,'lname':user_token.get("sub"),'bool':False},headers={"Cache-Control": "no-store, must-revalidate"})
         else:
-            return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list,'req_list':req_list,'bool':False,'lname':user_token.get("sub")})
+            return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list,'req_list':req_list,'bool':False,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
     else:
-        return responses.RedirectResponse('/user_request',status_code=status.HTTP_302_FOUND)
+        return responses.RedirectResponse('/user_request',status_code=status.HTTP_302_FOUND,headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('operate_req',response_class=HTMLResponse)
-async def operate_req(req_status,request:Request,db:Session=Depends(get_db)):
+async def operate_req(req_status,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
     # print(req_status)
     OpDB.friend_mgmt(req_status,db,request)
-    return responses.RedirectResponse('/user_request')
+    return responses.RedirectResponse('/user_request',headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('friend_list',response_class=HTMLResponse)
-async def friend_list(request:Request,db:Session=Depends(get_db)):
+async def friend_list(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     user_token = token_1.get_token(request)
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id")))
     users = db.query(models.Users).all()
@@ -178,10 +188,12 @@ async def friend_list(request:Request,db:Session=Depends(get_db)):
                     if user1.id == int(fr) and user_token.get("sub") != user1.username:
                         list_of_friends.append(user1.username)
             fr_fr_list.append(list_of_friends:=', '.join(list_of_friends))
-    return templates.TemplateResponse('friendList.html',{'request':request,'users':users,'fr_list':fr_list,'fr_fr_list':fr_fr_list,'bool':True,'lname':user_token.get("sub")})
+    return templates.TemplateResponse('friendList.html',{'request':request,'users':users,'fr_list':fr_list,'fr_fr_list':fr_fr_list,'bool':True,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('search_friend_list',response_class=HTMLResponse)
-async def search_friend_list(search_value,request:Request,db:Session=Depends(get_db)):
+async def search_friend_list(search_value,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     string = search_value
     user_token = token_1.get_token(request)
     l1 = string.split(' ')
@@ -201,16 +213,18 @@ async def search_friend_list(search_value,request:Request,db:Session=Depends(get
                         if friend == str(user.id) and user_token.get("sub") != user.username:
                             fr_list.append(user.username)
                 fr_list = ', '.join(fr_list)    
-            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False,'lname':user_token.get("sub")})
+            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
         else:
             searched_users_list = db.query(models.Users).filter(models.Users.username == ' ')
-            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False,'lname':user_token.get("sub")})
+            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
     else:
         # print(string,l1)              #for code testing and i.e. to check output and code flow 
-        return responses.RedirectResponse('/user_friend_list',status_code=status.HTTP_302_FOUND)
+        return responses.RedirectResponse('/user_friend_list',status_code=status.HTTP_302_FOUND,headers={"Cache-Control": "no-store, must-revalidate"})
     
 @router.get('view_videos',response_class=HTMLResponse)
-async def see_videos(request:Request,db:Session=Depends(get_db)):
+async def see_videos(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     user_token = token_1.get_token(request)
     Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first().R_U_Videos
     if Recommended_user_videos:
@@ -237,10 +251,10 @@ async def see_videos(request:Request,db:Session=Depends(get_db)):
         recommended_videos = user.recommend
     OpDB.likes_dislikes(db)
     OpDB.views(db)
-    return templates.TemplateResponse("view_Videos.html", {"request":request,'lname':user_token.get("sub"),"videos":videos,'recommend':recommended_videos}) 
+    return templates.TemplateResponse("view_Videos.html", {"request":request,'lname':user_token.get("sub"),"videos":videos,'recommend':recommended_videos},headers={"Cache-Control": "no-store, must-revalidate"}) 
 
 @router.get('videos/li_di/{video_id}')
-async def like_dislike(lik_di,video_id:int,request:Request,db:Session=Depends(get_db),boolean:Optional[bool]=True):
+async def like_dislike(lik_di,video_id:int,request:Request,db:Session=Depends(get_db),boolean:Optional[bool]=True,jwt_validated: bool = Depends(token_1.verify_token)):
     user_token = token_1.get_token(request)
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     video = db.query(models.Videos).filter(models.Videos.id == video_id).first()
@@ -261,12 +275,12 @@ async def like_dislike(lik_di,video_id:int,request:Request,db:Session=Depends(ge
     OpDB.likes_dislikes(db)
     OpDB.views(db)
     if boolean:
-        return responses.RedirectResponse('/user_view_videos')
+        return responses.RedirectResponse('/user_view_videos',headers={"Cache-Control": "no-store, must-revalidate"})
     else:
-        return responses.RedirectResponse('/user_recommended_videos')
+        return responses.RedirectResponse('/user_recommended_videos',headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('videos_recommend/{video_id}')
-async def recommend_videos(video_id:int,request:Request,db:Session=Depends(get_db),boolean:Optional[bool]=True):
+async def recommend_videos(video_id:int,request:Request,db:Session=Depends(get_db),boolean:Optional[bool]=True,jwt_validated: bool = Depends(token_1.verify_token)):
     user_token = token_1.get_token(request)
     friends = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first().friends
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id")))
@@ -300,17 +314,19 @@ async def recommend_videos(video_id:int,request:Request,db:Session=Depends(get_d
     OpDB.likes_dislikes(db)
     OpDB.views(db)
     if boolean:
-        return responses.RedirectResponse('/user_view_videos')
+        return responses.RedirectResponse('/user_view_videos',headers={"Cache-Control": "no-store, must-revalidate"})
     else:
-        return responses.RedirectResponse('/user_recommended_videos')
+        return responses.RedirectResponse('/user_recommended_videos',headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('video_rating/{video_id}')
-async def video_rating(video_id:int,request:Request,boolean:Optional[bool]=True):
+async def video_rating(video_id:int,request:Request,boolean:Optional[bool]=True,jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     user_token = token_1.get_token(request)
-    return templates.TemplateResponse('rating.html',{'request':request,'video_id':video_id,'boolean':boolean,'lname':user_token.get("sub")})
+    return templates.TemplateResponse('rating.html',{'request':request,'video_id':video_id,'boolean':boolean,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('video_rating/cal_rating/{video_id}')
-async def cal_rating(star:int,boolean:bool,descript,video_id:int,request:Request,db:Session=Depends(get_db)):
+async def cal_rating(star:int,boolean:bool,descript,video_id:int,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
     user_token = token_1.get_token(request)
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     video = db.query(models.Videos).filter(models.Videos.id == video_id).first()
@@ -328,12 +344,14 @@ async def cal_rating(star:int,boolean:bool,descript,video_id:int,request:Request
         uinterest.update({'Rating':star,'RatingRes':value,'Description':descript})
         db.commit()
     if boolean:
-        return responses.RedirectResponse('/user_view_videos')
+        return responses.RedirectResponse('/user_view_videos',headers={"Cache-Control": "no-store, must-revalidate"})
     else:
-        return responses.RedirectResponse('/user_recommended_videos')
+        return responses.RedirectResponse('/user_recommended_videos',headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('recommended_videos',response_class=HTMLResponse)
-async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db)):
+async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     user_token = token_1.get_token(request)
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first().R_U_Videos
@@ -342,7 +360,7 @@ async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db))
         if '' in list_of_users:
             list_of_users.remove('')
         list_of_users,video_ids = [int(i) for i in list_of_users],[]
-        video_query = db.query(models.Uinterest).filter(models.Uinterest.Uid.in_(list_of_users),models.Uinterest.Like==1)
+        video_query = db.query(models.Uinterest).filter(models.Uinterest.Uid.in_(list_of_users),models.Uinterest.RatingRes==1)
         for video in video_query:
             video_ids.append(video.vid_id)
         id_ordering = case(*[(models.Videos.id == value,index) for index,value in enumerate(video_ids)])
@@ -364,10 +382,12 @@ async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db))
         recommended_videos_to = user.recommend
     OpDB.likes_dislikes(db)
     OpDB.views(db)
-    return templates.TemplateResponse('recommended_videos.html',{'request':request,'videos':videos,'recommend_from':recommended_videos,'recommend_to':recommended_videos_to,'lname':user_token.get("sub")})
+    return templates.TemplateResponse('recommended_videos.html',{'request':request,'videos':videos,'recommend_from':recommended_videos,'recommend_to':recommended_videos_to,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('open_video/{vid_id}')
-async def open_video(url1,request:Request,vid_id:int,db:Session=Depends(get_db)):
+async def open_video(url1,request:Request,vid_id:int,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     user_token = token_1.get_token(request)
     uinterest = db.query(models.Uinterest).filter(models.Uinterest.vid_id == vid_id,models.Uinterest.Uid == int(user_token.get("user_id")))
     uint = uinterest.first()
@@ -383,15 +403,17 @@ async def open_video(url1,request:Request,vid_id:int,db:Session=Depends(get_db))
         db.add(add_uint)
         db.commit()
         db.refresh(add_uint)
-    return responses.RedirectResponse(url1)
+    return responses.RedirectResponse(url1,headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('logout')
 async def logout(request:Request,response:Response,db:Session=Depends(get_db)):
+    # if jwt_validated != True:
+    #     return jwt_validated
     user_token = token_1.get_token(request)
     req_list = db.query(models.Req_list).filter(models.Req_list.Uid == int(user_token.get("user_id")))
     if req_list.first():
         req_list.delete(synchronize_session=False)
         db.commit()
-    response = templates.TemplateResponse('/user_login.html',{'request':request})
+    response = responses.RedirectResponse('/user_login', headers={"Cache-Control": "no-store, must-revalidate"})
     response.delete_cookie(key="access_token")
     return response

@@ -18,21 +18,21 @@ templates = Jinja2Templates(directory='templates')
 @router.get('/',response_class=HTMLResponse)
 async def default_router(db:Session=Depends(get_db)):
     cluster(db)
-    return responses.RedirectResponse('/user_login')
+    return responses.RedirectResponse('/user_login',headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('/admin_login',response_class=HTMLResponse)
 def login(request:Request,db:Session=Depends(get_db)):
     cluster(db)
-    return templates.TemplateResponse('admin_login.html',{"request":request})
+    return templates.TemplateResponse('admin_login.html',{"request":request},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('/user_login',response_class=HTMLResponse)
 def login(request:Request,db:Session=Depends(get_db)):
     cluster(db)
-    return templates.TemplateResponse('user_login.html',{"request":request})
+    return templates.TemplateResponse('user_login.html',{"request":request},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('/register_page',response_class=HTMLResponse)
 def login(request:Request):
-    return templates.TemplateResponse('register.html',{"request":request})
+    return templates.TemplateResponse('register.html',{"request":request},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.post('/register_user',response_class=HTMLResponse)
 async def register_user(request:Request,db:Session = Depends(get_db)):
@@ -50,4 +50,4 @@ async def register_user(request:Request,db:Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return responses.RedirectResponse('/register_page',status_code=303)
+    return responses.RedirectResponse('/register_page',status_code=303,headers={"Cache-Control": "no-store, must-revalidate"})

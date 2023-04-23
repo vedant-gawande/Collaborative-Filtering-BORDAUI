@@ -17,16 +17,22 @@ templates = Jinja2Templates(directory='templates')
 get_db = database.get_db
 
 @router.get('menu',response_class=HTMLResponse)
-async def admin_menu(request:Request):
-    return templates.TemplateResponse('admin_menu.html',{'request':request})
+async def admin_menu(request:Request,jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
+    return templates.TemplateResponse('admin_menu.html',{'request':request},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('view_users',response_class=HTMLResponse)
-async def view_user(request:Request,db:Session=Depends(get_db)):
+async def view_user(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     users_list = db.query(models.Users).all()
-    return templates.TemplateResponse('viewUser.html',{'request':request,'users_list':users_list,'bool':True})
+    return templates.TemplateResponse('viewUser.html',{'request':request,'users_list':users_list,'bool':True},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('search_users',response_class=HTMLResponse)
-async def search_users(search_users,request:Request,db:Session=Depends(get_db)):
+async def search_users(search_users,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     # form = await request.form()
     # string = form.get('search_users')
     string = search_users
@@ -35,18 +41,22 @@ async def search_users(search_users,request:Request,db:Session=Depends(get_db)):
         searched_users_list = db.query(models.Users).filter(models.Users.username == string)
         return templates.TemplateResponse('viewUser.html',{'request':request,'s_u_list':searched_users_list,'bool':False})
     else:
-        return responses.RedirectResponse('/admin_view_users',status_code=status.HTTP_302_FOUND)
+        return responses.RedirectResponse('/admin_view_users',status_code=status.HTTP_302_FOUND,headers={"Cache-Control": "no-store, must-revalidate"})
     
 @router.get('upload_dataset')
-async def upload_dataset(request:Request):
-    return templates.TemplateResponse('upload_dataset.html',{'request':request})
+async def upload_dataset(request:Request,jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
+    return templates.TemplateResponse('upload_dataset.html',{'request':request},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('viewDataset')
-def viewDataset(request:Request,db:Session=Depends(get_db)):
+def viewDataset(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     OpDB.views(db)
     OpDB.likes_dislikes(db)
     videos = db.query(models.Videos).all()
-    return templates.TemplateResponse('viewDataset.html',{'request':request,'videos':videos})
+    return templates.TemplateResponse('viewDataset.html',{'request':request,'videos':videos},headers={"Cache-Control": "no-store, must-revalidate"})
 
 
 @router.post('operation_on_dataset')
@@ -84,12 +94,14 @@ async def operation_on_dataset(file:UploadFile = File(...),db:Session=Depends(ge
                 new_row = models.Videos(Category=row['Category'],Title=row['Title'],Src=row['Src'])
                 db.merge(new_row)
         db.commit()
-        return responses.RedirectResponse(url='/admin_viewDataset',status_code=302)
+        return responses.RedirectResponse(url='/admin_viewDataset',status_code=302,headers={"Cache-Control": "no-store, must-revalidate"})
     else:
-        return responses.RedirectResponse(url='admin_menu',status_code=302)
+        return responses.RedirectResponse(url='admin_menu',status_code=302,headers={"Cache-Control": "no-store, must-revalidate"})
     
 @router.get('viewAllViews',response_class=HTMLResponse)
-async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db)):
+async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     dict_of_views = dict()
     views = db.query(models.Videos).all()
     for obj in views:
@@ -111,10 +123,12 @@ async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db)):
     plt.clf()
     buffer.seek(0)
     chart_image = base64.b64encode(buffer.getvalue()).decode()
-    return templates.TemplateResponse("viewAllViews.html", {"request": request, "chart_image": chart_image})
+    return templates.TemplateResponse("viewAllViews.html", {"request": request, "chart_image": chart_image},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('viewAllLikesDislikes',response_class=HTMLResponse)
-async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db)):
+async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
     dict_of_likes,dict_of_dislikes = dict(),dict()
     videos = db.query(models.Videos).all()
     for video in videos:
@@ -147,10 +161,12 @@ async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db)):
     plt.clf()
     buffer.seek(0)
     chart_image = base64.b64encode(buffer.getvalue()).decode()
-    return templates.TemplateResponse("viewAllLikesDislikes.html", {"request": request, "chart_image": chart_image})
+    return templates.TemplateResponse("viewAllLikesDislikes.html", {"request": request, "chart_image": chart_image},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('logout')
-async def logout(request:Request,response:Response):
-    response = templates.TemplateResponse('/admin_login.html',{'request':request})
+async def logout(request:Request,response:Response,jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
+    response = templates.TemplateResponse('/admin_login.html',{'request':request},headers={"Cache-Control": "no-store, must-revalidate"})
     response.delete_cookie(key="access_token")
     return response
