@@ -102,7 +102,7 @@ async def send_requests(send_req,request:Request,db:Session=Depends(get_db)):
 
 @router.get('request',response_class=HTMLResponse)
 async def requests(request:Request,db:Session=Depends(get_db)):
-    users_list = db.query(models.Users,models.Users_R_Req).join(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id,full=True).all()
+    users_list = db.query(models.Users,models.Users_R_Req).outerjoin(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id).all()
     req_list = []
     user_token = token_1.get_token(request)
     for index,user in enumerate(users_list):
@@ -122,7 +122,7 @@ async def requests(request:Request,db:Session=Depends(get_db)):
 
 @router.get('search_req',response_class=HTMLResponse)
 async def search_requests(search_value,request:Request,db:Session=Depends(get_db)):
-    users_list = db.query(models.Users,models.Users_R_Req).join(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id,full=True).all()
+    users_list = db.query(models.Users,models.Users_R_Req).outerjoin(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id).all()
     user_token = token_1.get_token(request)
     string = search_value
     l1 = string.split(' ')
