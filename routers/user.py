@@ -348,7 +348,6 @@ async def cal_rating(star:int,boolean:bool,descript,video_id:int,request:Request
 async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db)):
     user_token = token_1.get_token(request)
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
-    print(user)
     Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first()
     if Recommended_user_videos:
         Recommended_user_videos = Recommended_user_videos.R_U_Videos
