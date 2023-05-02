@@ -220,7 +220,9 @@ async def search_friend_list(search_value,request:Request,db:Session=Depends(get
 @router.get('view_videos',response_class=HTMLResponse)
 async def see_videos(request:Request,db:Session=Depends(get_db)):
     user_token = token_1.get_token(request)
-    Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first().R_U_Videos
+    Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first()
+    if Recommended_user_videos:
+        Recommended_user_videos = Recommended_user_videos.R_U_Videos
     if Recommended_user_videos:
         list_of_users = Recommended_user_videos.split(',')
         if '' in list_of_users:
@@ -276,7 +278,9 @@ async def like_dislike(lik_di,video_id:int,request:Request,db:Session=Depends(ge
 @router.get('videos_recommend/{video_id}')
 async def recommend_videos(video_id:int,request:Request,db:Session=Depends(get_db),boolean:Optional[bool]=True):
     user_token = token_1.get_token(request)
-    friends = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first().friends
+    friends = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
+    if friends:
+        friends = friends.friends
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id")))
     if friends:
         friends = friends.split(',')
@@ -344,7 +348,9 @@ async def cal_rating(star:int,boolean:bool,descript,video_id:int,request:Request
 async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db)):
     user_token = token_1.get_token(request)
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
-    Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first().R_U_Videos
+    Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first()
+    if Recommended_user_videos:
+        Recommended_user_videos = Recommended_user_videos.R_U_Videos
     if Recommended_user_videos:
         list_of_users = Recommended_user_videos.split(',')
         if '' in list_of_users:
