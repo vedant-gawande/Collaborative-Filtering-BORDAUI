@@ -143,7 +143,9 @@ async def search_requests(search_value,request:Request,db:Session=Depends(get_db
                     new_users_list = user
                     break
             # print(new_users_list[0],req_list)
-            return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list[0],'req_list':req_list,'lname':user_token.get("sub"),'bool':False})
+            if new_users_list:
+                return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list[0],'req_list':req_list,'lname':user_token.get("sub"),'bool':False})
+            return templates.TemplateResponse('userReq.html',{'request':request,'users':[],'req_list':req_list,'lname':user_token.get("sub"),'bool':False})
         else:
             return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list,'req_list':req_list,'bool':False,'lname':user_token.get("sub")})
     else:
