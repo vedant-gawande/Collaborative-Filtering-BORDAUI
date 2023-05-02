@@ -129,7 +129,9 @@ async def search_requests(search_value,request:Request,db:Session=Depends(get_db
     string = search_value
     l1 = string.split(' ')
     new_users_list = db.query(models.Users).filter(models.Users.username == string)
-    req_list = db.query(models.Req_list).filter(models.Req_list.Uid == int(user_token.get("user_id"))).first().req_list
+    req_list = db.query(models.Req_list).filter(models.Req_list.Uid == int(user_token.get("user_id"))).first()
+    if req_list:
+        req_list = req_list.req_list
     # print(req_list)
     if req_list:
         req_list = req_list.split(" ")
@@ -191,8 +193,9 @@ async def search_friend_list(search_value,request:Request,db:Session=Depends(get
     user_token = token_1.get_token(request)
     l1 = string.split(' ')
     users = db.query(models.Users).all()
-    user_friend_list = db.query(models.Users).filter(models.Users.username == user_token.get("sub")).first().friends
-    # user_friend_list = user_friend_list.friends
+    user_friend_list = db.query(models.Users).filter(models.Users.username == user_token.get("sub")).first()
+    if user_friend_list:
+        user_friend_list = user_friend_list.friends
     if user_friend_list:
         user_friend_list = user_friend_list.split(',')
     fr_list=''
