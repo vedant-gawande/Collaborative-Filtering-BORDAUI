@@ -26,7 +26,7 @@ async def user_menu(request:Request,db:Session=Depends(get_db)):
 
 @router.get('view_users',response_class=HTMLResponse)
 async def view_user(request:Request,db:Session=Depends(get_db)):
-    users_list = db.query(models.Users,models.Users_S_Req).join(models.Users_S_Req,models.Users_S_Req.uid == models.Users.id,full=True).all()
+    users_list = db.query(models.Users,models.Users_S_Req).outerjoin(models.Users_S_Req,models.Users_S_Req.uid == models.Users.id).all()
     user_token = token_1.get_token(request)
     user_id = int(user_token.get("user_id"))
     friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
