@@ -367,6 +367,7 @@ async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db))
     else:
         videos = db.query(models.Videos).order_by(text("RANDOM()"))
     print(user)
+    recommended_videos = None
     if user:
         recommended_videos = user.recommendations
     # videos = db.query(models.Videos).all()
