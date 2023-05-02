@@ -243,7 +243,7 @@ async def see_videos(request:Request,db:Session=Depends(get_db)):
         videos = db.query(models.Videos).order_by(text("RANDOM()"))
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     recommended_videos = ''
-    if user.recommend:
+    if user and user.recommend:
         recommended_videos = user.recommend
     OpDB.likes_dislikes(db)
     OpDB.views(db)
