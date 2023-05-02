@@ -128,7 +128,7 @@ async def search_requests(search_value,request:Request,db:Session=Depends(get_db
     l1 = string.split(' ')
     new_users_list = db.query(models.Users).filter(models.Users.username == string)
     req_list = db.query(models.Req_list).filter(models.Req_list.Uid == int(user_token.get("user_id"))).first().req_list
-    print(req_list)
+    # print(req_list)
     if req_list:
         req_list = req_list.split(" ")
         if ' ' in req_list:
@@ -142,7 +142,7 @@ async def search_requests(search_value,request:Request,db:Session=Depends(get_db
                 if user[0].username == string:
                     new_users_list = user
                     break
-            print(new_users_list[0],req_list)
+            # print(new_users_list[0],req_list)
             return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list[0],'req_list':req_list,'lname':user_token.get("sub"),'bool':False})
         else:
             return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list,'req_list':req_list,'bool':False,'lname':user_token.get("sub")})
