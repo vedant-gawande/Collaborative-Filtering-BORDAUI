@@ -146,8 +146,8 @@ async def search_requests(search_value,request:Request,db:Session=Depends(get_db
                 if user[0].username == string:
                     new_users_list = user
                     break
-            # print(new_users_list.first(),req_list)
-            if new_users_list.first():
+            # print(new_users_list[0],req_list)
+            if new_users_list:
                 return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list[0],'req_list':req_list,'lname':user_token.get("sub"),'bool':False})
             return templates.TemplateResponse('userReq.html',{'request':request,'users':[],'req_list':req_list,'lname':user_token.get("sub"),'bool':False})
         else:
