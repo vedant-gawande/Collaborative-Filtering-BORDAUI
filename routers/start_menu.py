@@ -50,4 +50,4 @@ async def register_user(request:Request,db:Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return responses.RedirectResponse('/register_page',status_code=303)
+    return responses.RedirectResponse('/user_login',status_code=303)

@@ -29,9 +29,8 @@ async def view_user(request:Request,db:Session=Depends(get_db)):
     users_list = db.query(models.Users,models.Users_S_Req).outerjoin(models.Users_S_Req,models.Users_S_Req.uid == models.Users.id).all()
     user_token = token_1.get_token(request)
     user_id = int(user_token.get("user_id"))
-    friends = db.query(models.Users).filter(models.Users.id == user_id).first()
-    if friends:
-        friends = friends.friends
+    friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
+    friends = friends or []
     req_list = []
     for index,user in enumerate(users_list):
         # print(index,user[0].friends)
@@ -55,11 +54,14 @@ async def search_users(search_value,request:Request,db:Session=Depends(get_db)):
     user_token = token_1.get_token(request)
     user_id = int(user_token.get("user_id"))
     friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
+    friends = friends or []
     string = search_value
     l1 = string.split(' ')
     OpDB.rec_requests(db,request)
     if bool(l1) and '' not in l1 :
-        req_list = db.query(models.Req_list).filter(models.Req_list.Uid == user_id).first().req_list
+        req_list = db.query(models.Req_list).filter(models.Req_list.Uid == user_id).first()
+        if req_list:
+            req_list = req_list.req_list
         if req_list:
             req_list = req_list.split(" ")
             if ' ' in req_list:
@@ -69,7 +71,6 @@ async def search_users(search_value,request:Request,db:Session=Depends(get_db)):
             req_list = []
         if user_token.get("sub") != string:
             searched_users_list = db.query(models.Users).filter(models.Users.username == string)
-            # print(searched_users_list.first(),Getset.get_req_list())    #for code testing and i.e. to check output and code flow
             return templates.TemplateResponse('searchUser.html',{'request':request,'s_u_list':searched_users_list,'req_list':req_list,'bool':False,'friends':friends,'lname':user_token.get("sub")})
         else:
             searched_users_list = db.query(models.Users).filter(models.Users.username == ' ')
@@ -167,7 +168,7 @@ async def friend_list(request:Request,db:Session=Depends(get_db)):
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id")))
     users = db.query(models.Users).all()
     fr_list = []
-    if user.first():
+    if user.first().friends:
         fr_list = user.first().friends.split(',')
     fr_fr_list = []
     if '' in fr_list:
@@ -193,9 +194,7 @@ async def search_friend_list(search_value,request:Request,db:Session=Depends(get
     user_token = token_1.get_token(request)
     l1 = string.split(' ')
     users = db.query(models.Users).all()
-    user_friend_list = db.query(models.Users).filter(models.Users.username == user_token.get("sub")).first()
-    if user_friend_list:
-        user_friend_list = user_friend_list.friends
+    user_friend_list = db.query(models.Users).filter(models.Users.username == user_token.get("sub")).first().friends
     if user_friend_list:
         user_friend_list = user_friend_list.split(',')
     fr_list=''
@@ -220,9 +219,7 @@ async def search_friend_list(search_value,request:Request,db:Session=Depends(get
 @router.get('view_videos',response_class=HTMLResponse)
 async def see_videos(request:Request,db:Session=Depends(get_db)):
     user_token = token_1.get_token(request)
-    Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first()
-    if Recommended_user_videos:
-        Recommended_user_videos = Recommended_user_videos.R_U_Videos
+    Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first().R_U_Videos
     if Recommended_user_videos:
         list_of_users = Recommended_user_videos.split(',')
         if '' in list_of_users:
@@ -242,9 +239,7 @@ async def see_videos(request:Request,db:Session=Depends(get_db)):
     else:
         videos = db.query(models.Videos).order_by(text("RANDOM()"))
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
-    recommended_videos = ''
-    if user and user.recommend:
-        recommended_videos = user.recommend
+    recommended_videos = user.recommend
     OpDB.likes_dislikes(db)
     OpDB.views(db)
     return templates.TemplateResponse("view_Videos.html", {"request":request,'lname':user_token.get("sub"),"videos":videos,'recommend':recommended_videos}) 
@@ -278,9 +273,7 @@ async def like_dislike(lik_di,video_id:int,request:Request,db:Session=Depends(ge
 @router.get('videos_recommend/{video_id}')
 async def recommend_videos(video_id:int,request:Request,db:Session=Depends(get_db),boolean:Optional[bool]=True):
     user_token = token_1.get_token(request)
-    friends = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
-    if friends:
-        friends = friends.friends
+    friends = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first().friends
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id")))
     if friends:
         friends = friends.split(',')
@@ -348,9 +341,7 @@ async def cal_rating(star:int,boolean:bool,descript,video_id:int,request:Request
 async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db)):
     user_token = token_1.get_token(request)
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
-    Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first()
-    if Recommended_user_videos:
-        Recommended_user_videos = Recommended_user_videos.R_U_Videos
+    Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first().R_U_Videos
     if Recommended_user_videos:
         list_of_users = Recommended_user_videos.split(',')
         if '' in list_of_users:
@@ -366,10 +357,7 @@ async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db))
             videos = db.query(models.Videos).order_by(text("RANDOM()"))
     else:
         videos = db.query(models.Videos).order_by(text("RANDOM()"))
-    print(user)
-    recommended_videos = None
-    if user:
-        recommended_videos = user.recommendations
+    recommended_videos = user.recommendations
     # videos = db.query(models.Videos).all()
     if recommended_videos:
         recommended_videos = recommended_videos.split(',')
