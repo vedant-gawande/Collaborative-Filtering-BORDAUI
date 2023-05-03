@@ -160,9 +160,7 @@ button:active {
 							</button> -->
 							{% if users.id in req_list %}
 							<h3>Pending</h3>
-							{% if users.id|string %}
 							{% elif users.id|string in friends %}
-							{% endif %}
 							<h3>Friend</h3>
 							{% else %}
 							<button type="submit" name="send_req" width="20rem" value="{{users.id}}" >Send Request</button>
