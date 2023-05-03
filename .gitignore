@@ -5,4 +5,5 @@ templates/viewVideos.html
 =======
 cfbordui.db
 *__pycache__
+app
 >>>>>>> main
