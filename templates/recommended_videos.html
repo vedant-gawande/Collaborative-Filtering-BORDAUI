@@ -8,7 +8,7 @@
 	<meta name="viewport"
 		content="width=device-width,
 				initial-scale=1.0">
-	<title></title>
+	<title>Recommended Videos</title>
 	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
@@ -245,12 +245,59 @@ section
     }
 }
 
-button{
+
+.btn{
+    padding: 0.4rem;
+  font-size: 0.8rem;
+  text-align: center;
   cursor: pointer;
-  outline: 0;
-  color: #AAA;
-    margin-left: 1rem;
+  outline: none;
+  color: #fff;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.2rem #999;
 }
+
+#nonrec{
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #f91d0d;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.2rem #999;
+}
+
+#rating{
+  padding: 0.5rem;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #370a49;
+  border: none;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.2rem #999;
+}
+
+#rec{
+    padding: 0.4rem;
+  font-size: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #aa095f;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.2rem #999;
+}
+
 
 .btn:focus {
   outline: none;
@@ -272,6 +319,49 @@ button{
 #lname:hover{
     filter: grayscale();
 }
+.badge {
+  /* visibility: hidden; */
+  position: absolute;
+  top: -10px;
+  right: 160px;
+  padding: 4px 4px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+
+.notification{
+	margin-right: 40px;
+}
+
+
+
+body{
+  background: #cad7fda4;
+}
+/* customizable snowflake styling */
+.snowflake {
+  color: #fff;
+  font-size: 1em;
+  font-family: Arial;
+  text-shadow: 0 0 1px #000;
+}
+
+@-webkit-keyframes snowflakes-fall{0%{top:-10%}100%{top:100%}}@-webkit-keyframes snowflakes-shake{0%{-webkit-transform:translateX(0px);transform:translateX(0px)}50%{-webkit-transform:translateX(80px);transform:translateX(80px)}100%{-webkit-transform:translateX(0px);transform:translateX(0px)}}@keyframes snowflakes-fall{0%{top:-10%}100%{top:100%}}@keyframes snowflakes-shake{0%{transform:translateX(0px)}50%{transform:translateX(80px)}100%{transform:translateX(0px)}}.snowflake{position:fixed;top:-10%;z-index:9999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default;-webkit-animation-name:snowflakes-fall,snowflakes-shake;-webkit-animation-duration:10s,3s;-webkit-animation-timing-function:linear,ease-in-out;-webkit-animation-iteration-count:infinite,infinite;-webkit-animation-play-state:running,running;animation-name:snowflakes-fall,snowflakes-shake;animation-duration:10s,3s;animation-timing-function:linear,ease-in-out;animation-iteration-count:infinite,infinite;animation-play-state:running,running}.snowflake:nth-of-type(0){left:1%;-webkit-animation-delay:0s,0s;animation-delay:0s,0s}.snowflake:nth-of-type(1){left:10%;-webkit-animation-delay:1s,1s;animation-delay:1s,1s}.snowflake:nth-of-type(2){left:20%;-webkit-animation-delay:6s,.5s;animation-delay:6s,.5s}.snowflake:nth-of-type(3){left:30%;-webkit-animation-delay:4s,2s;animation-delay:4s,2s}.snowflake:nth-of-type(4){left:40%;-webkit-animation-delay:2s,2s;animation-delay:2s,2s}.snowflake:nth-of-type(5){left:50%;-webkit-animation-delay:8s,3s;animation-delay:8s,3s}.snowflake:nth-of-type(6){left:60%;-webkit-animation-delay:6s,2s;animation-delay:6s,2s}.snowflake:nth-of-type(7){left:70%;-webkit-animation-delay:2.5s,1s;animation-delay:2.5s,1s}.snowflake:nth-of-type(8){left:80%;-webkit-animation-delay:1s,0s;animation-delay:1s,0s}.snowflake:nth-of-type(9){left:90%;-webkit-animation-delay:3s,1.5s;animation-delay:3s,1.5s}
+/* Demo Purpose Only*/
+.demo {
+  font-family: 'Raleway', sans-serif;
+  color:#fff;
+    display: block;
+    margin: 0 auto;
+    padding: 15px 0;
+    text-align: center;
+}
+.demo a{
+  font-family: 'Raleway', sans-serif;
+color: #000;    
+}
+
 </style>
 
 <body>
@@ -291,7 +381,7 @@ button{
 		<h3>COLLABORATIVE FILTERING ALGORITHM</h3>
 	</div>
 
-	<!-- <div class="searchbar">
+	<div class="searchbar">
 		<input type="text"
 			placeholder="Search">
 		<div class="searchbtn">
@@ -299,16 +389,19 @@ button{
 				class="icn srchicn"
 				alt="search-icon">
 		</div>
-	</div> -->
+	</div>
 
 	<div class="message">
-		<!-- <div class="circle"></div>
+		<div class="circle"></div>
+		<a href="user_request" class="notification">
 		<img src="static/images/non_notify.png"
 			class="icn"
-			alt=""> -->
+			alt="">
+				<span class="badge">{{total_requests}}</span>
+			  </a>
 		<div class="dp">
-			<img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
-		</div><span id="lname">{{lname}}</span>
+			<a href="user_profile" style="text-decoration: none;"><img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+            </div><span id="lname">{{lname}}</span></a>
 	</div>
 
 </header>
@@ -378,7 +471,37 @@ button{
 		</nav>
 	</div>
 	<div class="main">
-		
+		<div class="snowflakes" aria-hidden="true">
+            <div class="snowflake">
+            ❅
+            </div>
+            <div class="snowflake">
+            ❅
+            </div>
+            <div class="snowflake">
+            ❆
+            </div>
+            <div class="snowflake">
+            ❄
+            </div>
+            <div class="snowflake">
+            ❅
+            </div>
+            <div class="snowflake">
+            ❆
+            </div>
+            <div class="snowflake">
+            ❄
+            </div>
+            <div class="snowflake">
+            ❅
+            </div>
+            <div class="snowflake">
+            ❆
+            </div>
+            <div class="snowflake">
+            ❄
+            </div>
 		<div class="container">
             <div id="video_player">
             <iframe controls id="main-Video" src="{{videos.Src}}" frameborder="0">
@@ -394,7 +517,10 @@ button{
                     {% for video in videos %}
                     {% if video.id in recommend_from %}
                     <li li-index="{{video.id}}">
-                        <div class="row"><video src="{{videos.Src}}" controls muted autoplay></video>
+                        <div class="row"><video width="80px" height="50px" controls="controls" preload="metadata" poster=
+                            "static/images/vid.png">
+                            <source src="{{video.Src}}#t=0.5" type="video/mp4">
+                          </video>
                            <a href="{{video.Src}}"><span onclick="">{{video.Title}} </span></a>
                         </div>
                         <span id="abc" class="duration" >
@@ -408,21 +534,15 @@ button{
                                 
                                 <button class="btn" id="green" name="lik_di" value="1" type="submit"><img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px">Like</button><span style="padding-left: 5px;">{{video.Like}}</span>
                                 <button class="btn" id="red" name="lik_di" value="0" type="submit"><img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button>
-                                <!-- <select name="rating" id="cars">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5" selected>5</option>
-                                </select> -->
+
                             </form>
                             
                             <form action="/user_videos_recommend/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
                                 <input type="hidden" name="boolean" value="False">
                                 {% if video.id|string in recommend_to %}
-                                <button id="rec" >&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommended</button>
+                                <button id="rec">&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommended</button>
                                 {% else %}
-                                <button id="rec" type="submit">&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommend</button>
+                                <button id="nonrec" type="submit">&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommend</button>
                                 {% endif %}
                             </form>
                             <a href="/user_video_rating/{{video.id}}?boolean=False"><button id="rating" style="padding: 0.3rem 0.4rem 0rem 0.2rem; font-size: 1rem;" >&nbsp;Rating</button></a>
@@ -432,7 +552,7 @@ button{
                      {% endfor %}
                 </ul>
             </div>
-        </div>
+        </div></div>
 		<footer style="color: red; padding: 0 0 0 71vh; justify-content: center;">
 			Copyright By 2023 All Rights Reserve
 		</footer>

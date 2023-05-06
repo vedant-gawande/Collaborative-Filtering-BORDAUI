@@ -2,11 +2,15 @@ from fastapi import APIRouter, Request,Depends,status,responses,Response,UploadF
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-import database,models,token_1,base64,io
+from sqlalchemy import func
+import database,models,token_1
 import pandas as pd
 import csv
-import matplotlib.pyplot as plt
 from repository.sort_requests import OpDB
+from plotly.subplots import make_subplots
+import numpy as np
+import plotly.graph_objs as go
+import plotly.express as px
 
 router = APIRouter(
     prefix='/admin_',
@@ -17,10 +21,20 @@ templates = Jinja2Templates(directory='templates')
 get_db = database.get_db
 
 @router.get('menu',response_class=HTMLResponse)
-async def admin_menu(request:Request,jwt_validated: bool = Depends(token_1.verify_token)):
+async def admin_menu(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
     if jwt_validated != True:
         return jwt_validated
-    return templates.TemplateResponse('admin_menu.html',{'request':request},headers={"Cache-Control": "no-store, must-revalidate"})
+    views = db.query(func.sum(models.Videos.Views)).scalar()
+    likes = db.query(func.sum(models.Videos.Like)).scalar()
+    dislikes = db.query(func.sum(models.Videos.Dislike)).scalar()
+    videos = db.query(func.count(models.Videos.id)).scalar()
+    users = db.query(func.count(models.Users.id)).scalar()
+    return templates.TemplateResponse('admin_menu.html',{'request':request,'views':views,'likes':likes,'dislikes':dislikes,'videos':videos,'users':users},headers={"Cache-Control": "no-store, must-revalidate"})
+
+@router.get('profile',response_class=HTMLResponse)
+async def admin_profile(request:Request,db:Session=Depends(get_db)):
+    user_token = token_1.get_token(request)
+    return templates.TemplateResponse('aprofile.html',{'request':request,'lname':user_token.get("sub")})
 
 @router.get('view_users',response_class=HTMLResponse)
 async def view_user(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
@@ -110,20 +124,53 @@ async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db),jwt
         else:
             dict_of_views[obj.Category] = obj.Views
 
-    # print(dict_of_views)
-    topics = list(dict_of_views.keys())
-    values = list(dict_of_views.values())
-    fig, ax = plt.subplots(figsize=(12.6, 6))
-    ax.barh(topics, values)
-    ax.set_xlabel('Number of Views')
-    ax.set_title('Different Categories')
-    plt.yticks(fontsize=10)
-    buffer = io.BytesIO()
-    plt.savefig(buffer, format='png')
-    plt.clf()
-    buffer.seek(0)
-    chart_image = base64.b64encode(buffer.getvalue()).decode()
-    return templates.TemplateResponse("viewAllViews.html", {"request": request, "chart_image": chart_image},headers={"Cache-Control": "no-store, must-revalidate"})
+    # Create a list of categories and views
+    categories = list(dict_of_views.keys())
+    views = list(dict_of_views.values())
+
+    # Create a subplots object with one bar chart
+    fig = make_subplots(rows=1, cols=1)
+    fig.add_trace(
+        go.Bar(x=categories, y=np.zeros(len(categories))),
+        row=1, col=1
+    )
+
+    # Define the frames for the animation
+    frames = [go.Frame(data=[go.Bar(x=categories, y=views[:i+1])]) for i in range(len(views))]
+
+    # Define the animation settings
+    animation_settings = dict(
+        frame=dict(duration=1000, redraw=True),
+        fromcurrent=True
+    )
+
+    # Add the frames to the animation
+    fig.frames = frames
+
+    # Define the layout
+    fig.update_layout(
+        title='Different Categories',
+        xaxis=dict(title='Category'),
+        yaxis=dict(title='Number of Views')
+    )
+
+    # Define the animation buttons
+    fig.update_layout(
+        updatemenus=[dict(
+            type='buttons',
+            showactive=False,
+            buttons=[dict(
+                label='Play',
+                method='animate',
+                args=[None, animation_settings]
+            )]
+        )]
+    )
+
+    # Convert the figure to HTML
+    chart_html = fig.to_html(full_html=False)
+
+    return templates.TemplateResponse("viewAllViews.html", {"request": request, "chart_html": chart_html},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('viewAllLikesDislikes',response_class=HTMLResponse)
 async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
@@ -147,21 +194,27 @@ async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db),jwt
     # Extract the values for the likes and dislikes
     likes = list(dict_of_likes.values())
     dislikes = list(dict_of_dislikes.values())
-    bar_width = 0.35
-    r1 = range(len(likes))
-    r2 = [x + bar_width for x in r1]
-    fig = plt.figure(figsize=(12.5,6))
-    plt.barh(r1, likes, color='green', height=bar_width, edgecolor='white', label='Likes')
-    plt.barh(r2, dislikes, color='red', height=bar_width, edgecolor='white', label='Dislikes')
-    plt.xlabel('Number of Likes and Dislikes')
-    plt.title('Likes and Dislikes for different topics')
-    plt.yticks([r + bar_width/2 for r in range(len(likes))], topics)
-    buffer = io.BytesIO()
-    plt.savefig(buffer, format='png')
-    plt.clf()
-    buffer.seek(0)
-    chart_image = base64.b64encode(buffer.getvalue()).decode()
-    return templates.TemplateResponse("viewAllLikesDislikes.html", {"request": request, "chart_image": chart_image},headers={"Cache-Control": "no-store, must-revalidate"})
+
+    fig = px.bar(x=topics, y=likes, color_discrete_sequence=['green'], labels={'x': 'Category', 'y': 'Number of Likes'}, 
+                 title='Likes and Dislikes for different topics')
+    fig.add_bar(x=topics, y=dislikes, name='Dislikes', marker_color='red')
+
+    fig.update_layout(
+        xaxis_title="Category",
+        yaxis_title="Number of Likes/Dislikes",
+        font=dict(
+            family="Courier New, monospace",
+            size=14,
+            color="black"
+        ),
+        bargap=0.3,
+        bargroupgap=0.1,
+        template='plotly_white'
+    )
+
+    chart_div = fig.to_html(full_html=False)
+
+    return templates.TemplateResponse("viewAllLikesDislikes.html", {"request": request, "chart_div": chart_div},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('logout')
 async def logout(request:Request,response:Response,jwt_validated: bool = Depends(token_1.verify_token)):

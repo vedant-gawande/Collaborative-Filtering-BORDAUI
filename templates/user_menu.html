@@ -8,7 +8,7 @@
 	<meta name="viewport"
 		content="width=device-width,
 				initial-scale=1.0">
-	<title></title>
+	<title>User Menu</title>
 	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
@@ -21,12 +21,173 @@
 #lname:hover{
     filter: grayscale();
 }
+.title .lbl{
+	position: relative;
+ right: 13.2rem;
+}
+
+
+.badge {
+  /* visibility: hidden; */
+  position: absolute;
+  top: -10px;
+  right: 160px;
+  padding: 4px 4px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+.notification{
+	margin-right: 40px;
+}
+
+#slider {
+  position: relative;
+  width: 800px;
+  height: 400px;
+  margin-left: 200px;
+  margin-top: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+}
+#slider ul {
+  position: relative;
+  list-style: none;
+  height: 100%;
+  width: 10000%;
+  padding: 0;
+  margin: 0;
+  transition: all 750ms ease;
+  left: 0;
+}
+#slider ul li {
+  position: relative;
+  height: 100%;
+
+  float: left;
+}
+
+#slider ul li img{
+  width: 800px;
+  height: 400px;
+}
+
+#slider #prev, #slider #next {
+  width: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+  position: absolute;
+  top: 50%;
+  border-radius: 50%;
+  font-size: 2rem;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  transform: translateY(-50%);
+  transition: all 150ms ease;
+}
+
+#slider #prev {
+  left: 10px;
+}
+#slider #next {
+  right: 10px;
+}
+
+#slider #prev:hover, #slider #next:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  text-shadow: 0;
+}
+
+
+
+
+
+.hero {
+  background-color: #cad7fda4;
+  position: relative;
+  height: 80vh;
+  overflow: hidden;
+  font-family: "Montserrat", sans-serif;
+}
+
+
+.cube {
+  position: absolute;
+  top: 80vh;
+  left: 45vw;
+  width: 10px;
+  height: 10px;
+  border: solid 1px #76a0f6;
+  transform-origin: top left;
+  transform: scale(0) rotate(0deg) translate(-50%, -50%);
+  -webkit-animation: cube 12s ease-in forwards infinite;
+          animation: cube 12s ease-in forwards infinite;
+}
+.cube:nth-child(2n) {
+  border-color: #5087f6;
+}
+.cube:nth-child(2) {
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  left: 25vw;
+  top: 40vh;
+}
+.cube:nth-child(3) {
+  -webkit-animation-delay: 4s;
+          animation-delay: 4s;
+  left: 75vw;
+  top: 50vh;
+}
+.cube:nth-child(4) {
+  -webkit-animation-delay: 6s;
+          animation-delay: 6s;
+  left: 90vw;
+  top: 10vh;
+}
+.cube:nth-child(5) {
+  -webkit-animation-delay: 8s;
+          animation-delay: 8s;
+  left: 10vw;
+  top: 85vh;
+}
+.cube:nth-child(6) {
+  -webkit-animation-delay: 10s;
+          animation-delay: 10s;
+  left: 50vw;
+  top: 10vh;
+}
+
+@-webkit-keyframes cube {
+  from {
+    transform: scale(0) rotate(0deg) translate(-50%, -50%);
+    opacity: 1;
+  }
+  to {
+    transform: scale(20) rotate(960deg) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+@keyframes cube {
+  from {
+    transform: scale(0) rotate(0deg) translate(-50%, -50%);
+    opacity: 1;
+  }
+  to {
+    transform: scale(20) rotate(960deg) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+
+
 </style>
 
-<body>
+<body id="demo">
 
 <!-- for header part -->
-<header >
+<header>
 
 	<div class="logosec">
 		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
@@ -36,28 +197,21 @@
 			alt="menu-icon">
 	</div>
 
-	<div class="title" style="justify-content: center;">
-		<h3>COLLABORATIVE FILTERING ALGORITHM</h3>
+	<div class="title">
+		<h3 class="lbl">COLLABORATIVE FILTERING ALGORITHM</h3>
 	</div>
 
-	<!-- <div class="searchbar">
-		<input type="text"
-			placeholder="Search">
-		<div class="searchbtn">
-		<img src="static/images/Untitled-design-(28).png"
-				class="icn srchicn"
-				alt="search-icon">
-		</div>
-	</div> -->
-
 	<div class="message">
-		<!-- <div class="circle"></div>
+		<div class="circle"></div>
+		<a href="user_request" class="notification">
 		<img src="static/images/non_notify.png"
 			class="icn"
-			alt=""> -->
+			alt="">
+				<span class="badge">{{total_requests}}</span>
+			  </a>
 		<div class="dp">
-			<img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
-		</div><span id="lname">{{lname}}</span>
+			<a href="user_profile" style="text-decoration: none;"><img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+		</div><span id="lname">{{lname}}</span></a>
 	</div>
 
 </header>
@@ -127,9 +281,27 @@
 		</nav>
 	</div>
 	<div class="main">
+		<div class="hero"> 
+			<div class="cube"></div>
+			<div class="cube"></div>
+			<div class="cube"></div>
+			<div class="cube"></div>
+			<div class="cube"></div>
+			<div class="cube"></div>
 		
 		<center><h1>WELCOME TO USER PANEL</h1></center><br><br>
 		<marquee class="blink" width="100%" direction="left" height="50px">COLLABORATIVE FILTERING ALGORITHM IS ONE OF THE WIDELY USE APPROCHESE IN DAILY LIFE, SO HOW TO IMPROVE QUALITY AND EFFICENCY OF COLLABORATIVE FILTERING ALGORITHM IS AN ESSENTIAL PROBLEM USUALLY, SOME TRADITION ALGORITHM FOCUS ON USER RATING, WHILE THEY DON'T TAKE USER RATING USER RATING DIFFERENCE AND USER INTEREST INTO ACCOUNT. HOWEVER, USER HAVE LITTLE RATING DIFFERENCE.</marquee>
+		<div id="slider">
+			<ul id="slideWrap"> 
+				<li><img src="static/images/img1.png" alt=""></li>
+				<li><img src="static/images/vid.png" alt=""></li>
+				<li><img src="static/images/pbg.jpeg" alt=""></li>
+				<li><img src="static/images/vid.png" alt=""></li>
+				<li><img src="static/images/pbg.jpeg" alt=""></li>
+			  </ul>
+			  <a id="prev" href="#">&#8810;</a>
+    		  <a id="next" href="#">&#8811;</a>
+		</div></div>
 		<footer style="color: red; padding: 65vh 0 0 71vh; justify-content: center;">
 			Copyright By 2023 All Rights Reserve
 		</footer>
@@ -145,8 +317,119 @@
 		{
 			nav.classList.toggle("navclose");
 		})
+		var slider = document.getElementById("slider");
+		var sliderWidth = slider.offsetWidth;
+		var slideList = document.getElementById("slideWrap");
+		var count = 1;
+		var items = slideList.querySelectorAll("li").length;
+		var prev = document.getElementById("prev");
+		var next = document.getElementById("next");
+
+		window.addEventListener('resize', function() {
+		sliderWidth = slider.offsetWidth;
+		});
+
+		var prevSlide = function() {
+		if(count > 1) {
+			count = count - 2;
+			slideList.style.left = "-" + count * sliderWidth + "px";
+			count++;
+		}
+
+		else if(count = 1) {
+			count = items - 1;
+			slideList.style.left = "-" + count * sliderWidth + "px";
+			count++;
+		}
+		};
+		var nextSlide = function() {
+		if(count < items) {
+			slideList.style.left = "-" + count * sliderWidth + "px";
+			count++;
+		}
+		else if(count = items) {
+			slideList.style.left = "0px";
+			count = 1;
+		}
+		};
+		next.addEventListener("click", function() {
+		nextSlide();
+		});
+
+		prev.addEventListener("click", function() {
+		prevSlide();
+		});
+		setInterval(function() {
+		nextSlide()
+		}, 3000);
+
+		window.onload = function() {
+		responsiveSlider();  
+		}
+
+		var responsiveSlider = function() {
+
+		var slider = document.getElementById("slider");
+		var sliderWidth = slider.offsetWidth;
+		var slideList = document.getElementById("slideWrap");
+		var count = 1;
+		var items = slideList.querySelectorAll("li").length;
+		var prev = document.getElementById("prev");
+		var next = document.getElementById("next");
+
+		window.addEventListener('resize', function() {
+		sliderWidth = slider.offsetWidth;
+		});
+
+		var prevSlide = function() {
+		if(count > 1) {
+			count = count - 2;
+			slideList.style.left = "-" + count * sliderWidth + "px";
+			count++;
+		}
+		else if(count = 1) {
+			count = items - 1;
+			slideList.style.left = "-" + count * sliderWidth + "px";
+			count++;
+		}
+		};
+
+		var nextSlide = function() {
+		if(count < items) {
+			slideList.style.left = "-" + count * sliderWidth + "px";
+			count++;
+		}
+		else if(count = items) {
+			slideList.style.left = "0px";
+			count = 1;
+		}
+		};
+
+		next.addEventListener("click", function() {
+		nextSlide();
+		});
+
+		prev.addEventListener("click", function() {
+		prevSlide();
+		});
+
+		setInterval(function() {
+		nextSlide()
+		}, 3000);
+
+		};
+
+		window.onload = function() {
+		responsiveSlider();  
+		}
 	</script>
 
 	
 </body>
+<script>
+	if (window.innerWidth < 1000){
+		document.getElementById("demo").style.display = "none";
+		alert("Open in desktop mode..!");
+	}
+</script>
 </html>

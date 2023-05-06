@@ -24,13 +24,44 @@ async def user_menu(request:Request,db:Session=Depends(get_db),jwt_validated: bo
     OpDB.views(db)
     cluster(db)
     user_token = token_1.get_token(request)
-    return templates.TemplateResponse('user_menu.html',{'request':request,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
+    total_requests = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == int(user_token.get("user_id"))).scalar()
+    if total_requests:
+        total_requests = total_requests.rec_reqs.split(',')
+        if '' in total_requests:
+            total_requests.remove('')
+        total_requests = len(total_requests)
+    total_requests = total_requests or 0
+    return templates.TemplateResponse('user_menu.html',{'request':request,'lname':user_token.get("sub"),'total_requests':total_requests},headers={"Cache-Control": "no-store, must-revalidate"})
+
+@router.get('profile',response_class=HTMLResponse)
+async def user_profile(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
+    user_token = token_1.get_token(request)
+    user_id = int(user_token.get("user_id"))
+    total_requests = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == user_id).scalar()
+    if total_requests:
+        total_requests = total_requests.rec_reqs.split(',')
+        if '' in total_requests:
+            total_requests.remove('')
+        total_requests = len(total_requests)
+    total_requests = total_requests or 0
+    occ = db.query(models.Users).filter(models.Users.id == user_id).first().occupation
+    total_friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
+    if total_friends:
+        total_friends = total_friends.split(',')
+        if '' in total_friends:
+            total_friends.remove('')
+        total_friends = len(total_friends)
+    total_friends = total_friends or 0 
+    return templates.TemplateResponse('profile.html',{'request':request,'lname':user_token.get("sub"),'occupation':occ,'total_requests':total_requests,'total_friends':total_friends},headers={"Cache-Control": "no-store, must-revalidate"})
+
 
 @router.get('view_users',response_class=HTMLResponse)
 async def view_user(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
     if jwt_validated != True:
         return jwt_validated
-    users_list = db.query(models.Users,models.Users_S_Req).join(models.Users_S_Req,models.Users_S_Req.uid == models.Users.id,full=True).all()
+    users_list = db.query(models.Users,models.Users_S_Req).outerjoin(models.Users_S_Req,models.Users_S_Req.uid == models.Users.id).all()
     user_token = token_1.get_token(request)
     user_id = int(user_token.get("user_id"))
     friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
@@ -50,7 +81,14 @@ async def view_user(request:Request,db:Session=Depends(get_db),jwt_validated: bo
     new_users_list = [l[0] for l in users_list]
     OpDB.rec_requests(db,request)
     # print(req_list,friends)
-    return templates.TemplateResponse('searchUser.html',{'request':request,'users_list':new_users_list,'req_list':req_list,'friends':friends,'bool':True,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
+    total_requests = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == int(user_token.get("user_id"))).scalar()
+    if total_requests:
+        total_requests = total_requests.rec_reqs.split(',')
+        if '' in total_requests:
+            total_requests.remove('')
+        total_requests = len(total_requests)
+    total_requests = total_requests or 0
+    return templates.TemplateResponse('searchUser.html',{'request':request,'users_list':new_users_list,'req_list':req_list,'friends':friends,'bool':True,'lname':user_token.get("sub"),'total_requests':total_requests},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('search_users',response_class=HTMLResponse)
 async def search_users(search_value,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
@@ -62,6 +100,13 @@ async def search_users(search_value,request:Request,db:Session=Depends(get_db),j
     string = search_value
     l1 = string.split(' ')
     OpDB.rec_requests(db,request)
+    total_requests = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == int(user_token.get("user_id"))).scalar()
+    if total_requests:
+        total_requests = total_requests.rec_reqs.split(',')
+        if '' in total_requests:
+            total_requests.remove('')
+        total_requests = len(total_requests)
+    total_requests = total_requests or 0
     if bool(l1) and '' not in l1 :
         req_list = db.query(models.Req_list).filter(models.Req_list.Uid == user_id).first().req_list
         if req_list:
@@ -110,7 +155,7 @@ async def send_requests(send_req,request:Request,db:Session=Depends(get_db),jwt_
 async def requests(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
     if jwt_validated != True:
         return jwt_validated
-    users_list = db.query(models.Users,models.Users_R_Req).join(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id,full=True).all()
+    users_list = db.query(models.Users,models.Users_R_Req).outerjoin(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id).all()
     req_list = []
     user_token = token_1.get_token(request)
     for index,user in enumerate(users_list):
@@ -130,13 +175,15 @@ async def requests(request:Request,db:Session=Depends(get_db),jwt_validated: boo
 
 @router.get('search_req',response_class=HTMLResponse)
 async def search_requests(search_value,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
-    users_list = db.query(models.Users,models.Users_R_Req).join(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id,full=True).all()
+    users_list = db.query(models.Users,models.Users_R_Req).outerjoin(models.Users_R_Req,models.Users_R_Req.uid == models.Users.id).all()
     user_token = token_1.get_token(request)
     string = search_value
     l1 = string.split(' ')
     new_users_list = db.query(models.Users).filter(models.Users.username == string)
-    req_list = db.query(models.Req_list).filter(models.Req_list.Uid == int(user_token.get("user_id"))).first().req_list
-    print(req_list)
+    req_list = db.query(models.Req_list).filter(models.Req_list.Uid == int(user_token.get("user_id"))).first()
+    if req_list:
+        req_list = req_list.req_list
+    # print(req_list)
     if req_list:
         req_list = req_list.split(" ")
         if ' ' in req_list:
@@ -150,7 +197,8 @@ async def search_requests(search_value,request:Request,db:Session=Depends(get_db
                 if user[0].username == string:
                     new_users_list = user
                     break
-            print(new_users_list[0],req_list)
+            # print(new_users_list[0],req_list)
+            new_users_list = new_users_list[0] or []
             return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list[0],'req_list':req_list,'lname':user_token.get("sub"),'bool':False},headers={"Cache-Control": "no-store, must-revalidate"})
         else:
             return templates.TemplateResponse('userReq.html',{'request':request,'users':new_users_list,'req_list':req_list,'bool':False,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
@@ -170,6 +218,13 @@ async def friend_list(request:Request,db:Session=Depends(get_db),jwt_validated: 
     user_token = token_1.get_token(request)
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id")))
     users = db.query(models.Users).all()
+    total_requests = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == int(user_token.get("user_id"))).scalar()
+    if total_requests:
+        total_requests = total_requests.rec_reqs.split(',')
+        if '' in total_requests:
+            total_requests.remove('')
+        total_requests = len(total_requests)
+    total_requests = total_requests or 0
     fr_list = []
     if user.first():
         fr_list = user.first().friends.split(',')
@@ -188,7 +243,7 @@ async def friend_list(request:Request,db:Session=Depends(get_db),jwt_validated: 
                     if user1.id == int(fr) and user_token.get("sub") != user1.username:
                         list_of_friends.append(user1.username)
             fr_fr_list.append(list_of_friends:=', '.join(list_of_friends))
-    return templates.TemplateResponse('friendList.html',{'request':request,'users':users,'fr_list':fr_list,'fr_fr_list':fr_fr_list,'bool':True,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
+    return templates.TemplateResponse('friendList.html',{'request':request,'users':users,'fr_list':fr_list,'fr_fr_list':fr_fr_list,'bool':True,'lname':user_token.get("sub"),'total_requests':total_requests},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('search_friend_list',response_class=HTMLResponse)
 async def search_friend_list(search_value,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
@@ -203,6 +258,13 @@ async def search_friend_list(search_value,request:Request,db:Session=Depends(get
     if user_friend_list:
         user_friend_list = user_friend_list.split(',')
     fr_list=''
+    total_requests = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == int(user_token.get("user_id"))).scalar()
+    if total_requests:
+        total_requests = total_requests.rec_reqs.split(',')
+        if '' in total_requests:
+            total_requests.remove('')
+        total_requests = len(total_requests)
+    total_requests = total_requests or 0
     if bool(l1) and '' not in l1 :
         searched_users_list = db.query(models.Users).filter(models.Users.username == string).first()
         if user_token.get("sub") != string and searched_users_list and (str(searched_users_list.id) in user_friend_list):
@@ -213,10 +275,10 @@ async def search_friend_list(search_value,request:Request,db:Session=Depends(get
                         if friend == str(user.id) and user_token.get("sub") != user.username:
                             fr_list.append(user.username)
                 fr_list = ', '.join(fr_list)    
-            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
+            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False,'lname':user_token.get("sub"),'total_requests':total_requests},headers={"Cache-Control": "no-store, must-revalidate"})
         else:
             searched_users_list = db.query(models.Users).filter(models.Users.username == ' ')
-            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
+            return templates.TemplateResponse('friendList.html',{'request':request,'user':searched_users_list,'fr_list':fr_list,'bool':False,'lname':user_token.get("sub"),'total_requests':total_requests},headers={"Cache-Control": "no-store, must-revalidate"})
     else:
         # print(string,l1)              #for code testing and i.e. to check output and code flow 
         return responses.RedirectResponse('/user_friend_list',status_code=status.HTTP_302_FOUND,headers={"Cache-Control": "no-store, must-revalidate"})
@@ -226,6 +288,13 @@ async def see_videos(request:Request,db:Session=Depends(get_db),jwt_validated: b
     if jwt_validated != True:
         return jwt_validated
     user_token = token_1.get_token(request)
+    total_requests = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == int(user_token.get("user_id"))).scalar()
+    if total_requests:
+        total_requests = total_requests.rec_reqs.split(',')
+        if '' in total_requests:
+            total_requests.remove('')
+        total_requests = len(total_requests)
+    total_requests = total_requests or 0
     Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first().R_U_Videos
     if Recommended_user_videos:
         list_of_users = Recommended_user_videos.split(',')
@@ -247,11 +316,11 @@ async def see_videos(request:Request,db:Session=Depends(get_db),jwt_validated: b
         videos = db.query(models.Videos).order_by(text("RANDOM()"))
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     recommended_videos = ''
-    if user.recommend:
+    if user and user.recommend:
         recommended_videos = user.recommend
     OpDB.likes_dislikes(db)
     OpDB.views(db)
-    return templates.TemplateResponse("view_Videos.html", {"request":request,'lname':user_token.get("sub"),"videos":videos,'recommend':recommended_videos},headers={"Cache-Control": "no-store, must-revalidate"}) 
+    return templates.TemplateResponse("view_Videos.html", {"request":request,'lname':user_token.get("sub"),"videos":videos,'recommend':recommended_videos,'total_requests':total_requests},headers={"Cache-Control": "no-store, must-revalidate"}) 
 
 @router.get('videos/li_di/{video_id}')
 async def like_dislike(lik_di,video_id:int,request:Request,db:Session=Depends(get_db),boolean:Optional[bool]=True,jwt_validated: bool = Depends(token_1.verify_token)):
@@ -353,6 +422,13 @@ async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db),
     if jwt_validated != True:
         return jwt_validated
     user_token = token_1.get_token(request)
+    total_requests = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == int(user_token.get("user_id"))).scalar()
+    if total_requests:
+        total_requests = total_requests.rec_reqs.split(',')
+        if '' in total_requests:
+            total_requests.remove('')
+        total_requests = len(total_requests)
+    total_requests = total_requests or 0
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     Recommended_user_videos = db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == int(user_token.get("user_id"))).first().R_U_Videos
     if Recommended_user_videos:
@@ -382,7 +458,7 @@ async def recommended_videos_to_user(request:Request,db:Session=Depends(get_db),
         recommended_videos_to = user.recommend
     OpDB.likes_dislikes(db)
     OpDB.views(db)
-    return templates.TemplateResponse('recommended_videos.html',{'request':request,'videos':videos,'recommend_from':recommended_videos,'recommend_to':recommended_videos_to,'lname':user_token.get("sub")},headers={"Cache-Control": "no-store, must-revalidate"})
+    return templates.TemplateResponse('recommended_videos.html',{'request':request,'videos':videos,'recommend_from':recommended_videos,'recommend_to':recommended_videos_to,'lname':user_token.get("sub"),'total_requests':total_requests},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('open_video/{vid_id}')
 async def open_video(url1,request:Request,vid_id:int,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
