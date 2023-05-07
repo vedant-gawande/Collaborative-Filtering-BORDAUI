@@ -8,7 +8,7 @@
 	<meta name="viewport"
 		content="width=device-width,
 				initial-scale=1.0">
-	<title>User Profile</title>
+	<title>Friends Profile</title>
 	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
@@ -112,7 +112,7 @@ p{
     margin-top: -10px;
 }
 
-/* .btn {
+.btn {
     padding: 16px;
     width: 100%;
     border: none;
@@ -125,7 +125,7 @@ p{
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
-} */
+}
 .badge {
   /* visibility: hidden; */
   position: absolute;
@@ -177,9 +177,9 @@ p{
 		<img src="static/images/non_notify.png"
 			class="icn"
 			alt="">
-			{% if total_requests %}
-				<span class="badge">{{total_requests}}</span>
-				{% endif %}
+            {% if total_requests %}
+                <span class="badge">{{total_requests}}</span>
+            {% endif %}
 			  </a>
 		<div class="dp">
 			<img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
@@ -235,7 +235,7 @@ p{
 				</div>
 
 				<div class="nav-option option2">
-					<a href="user_credits" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 14px;"><img src="static/images/cr.png"
+					<a href="user_credits" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;"><img src="static/images/cr.png"
 						class="nav-img"
 						alt="credits" title="CREDITS">
 					<h3>CREDITS</a></h3>
@@ -244,7 +244,7 @@ p{
 			
 
 				<div class="nav-option logout">
-					<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 18px;"><img src="static/images/log1.png"
+					<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;"><img src="static/images/log1.png"
 						class="nav-img"
 						alt="logout" title="Logout">
 					<h3>Logout</a></h3>
@@ -255,7 +255,7 @@ p{
 	</div>
 	<div class="main">
         <div class=".ball">
-        <center><h1>USER PROFILE</h1></center>
+        <center><h1>FRIENDS PROFILE</h1></center>
 		<div class="card">
             <div class="card_background_img"></div>
             <div class="card_profile_img"></div>
@@ -274,7 +274,7 @@ p{
                         <p>Posts</p>
                     </div>
                 </div>
-                 <!-- <div class="btn">Follow</div> -->
+                 <div class="btn">Follow</div>
             </div>
         </div></div>
 		<footer style="color: red; padding: 8vh 0 0 1vh; justify-content: center;">

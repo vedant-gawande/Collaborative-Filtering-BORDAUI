@@ -12,8 +12,6 @@
 	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',path='/css/util.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static',path='/css/main1.css') }}">
 </head>
 <style>
 #lname{
@@ -31,19 +29,16 @@
 body {
     background-color: #e1e7ed;
     text-align: center;
-}
-
-.notification{
-	margin-right: 40px;
+    overflow: hidden;
 }
 
 
 h3 {
-    font-size: 18px;
+    /* font-size: 15px; */
     font-weight: 500;
-    color: #33363b;
+    /* color: #33363b; */
     margin-left: 40px;
-    margin-bottom: 7px;
+    /* margin-bottom: 7px; */
     margin-right: 40px;
 }
 
@@ -60,7 +55,7 @@ p{
     height: auto;
     background-color: #ffffff;
     margin: 0 auto;
-    margin-top: 80px;
+    margin-top: 50px;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.15);
 }
 
@@ -114,7 +109,7 @@ p{
     margin-top: -10px;
 }
 
-/* .btn {
+.btn {
     padding: 16px;
     width: 100%;
     border: none;
@@ -127,7 +122,7 @@ p{
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
-} */
+}
 .badge {
   /* visibility: hidden; */
   position: absolute;
@@ -143,6 +138,11 @@ p{
   position: absolute;
   border-radius: 100%;
   opacity: 0.7;
+}
+
+.title .lbl{
+	position: relative;
+ right: 13.2rem;
 }
 </style>
 
@@ -160,27 +160,18 @@ p{
 	</div>
 
 	<div class="title">
-		<h3>COLLABORATIVE FILTERING ALGORITHM</h3>
+		<h3 class="lbl">COLLABORATIVE FILTERING ALGORITHM</h3>
 	</div>
 
-	<div class="searchbar">
-		<input type="text"
-			placeholder="Search" id="myInput" onkeyup="myFunction()">
-		<div class="searchbtn">
-		<img src="static/images/Untitled-design-(28).png"
-				class="icn srchicn"
-				alt="search-icon">
-		</div>
-	</div>
 
 	<div class="message">
-		<div class="circle"></div>
-		<img src="static/images/non_notify.png"
-			class="icn"
-			alt="">
+		<!-- <div class="circle"></div> -->
+		
 		<div class="dp">
-			<img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
-		</div><span id="admin">Admin</span>
+            <!-- <a href="admin_profile" style="text-decoration: none;"> -->
+                <img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+            </div><span id="admin" style="font-size: 1.5rem; color: #FF0000;">Admin</span>
+        <!-- </a> -->
 	</div>
 
 </header>
@@ -189,56 +180,70 @@ p{
 	<div class="navcontainer">
 		<nav class="nav">
 			<div class="nav-upper-options">
-				<div class="nav-option option2">
-					<img src="static/images/home-white.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3><a href="/admin_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;"> Dashboard</a></h3>
-				</div>
-
-				<div class="nav-option option2">
-					<img src="static/images/user-white.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3><a href="admin_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> VIEW USERS</a></h3>
-				</div>
-
-				<div class="nav-option option2">
-					<img src="static/images/arrow-u-white.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3><a href="admin_upload_dataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> UPLOAD DATASET</a></h3>
-				</div>
-
-				<div class="nav-option option2">
-					<img src="static/images/eye-white.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3><a href="admin_viewDataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> VIEW DATASET</a></h3>
-				</div>
-
-				<div class="nav-option option2">
-					<img src="static/images/icon-72.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3><a href="admin_viewAllViews" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 11px;"> VIEW ALL VIDEOS VIEWS IN GRAPH</a></h3>
-				</div>
-
-				<div class="nav-option option2">
-					<img src="static/images/icon-57.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3><a href="admin_viewAllLikesDislikes" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 11px;"> VIEW ALL VIDEOS LIKES / DISLIKES IN GRAPH</a></h3>
-				</div>
-				
-			
-
-				<div class="nav-option logout">
-					<img src="static/images/power-white.png"
-						class="nav-img"
-						alt="logout">
-					<h3><a href="admin_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">Logout</a></h3>
-				</div>
+				<a href="/admin_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;">
+                    <div class="nav-option option2">
+                            <img src="static/images/home1.png"
+                            class="nav-img"
+                            alt="dashboard" title="Dashboard">
+                        <h3>Dashboard</h3>
+                    </div>
+                    </a>
+    
+                    <a href="admin_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                    <div class="nav-option option2">
+                            <img src="static/images/user1.png"
+                            class="nav-img"
+                            alt="dashboard" title="VIEW USERS">
+                        <h3> VIEW USERS</h3>
+                    </div>
+                    </a>
+    
+                    <a href="admin_upload_dataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                    <div class="nav-option option2">
+                            <img src="static/images/up1.png"
+                            class="nav-img"
+                            alt="dashboard" title="UPLOAD DATASET">
+                        <h3> UPLOAD DATASET</h3>
+                    </div>
+                    </a>
+    
+                    <a href="admin_viewDataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                    <div class="nav-option option2">
+                            <img src="static/images/eye1.png"
+                            class="nav-img"
+                            alt="dashboard" title="VIEW DATASET">
+                        <h3>VIEW DATASET</h3>
+                    </div>
+                    </a>
+    
+                    <a href="admin_viewAllViews" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                    <div class="nav-option option2">
+                            <img src="static/images/vi1.png"
+                            class="nav-img"
+                            alt="dashboard" title="VIEW ALL VIDEOS VIEWS IN GRAPH">
+                        <h3>VIEWS ANALYSIS</h3>
+                    </div>
+                    </a>
+    
+                    <a href="admin_viewAllLikesDislikes" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                    <div class="nav-option option2">
+                            <img src="static/images/li1.png"
+                            class="nav-img"
+                            alt="dashboard" title="VIEW ALL VIDEOS LIKES / DISLIKES IN GRAPH">
+                        <h3>LIKES / DISLIKES ANALYSIS</h3>
+                    </div>
+                    </a>
+                    
+                
+                    
+                    <a href="admin_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">
+                    <div class="nav-option logout">
+                            <img src="static/images/log1.png"
+                            class="nav-img"
+                            alt="logout" title="LOGOUT">
+                        <h3>LOGOUT</h3>
+                    </div>
+                    </a>
 
 			</div>
 		</nav>

@@ -147,31 +147,31 @@ section
 }
 
 
-.playlist li .row video{
+/* .playlist li .row video{
     width: 80px;
     border-radius: 5px;
-}
+} */
 
-/* .playlist li .row span::before
+.playlist li .row span::before
 {
     content: '\f01d';
     font-family: FontAwesome;
     color: #FFbb00;
     margin-right: 15px;
     font-size: 20px;
-} */
-/* ul li.playing .row span::before
+}
+ul li.playing .row span::before
 {
     content: '\f28c';
     font-family: FontAwesome;
     color: #FFbb00;
     margin-right: 15px;
     font-size: 20px;
-} */
-/* .playlist li.playing .row span
+}
+.playlist li.playing .row span
 {
    color: #FFbb00;
-} */
+}
 
 
 .playlist li span.duration
@@ -405,7 +405,9 @@ color: #000;
 		<img src="static/images/non_notify.png"
 			class="icn"
 			alt="">
-				<span class="badge">{{total_requests}}</span>
+            {% if total_requests %}
+                <span class="badge">{{total_requests}}</span>
+            {% endif %}
 			  </a>
 		<div class="dp">
 			<a href="user_profile" style="text-decoration: none;"><img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
@@ -418,62 +420,77 @@ color: #000;
 	<div class="navcontainer">
 		<nav class="nav">
 			<div class="nav-upper-options">
-				<div class="nav-option option2">
-					<a href="/user_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;"><img src="static/images/home-white.png"
+                <a href="/user_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;">
+					<div class="nav-option option2">
+							<img src="static/images/home1.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3>Dashboard</h3>
+					</div>
+				</a>
+	
+				<a href="user_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> 
+					<div class="nav-option option2">
+						<img src="static/images/search1.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3>SEARCH FRIEND</h3>
+					</div>
+				</a>
+	
+				<a href="user_request" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option2">
+						<img src="static/images/non_notify.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3> VIEW REQUESTS</h3>
+					</div>
+				</a>
+	
+				<a href="user_friend_list" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option2">
+						<img src="static/images/eye1.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3> VIEW FRIENDS LIST</h3>
+					</div>
+				</a>
+	
+				<a href="user_view_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option1">
+						<img src="static/images/vid.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3> VIEW ALL VIDEOS</h3>
+					</div>
+				</a>
+	
+				<a href="user_recommended_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;">
+					<div class="nav-option option2">
+						<img src="static/images/vid1.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3> FRIENDS RECOMMENDED VIDEOS</h3>
+					</div>
+				</a>
+					
+				<a href="user_credits" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;">
+					<div class="nav-option option2">
+					<img src="static/images/cr.png"
 						class="nav-img"
-						alt="dashboard">
-					<h3> Dashboard</a></h3>
+						alt="credits" title="CREDITS">
+					<h3>CREDITS</h3>
 				</div>
-
-				<div class="nav-option option2">
-					<a href="user_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> 
-					<img src="static/images/search.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3>SEARCH FRIEND</a></h3>
-				</div>
-
-				<div class="nav-option option2">
-					<a href="user_request" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
-					<img src="static/images/non_notify.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3> VIEW REQUESTS</a></h3>
-				</div>
-
-				<div class="nav-option option2">
-					<a href="user_friend_list" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
-					<img src="static/images/eye-white.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3> VIEW FRIENDS LIST</a></h3>
-				</div>
-
-				<div class="nav-option option1">
-					<a href="user_view_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
-					<img src="static/images/vid.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3> VIEW ALL VIDEOS</a></h3>
-				</div>
-
-				<div class="nav-option option2">
-					<a href="user_recommended_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;">
-					<img src="static/images/video-white.png"
-						class="nav-img"
-						alt="dashboard">
-					<h3> FRIENDS RECOMMENDED VIDEOS</a></h3>
-				</div>
-				
-			
-
-				<div class="nav-option logout">
-					<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">
-					<img src="static/images/power-white.png"
-						class="nav-img"
-						alt="logout">
-					<h3>Logout</a></h3>
-				</div>
+				</a>
+	
+				<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">
+					<div class="nav-option logout">
+						<img src="static/images/log1.png"
+							class="nav-img"
+							alt="logout">
+						<h3>Logout</h3>
+					</div>
+				</a>
 
 			</div>
 		</nav>
