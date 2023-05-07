@@ -70,6 +70,10 @@ def viewDataset(request:Request,db:Session=Depends(get_db),jwt_validated: bool =
     OpDB.views(db)
     OpDB.likes_dislikes(db)
     videos = db.query(models.Videos).all()
+    df = pd.DataFrame.from_records([video.__dict__ for video in videos])
+    df = df.drop(columns=['_sa_instance_state'])
+    df = df.reindex(columns=['id','CATEGORY','TITLE','VIEWS','LIKES','DISLIKES'])
+    print(df.columns)
     return templates.TemplateResponse('viewDataset.html',{'request':request,'videos':videos},headers={"Cache-Control": "no-store, must-revalidate"})
 
 
@@ -90,7 +94,9 @@ async def operation_on_dataset(file:UploadFile = File(...),db:Session=Depends(ge
     # print(new_data)
     required_cols = {'Category','Title','Src'}
     if required_cols.issubset(new_data.iloc[0]):
-        new_data.columns = ['Category','Title','Src']
+        print(new_data.iloc[0])
+        new_data.columns = new_data.iloc[0]
+        new_data = new_data.loc[:,['Category','Title','Src']]
         new_data.drop(0,axis=0,inplace=True)
         all_data = pd.concat([existing_data,new_data]).drop_duplicates()
         videos = db.query(models.Videos)
