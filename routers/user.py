@@ -62,27 +62,67 @@ async def user_terms(request:Request,db:Session=Depends(get_db)):
 
 
 @router.get('uprofile',response_class=HTMLResponse)
-async def user_uprofile(request:Request,db:Session=Depends(get_db),jwt_validated:bool = Depends(token_1.verify_token)):
+async def user_uprofile(friend,request:Request,db:Session=Depends(get_db),jwt_validated:bool = Depends(token_1.verify_token)):
     if jwt_validated != True:
         return jwt_validated
     user_token = token_1.get_token(request)
     user_id = int(user_token.get("user_id"))
-    total_requests = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == user_id).scalar()
+    friend_id = db.query(models.Users).filter(models.Users.username == friend).first().id
+    total_requests = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == friend_id).scalar()
     if total_requests:
         total_requests = total_requests.rec_reqs.split(',')
         if '' in total_requests:
             total_requests.remove('')
         total_requests = len(total_requests)
     total_requests = total_requests or 0
-    occ = db.query(models.Users).filter(models.Users.id == user_id).first().occupation
-    total_friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
+    occ = db.query(models.Users).filter(models.Users.id == friend_id).first().occupation
+    total_friends = db.query(models.Users).filter(models.Users.id == friend_id).first().friends
     if total_friends:
         total_friends = total_friends.split(',')
         if '' in total_friends:
             total_friends.remove('')
         total_friends = len(total_friends)
     total_friends = total_friends or 0 
-    return templates.TemplateResponse('uprofile.html',{'request':request,'lname':user_token.get("sub"),'occupation':occ,'total_requests':total_requests,'total_friends':total_friends},headers={"Cache-Control": "no-store, must-revalidate"})
+    users_friends = db.query(models.Users).filter(models.Users.id == user_id).first().friends
+    users_friends = users_friends.split(',')
+    if '' in users_friends:
+        users_friends.remove('')
+    users_friends = users_friends or []
+    requests = db.query(models.Users_S_Req).filter(models.Users_S_Req.uid == user_id).first()
+    if requests:
+        req_list = requests.sent_reqs
+        if req_list:
+            req_list = req_list.split(',')
+            if '' in req_list:
+                req_list.remove('')
+    else:
+        req_list = []
+    OpDB.rec_requests(db,request)
+    return templates.TemplateResponse('uprofile.html',{'request':request,'lname':user_token.get("sub"),'fr_name':friend,'occupation':occ,'total_requests':total_requests,'total_friends':total_friends,'users_friends':users_friends,'req_list':req_list,'friend_id':friend_id},headers={"Cache-Control": "no-store, must-revalidate"})
+
+@router.get('uprofile_send_req',response_class=HTMLResponse)
+async def send_requests(send_req,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    uid = send_req
+    friend_name = db.query(models.Users).filter(models.Users.id == uid).first().username
+    user_token = token_1.get_token(request)
+    # print(type(uid))
+    pre_req = db.query(models.Users_S_Req).filter(models.Users_S_Req.uid == int(user_token.get("user_id")))
+    if not pre_req.first():
+        new_req = models.Users_S_Req(uid=int(user_token.get("user_id")),sent_reqs=uid)
+        db.add(new_req)
+        db.commit()
+        db.refresh(new_req)
+        return responses.RedirectResponse(f"/user_uprofile?friend={friend_name}",headers={"Cache-Control": "no-store, must-revalidate"})
+    pre_req1 = pre_req.first()
+    list_req = pre_req1.sent_reqs.split(',')
+    if '' in list_req:
+        list_req.remove('')
+    list_req.append(uid)
+    list_req = sorted(set(list_req))
+    # print(list_req)
+    pre_req.update({'sid':pre_req1.sid,'uid':pre_req1.uid,'sent_reqs':",".join(list_req)})
+    db.commit()
+    return responses.RedirectResponse(f"/user_uprofile?friend={friend_name}",headers={"Cache-Control": "no-store, must-revalidate"})
 
 
 
@@ -318,6 +358,31 @@ async def search_friend_list(search_value,request:Request,db:Session=Depends(get
     else:
         # print(string,l1)              #for code testing and i.e. to check output and code flow 
         return responses.RedirectResponse('/user_friend_list',status_code=status.HTTP_302_FOUND,headers={"Cache-Control": "no-store, must-revalidate"})
+    
+@router.get('unfollow',response_class=HTMLResponse)
+async def see_videos(unfollow_id,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
+    user_token = token_1.get_token(request)
+    user_id = user_token.get("user_id")
+    # print(unfollow_id,type(user_id))
+    user = db.query(models.Users).filter(models.Users.id == user_id)
+    friend = db.query(models.Users).filter(models.Users.id == int(unfollow_id))
+    user_friends = user.first().friends
+    user_friends = user_friends.split(',')
+    if '' in user_friends:
+        user_friends.remove('')
+    user_friends.remove(unfollow_id)        #removed friend from user's friends
+    friend_friends = friend.first().friends
+    friend_friends = friend_friends.split(',')
+    if '' in friend_friends:
+        friend_friends.remove('')
+    # print(friend_friends,[user_id])
+    friend_friends.remove(str(user_id))          #removed user from friend's friends
+    user.update({'friends':",".join(user_friends)})
+    friend.update({'friends':",".join(friend_friends)})
+    db.commit()
+    return responses.RedirectResponse('/user_friend_list',status_code=status.HTTP_302_FOUND,headers={"Cache-Control": "no-store, must-revalidate"})
     
 @router.get('view_videos',response_class=HTMLResponse)
 async def see_videos(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):

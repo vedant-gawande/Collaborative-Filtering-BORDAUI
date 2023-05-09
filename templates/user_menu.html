@@ -16,7 +16,7 @@
 <style>
 #lname{
     font-size: 1.8rem;
-	color: green;
+	color: rgb(215, 255, 14);
 }
 #lname:hover{
     filter: grayscale();
@@ -45,7 +45,7 @@
   position: relative;
   width: 800px;
   height: 400px;
-  margin-left: 200px;
+  margin-left: 210px;
   margin-top: 20px;
   overflow: hidden;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
@@ -103,88 +103,229 @@
 
 
 
-.hero {
-  background-color: #cad7fda4;
-  position: relative;
-  height: 80vh;
+
+body {
+  margin: 0;
+  padding: 0;
+  /* background: #003366; */
   overflow: hidden;
-  font-family: "Montserrat", sans-serif;
 }
 
-
-.cube {
+.pyro > .before, .pyro > .after {
   position: absolute;
-  top: 80vh;
-  left: 45vw;
-  width: 10px;
-  height: 10px;
-  border: solid 1px #76a0f6;
-  transform-origin: top left;
-  transform: scale(0) rotate(0deg) translate(-50%, -50%);
-  -webkit-animation: cube 12s ease-in forwards infinite;
-          animation: cube 12s ease-in forwards infinite;
-}
-.cube:nth-child(2n) {
-  border-color: #5087f6;
-}
-.cube:nth-child(2) {
-  -webkit-animation-delay: 2s;
-          animation-delay: 2s;
-  left: 25vw;
-  top: 40vh;
-}
-.cube:nth-child(3) {
-  -webkit-animation-delay: 4s;
-          animation-delay: 4s;
-  left: 75vw;
-  top: 50vh;
-}
-.cube:nth-child(4) {
-  -webkit-animation-delay: 6s;
-          animation-delay: 6s;
-  left: 90vw;
-  top: 10vh;
-}
-.cube:nth-child(5) {
-  -webkit-animation-delay: 8s;
-          animation-delay: 8s;
-  left: 10vw;
-  top: 85vh;
-}
-.cube:nth-child(6) {
-  -webkit-animation-delay: 10s;
-          animation-delay: 10s;
-  left: 50vw;
-  top: 10vh;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff;
+  -moz-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  -webkit-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  -o-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  -ms-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
 }
 
-@-webkit-keyframes cube {
-  from {
-    transform: scale(0) rotate(0deg) translate(-50%, -50%);
-    opacity: 1;
-  }
+.pyro > .after {
+  -moz-animation-delay: 1.25s, 1.25s, 1.25s;
+  -webkit-animation-delay: 1.25s, 1.25s, 1.25s;
+  -o-animation-delay: 1.25s, 1.25s, 1.25s;
+  -ms-animation-delay: 1.25s, 1.25s, 1.25s;
+  animation-delay: 1.25s, 1.25s, 1.25s;
+  -moz-animation-duration: 1.25s, 1.25s, 6.25s;
+  -webkit-animation-duration: 1.25s, 1.25s, 6.25s;
+  -o-animation-duration: 1.25s, 1.25s, 6.25s;
+  -ms-animation-duration: 1.25s, 1.25s, 6.25s;
+  animation-duration: 1.25s, 1.25s, 6.25s;
+}
+
+@-webkit-keyframes bang {
   to {
-    transform: scale(20) rotate(960deg) translate(-50%, -50%);
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-moz-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-o-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-ms-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-webkit-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
     opacity: 0;
   }
 }
-
-@keyframes cube {
-  from {
-    transform: scale(0) rotate(0deg) translate(-50%, -50%);
-    opacity: 1;
-  }
+@-moz-keyframes gravity {
   to {
-    transform: scale(20) rotate(960deg) translate(-50%, -50%);
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
     opacity: 0;
   }
 }
-
-
+@-o-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@-ms-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@-moz-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@-o-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@-ms-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
 
 </style>
 
-<body>
+<body style="overflow: hidden;">
 
 <!-- for header part -->
 <header>
@@ -285,7 +426,7 @@
 				</div>
 				</a>
 	
-				<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">
+				<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px; margin-top: -25px;">
 					<div class="nav-option logout">
 						<img src="static/images/log1.png"
 							class="nav-img"
@@ -298,28 +439,46 @@
 		</nav>
 	</div>
 	<div class="main">
-		<div class="hero"> 
-			<div class="cube"></div>
-			<div class="cube"></div>
-			<div class="cube"></div>
-			<div class="cube"></div>
-			<div class="cube"></div>
-			<div class="cube"></div>
+		<div class="pyro">
+			<div class="before"></div>
+			<div class="after"></div>
 		
 		<center><h1>WELCOME TO USER PANEL</h1></center><br><br>
-		<marquee class="blink" width="100%" direction="left" height="50px">COLLABORATIVE FILTERING ALGORITHM IS ONE OF THE WIDELY USE APPROCHESE IN DAILY LIFE, SO HOW TO IMPROVE QUALITY AND EFFICENCY OF COLLABORATIVE FILTERING ALGORITHM IS AN ESSENTIAL PROBLEM USUALLY, SOME TRADITION ALGORITHM FOCUS ON USER RATING, WHILE THEY DON'T TAKE USER RATING USER RATING DIFFERENCE AND USER INTEREST INTO ACCOUNT. HOWEVER, USER HAVE LITTLE RATING DIFFERENCE.</marquee>
+		<div style="margin-top: -20px;"><marquee class="blink" width="100%" direction="left" height="50px">COLLABORATIVE FILTERING ALGORITHM IS ONE OF THE WIDELY USE APPROCHESE IN DAILY LIFE, SO HOW TO IMPROVE QUALITY AND EFFICENCY OF COLLABORATIVE FILTERING ALGORITHM IS AN ESSENTIAL PROBLEM USUALLY, SOME TRADITION ALGORITHM FOCUS ON USER RATING, WHILE THEY DON'T TAKE USER RATING USER RATING DIFFERENCE AND USER INTEREST INTO ACCOUNT. HOWEVER, USER HAVE LITTLE RATING DIFFERENCE.</marquee></div>
 		<div id="slider">
 			<ul id="slideWrap"> 
 				<li><img src="static/images/img1.png" alt=""></li>
+				<li><img src="static/images/img2.png" alt=""></li>
+				<li><img src="static/images/2.png" alt=""></li>
+				<li><img src="static/images/3.png" alt=""></li>
+				<li><img src="static/images/4.png" alt=""></li>
 				<li><img src="static/images/vid.png" alt=""></li>
-				<li><img src="static/images/pbg.jpeg" alt=""></li>
-				<li><img src="static/images/vid.png" alt=""></li>
-				<li><img src="static/images/pbg.jpeg" alt=""></li>
+				<li><img src="static/images/LI/i1.jpg" alt=""></li>
+				<li><img src="static/images/LI/i2.jpg" alt=""></li>
+				<li><img src="static/images/LI/i3.png" alt=""></li>
+				<li><img src="static/images/LI/i4.jpg" alt=""></li>
+				<li><img src="static/images/LI/i5.jpg" alt=""></li>
+				<li><img src="static/images/LI/i6.jpg" alt=""></li>
+				<li><img src="static/images/LI/i7.jpg" alt=""></li>
+				<li><img src="static/images/LI/i8.jpg" alt=""></li>
+				<li><img src="static/images/LI/i9.png" alt=""></li>
+				<li><img src="static/images/LI/i10.jpg" alt=""></li>
+				<li><img src="static/images/LI/i11.jpg" alt=""></li>
+				<li><img src="static/images/LI/i12.jpg" alt=""></li>
+				<li><img src="static/images/LI/i13.jpeg" alt=""></li>
+				<li><img src="static/images/LI/i14.jpg" alt=""></li>
+				<li><img src="static/images/LI/i15.jpg" alt=""></li>
+				<li><img src="static/images/LI/i16.jpg" alt=""></li>
+				<li><img src="static/images/LI/i17.JPG" alt=""></li>
+				<li><img src="static/images/LI/i18.jpg" alt=""></li>
+				<li><img src="static/images/LI/i19.jpg" alt=""></li>
+				<li><img src="static/images/LI/i20.jpg" alt=""></li>
+				<li><img src="static/images/LI/i21.jpg" alt=""></li>
 			  </ul>
 			  <a id="prev" href="#">&#8810;</a>
     		  <a id="next" href="#">&#8811;</a>
 		</div></div>
-		<footer style="color: red; padding: 65vh 0 0 71vh; justify-content: center;">
+		<footer style="color: red; padding: 5vh 0 0 64vh; justify-content: center;">
 			Copyright By 2023 All Rights Reserve
 		</footer>
 	</div>
@@ -378,7 +537,7 @@
 		});
 		setInterval(function() {
 		nextSlide()
-		}, 3000);
+		}, 5000);
 
 		window.onload = function() {
 		responsiveSlider();  
@@ -432,7 +591,7 @@
 
 		setInterval(function() {
 		nextSlide()
-		}, 3000);
+		}, 5000);
 
 		};
 

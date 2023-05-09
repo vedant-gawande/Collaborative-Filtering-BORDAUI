@@ -1311,6 +1311,28 @@ body {
     box-shadow: 0 0 2vw 0.4vw yellow;
   }
 }
+
+
+.btn{
+  padding: 0.5rem;
+  font-size: 0.7rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #ee0202;
+  border: none;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.2rem #999;
+}
+
+.btn:hover {background-color: #de0505}
+
+.btn:active {
+  background-color: #ee0207;
+  box-shadow: 0 0.11rem #666;
+  transform: translateY(4px);
+}
 </style>
 
 <body>
@@ -1341,7 +1363,7 @@ body {
 	</div>
 
 	<div class="message">
-		<div class="circle"></div>
+		<!-- <div class="circle"></div> -->
 		<div class="dp">
 			<a href="admin_profile" style="text-decoration: none;"><img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
 			</div><span id="admin">Admin</span></a>
@@ -1408,8 +1430,16 @@ body {
           </a>
           
         
+          <a href="#" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+            <div class="nav-option option2">
+                <img src="static/images/report.png"
+                class="nav-img"
+                alt="dashboard" title="REPORT GENERATE">
+              <h3>REPORT GENERATE</h3>
+            </div>
+          </a>
           
-          <a href="admin_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">
+          <a href="admin_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px; margin-top: -20px;">
           <div class="nav-option logout">
               <img src="static/images/log1.png"
               class="nav-img"
@@ -1449,10 +1479,11 @@ body {
                         <table>
                                 <thead>
                                     <tr class="row100 head" >
-                                        <th class="cell100 column1" >USERNAME</th>
-                                        <th class="cell100 column2">EMAIL</th>
-                                        <th class="cell100 column3">CONTACT NUMBER</th>
-                                        <th class="cell100 column4">OCCUPATION</th>
+                                      <th class="cell100 column4" ><div style="color: rgb(9, 1, 8);font-size: 1.5em;">USERNAME</div></th>
+                                      <th class="cell100 column2"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">EMAIL</div></th>
+                                      <th class="cell100 column3"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">CONTACT NUMBER</div></th>
+                                      <th class="cell100 column4"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">OCCUPATION</div></th>
+                                      <th class="cell100 column4"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">ACTION</div></th>
                                         <!-- <th class="cell100 column5">ACTIVATION STATUS</th>
                                         <th class="cell100 column6">DE-ACTIVATION STATUS</th> -->
                                         
@@ -1466,10 +1497,11 @@ body {
                     {% if bool %}
                     {% for users in users_list %}
                     <tr class="row100 body" >
-                        <td class="cell100 column1">{{users.username}}</td>
-                        <td class="cell100 column2">{{users.email}}</td>
-                        <td class="cell100 column3">{{users.phone_number}}</td>
-                        <td class="cell100 column4">{{users.occupation}}</td>
+                      <td class="cell100 column4">{{users.username}}</td>
+                      <td class="cell100 column2">{{users.email}}</td>
+                      <td class="cell100 column3">{{users.phone_number}}</td>
+                      <td class="cell100 column4">{{users.occupation}}</td>
+                      <td class="cell100 column5"><button class="btn" type="submit" name="send_req" width="20rem" value="{{users.id}}" >REMOVE</button></td>
                         <!-- <td class="cell100 column5"></td>
                         <td class="cell100 column6"></td> -->
                         
@@ -1478,10 +1510,11 @@ body {
                     {% else %}
                     {% for users in s_u_list %}
                     <tr class="row100 body" >
-                        <td class="cell100 column1">{{users.username}}</td>
-                        <td class="cell100 column2">{{users.email}}</td>
-                        <td class="cell100 column3">{{users.phone_number}}</td>
-                        <td class="cell100 column4">{{users.occupation}}</td>
+                      <td class="cell100 column4">{{users.username}}</td>
+                      <td class="cell100 column2">{{users.email}}</td>
+                      <td class="cell100 column3">{{users.phone_number}}</td>
+                      <td class="cell100 column4">{{users.occupation}}</td>
+                      <td class="cell100 column5"><button class="btn" type="submit" name="send_req" width="20rem" value="{{users.id}}" >REMOVE</button></td>
                         <!-- <td class="cell100 column5"></td>
                         <td class="cell100 column6"></td> -->
                         

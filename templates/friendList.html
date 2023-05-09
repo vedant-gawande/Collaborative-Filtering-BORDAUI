@@ -26,7 +26,7 @@
 <style>
 	#lname{
 		font-size: 1.8rem;
-		color: green;
+		color: rgb(215, 255, 14);
     }
     #lname:hover{
 		filter: grayscale();
@@ -215,7 +215,7 @@ color: #000;
 				</div>
 				</a>
 	
-				<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">
+				<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px; margin-top: -25px;">
 					<div class="nav-option logout">
 						<img src="static/images/log1.png"
 							class="nav-img"
@@ -269,9 +269,9 @@ color: #000;
 						<table>
 								<thead>
 									<tr class="row100 head">
-										<th class="cell100 column2" >FRIENDS</th>
-										<th class="cell100 column2">VIEW FRIEND'S PEOPLE</th>
-										<th class="cell100 column2">ACTION</th>
+										<th class="cell100 column2" ><div style="color: rgb(9, 1, 8);font-size: 1.5em;">FRIENDS</div></th>
+										<th class="cell100 column2"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">VIEW FRIEND'S PEOPLE</div></th>
+										<th class="cell100 column2"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">ACTION</div></th>
 									</tr>
 								</thead>
 							</table>
@@ -279,6 +279,7 @@ color: #000;
 						<div class="table100-body js-pscroll">
 			<table id="myTable">
 				<tbody style="text-align: center;">
+					<form action="user_unfollow" method="get">
 					{% if bool %}
 					{% set count = namespace(value=0) %}
 					{% for friend in fr_list %}
@@ -286,8 +287,10 @@ color: #000;
 					{% if friend == user.id|string %}
 					<tr class="row100 body">
 						<td class="cell100 column2">{{user.username}}</td>
-						<td class="cell100 column2"><a href="user_uprofile" style="text-decoration: none; color: #262121;">{{fr_fr_list[count.value]}}</a></td>
-						<td class="cell100 column2"><button class="btn" type="submit" name="send_req" width="20rem" value="{{users.id}}" >UNFOLLOW</button></td>
+						<td class="cell100 column2"><a href="user_uprofile?friend={{fr_fr_list[count.value]}}" style="text-decoration: none; color: #262121;">{{fr_fr_list[count.value]}}</a></td>
+						<td class="cell100 column2">
+								<button class="btn" type="submit" name="unfollow_id" width="20rem" value="{{user.id}}" >UNFOLLOW</button>
+							</td>
 						{% set count.value = count.value + 1 %}
 					</tr>
 					{% endif %}
@@ -297,8 +300,11 @@ color: #000;
 					<tr class="row100 body">
 						<td class="cell100 column2">{{user.username}}</td>
 						<td class="cell100 column2">{{fr_list}}</td>
+						<td class="cell100 column2">
+							<button class="btn" type="submit" name="unfollow_id" width="20rem" value="{{user.id}}" >UNFOLLOW</button></td>
 					</tr>
 					{% endif %}
+					</form>
 		</tbody>
 			</table>
 		</div>					
@@ -312,7 +318,7 @@ color: #000;
 					</div>
 	</div>
 
-		<footer style="color: red; padding: 35vh 0 0 71vh; justify-content: center;">
+		<footer style="color: red; padding: 35vh 0 0 71vh; justify-content: center;margin-top: -60px;">
 			Copyright By 2023 All Rights Reserve
 		</footer>
 	</div>

@@ -16,7 +16,7 @@
 <style>
 #lname{
     font-size: 1.8rem;
-	color: green;
+    color: rgb(215, 255, 14);
 	left: 12rem;
 }
 #lname:hover{
@@ -98,7 +98,7 @@
   margin-left: 0px;
   font-size: 35px;
   font-weight: 700;
-  line-height: 48px;
+  line-height: 20px;
   color: rgb(0, 135, 177);
   margin: 0 0 10px 0;
 }
@@ -418,6 +418,225 @@ body {
 }
 
 
+body {
+  margin: 0;
+  padding: 0;
+  /* background: #003366; */
+  overflow: hidden;
+}
+
+.pyro > .before, .pyro > .after {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff;
+  -moz-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  -webkit-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  -o-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  -ms-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+}
+
+.pyro > .after {
+  -moz-animation-delay: 1.25s, 1.25s, 1.25s;
+  -webkit-animation-delay: 1.25s, 1.25s, 1.25s;
+  -o-animation-delay: 1.25s, 1.25s, 1.25s;
+  -ms-animation-delay: 1.25s, 1.25s, 1.25s;
+  animation-delay: 1.25s, 1.25s, 1.25s;
+  -moz-animation-duration: 1.25s, 1.25s, 6.25s;
+  -webkit-animation-duration: 1.25s, 1.25s, 6.25s;
+  -o-animation-duration: 1.25s, 1.25s, 6.25s;
+  -ms-animation-duration: 1.25s, 1.25s, 6.25s;
+  animation-duration: 1.25s, 1.25s, 6.25s;
+}
+
+@-webkit-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-moz-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-o-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-ms-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-webkit-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@-moz-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@-o-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@-ms-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@-moz-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@-o-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@-ms-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+
 </style>
 
 <body>
@@ -522,18 +741,23 @@ body {
 		  
 		<!-- <center><h1>WELCOME TO USER PANEL</h1></center><br><br> -->
 		<div class="responsive-container-block outer-container">
+      <div class="pyro">
+        <div class="before"></div>
+        <div class="after"></div>
             <div class="responsive-container-block inner-container">
+              
               <p class="text-blk section-head-text">
                 Our Team
               </p>
               <p class="text-blk section-subhead-text">
                 Together we can accomplish a job worth doing, and a success worth reaching.
               </p>
+              
               <div class="responsive-container-block">
                 <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container">
                   <div class="team-card">
                     <div class="img-wrapper">
-                      <img class="team-img" src="static/images/mohit.png">
+                      <img class="team-img" src="static/images/sh.jpg">
                     </div>
                     <p class="text-blk name">
                       Prof.Swapnil Chaudhari 
@@ -560,7 +784,7 @@ body {
                 <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container" style="margin-right: 40px;">
                   <div class="team-card">
                     <div class="img-wrapper">
-                      <img class="team-img" src="static/images/mohit.png">
+                      <img class="team-img" src="static/images/vedant.jpg">
                     </div>
                     <p class="text-blk name">
                       Vedant Gawande
@@ -614,13 +838,13 @@ body {
                 <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container" style="margin-left: 50px;">
                   <div class="team-card">
                     <div class="img-wrapper">
-                      <img class="team-img" src="static/images/mohit.png">
+                      <img class="team-img" src="static/images/tarun.jpeg">
                     </div>
                     <p class="text-blk name">
                       Tarun Kukreja
                     </p>
                     <p class="text-blk position">
-                      Dveloper
+                      ML Developer
                     </p>
                     <div class="social-media-links">
                       <a href="#" target="_blank" class="tw">
@@ -641,13 +865,13 @@ body {
                 <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container" style="margin-right: 50px;">
                   <div class="team-card">
                     <div class="img-wrapper">
-                      <img class="team-img" src="static/images/mohit.png">
+                      <img class="team-img" src="static/images/chandu.jpeg">
                     </div>
                     <p class="text-blk name">
                       Chandrakant Patil
                     </p>
                     <p class="text-blk position">
-                      Dveloper
+                      Analyst
                     </p>
                     <div class="social-media-links">
                       <a href="#" target="_blank" class="tw">
@@ -665,7 +889,7 @@ body {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div></div>
             </div>
           </div>
 		<footer style="color: red; padding: 1vh 0 0 71vh; justify-content: center;">

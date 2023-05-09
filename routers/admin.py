@@ -5,12 +5,13 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 import database,models,token_1
 import pandas as pd
-import csv
+import csv,base64,pdfkit
 from repository.sort_requests import OpDB
 from plotly.subplots import make_subplots
 import numpy as np
 import plotly.graph_objs as go
 import plotly.express as px
+from io import StringIO
 
 router = APIRouter(
     prefix='/admin_',
@@ -27,9 +28,11 @@ async def admin_menu(request:Request,db:Session=Depends(get_db),jwt_validated: b
     views = db.query(func.sum(models.Videos.Views)).scalar()
     likes = db.query(func.sum(models.Videos.Like)).scalar()
     dislikes = db.query(func.sum(models.Videos.Dislike)).scalar()
+    avg_ratings = db.query(func.sum(models.Uinterest.Rating)).filter(models.Uinterest.Rating > 0).scalar()/db.query(func.count(models.Uinterest.Rating)).filter(models.Uinterest.Rating > 0).scalar()
+    # print(avg_ratings)
     videos = db.query(func.count(models.Videos.id)).scalar()
     users = db.query(func.count(models.Users.id)).scalar()
-    return templates.TemplateResponse('admin_menu.html',{'request':request,'views':views,'likes':likes,'dislikes':dislikes,'videos':videos,'users':users},headers={"Cache-Control": "no-store, must-revalidate"})
+    return templates.TemplateResponse('admin_menu.html',{'request':request,'views':views,'likes':likes,'dislikes':dislikes,'avg_ratings':round(avg_ratings,2),'videos':videos,'users':users},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('profile',response_class=HTMLResponse)
 async def admin_profile(request:Request,db:Session=Depends(get_db)):
@@ -72,9 +75,16 @@ def viewDataset(request:Request,db:Session=Depends(get_db),jwt_validated: bool =
     videos = db.query(models.Videos).all()
     df = pd.DataFrame.from_records([video.__dict__ for video in videos])
     df = df.drop(columns=['_sa_instance_state'])
-    df = df.reindex(columns=['id','CATEGORY','TITLE','VIEWS','LIKES','DISLIKES'])
-    print(df.columns)
-    return templates.TemplateResponse('viewDataset.html',{'request':request,'videos':videos},headers={"Cache-Control": "no-store, must-revalidate"})
+    df = df.reindex(columns=['id','Category','Title','Views','Like','Dislike'])
+    df = df.rename(columns={'id':'Sr.No.','Category':'CATEGORY','Title':'TITLE','Views':'VIEWS','Like':'LIKES','Dislike':'DISLIKES'})
+    csv_str = StringIO()
+    df.to_csv(csv_str,index=False)
+    csv_str.seek(0)
+    csv_data = csv_str.read()
+    b64_data = base64.b64encode(csv_data.encode("Windows-1252")).decode("Windows-1252")
+    data_uri = "data:text/csv;base64," + b64_data
+    # print(csv_data)
+    return templates.TemplateResponse('viewDataset.html',{'request':request,'videos':videos,'csvfile':data_uri},headers={"Cache-Control": "no-store, must-revalidate"})
 
 
 @router.post('operation_on_dataset')
@@ -221,6 +231,26 @@ async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db),jwt
     chart_div = fig.to_html(full_html=False)
 
     return templates.TemplateResponse("viewAllLikesDislikes.html", {"request": request, "chart_div": chart_div},headers={"Cache-Control": "no-store, must-revalidate"})
+
+@router.get('gen_report')
+def generate_report(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
+    all_views = db.query(func.sum(models.Videos.Views)).scalar()
+    total_likes = db.query(func.sum(models.Videos.Like)).scalar()
+    total_dislikes = db.query(func.sum(models.Videos.Dislike)).scalar()
+    total_vids = db.query(func.count(models.Videos.id)).scalar()
+    total_users = db.query(func.count(models.Users.id)).scalar()
+    df = pd.DataFrame([["All Views","Likes","Dislikes","Total Vid","Total Users"],[all_views,total_likes,total_dislikes,total_vids,total_users],[" "," "," "," "," "]])
+    row4 = ["Views Report"," "," "," "," "]
+    row5 = [" "," "," "," "," "]
+    row6 = ["All Views", " -> ",all_views," "," "]
+    row7 = [" "," "," "," "," "]
+    df.loc[4],df.loc[5],df.loc[6],df.loc[7] = row4,row5,row6,row7
+    row8 = ["Views Report"," "," "," "," "]
+    row9 = [" "," "," "," "," "]
+    row10 = ["All Views", " -> ",all_views," "," "]
+    return templates.TemplateResponse("report.html", {"request": request,"pdf":[]},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('logout')
 async def logout(request:Request,response:Response,jwt_validated: bool = Depends(token_1.verify_token)):
