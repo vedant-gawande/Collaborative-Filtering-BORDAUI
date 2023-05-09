@@ -1494,6 +1494,7 @@ body {
                         <div class="table100-body js-pscroll">
             <table id="myTable">
                 <tbody style="text-align: center; ">
+                  <form action="admin_remove_user" method="get">
                     {% if bool %}
                     {% for users in users_list %}
                     <tr class="row100 body" >
@@ -1521,7 +1522,7 @@ body {
                     </tr>
                     {% endfor %}
                     {% endif %}
-                    
+                  </form>
         </tbody>
             </table>
         </div>					

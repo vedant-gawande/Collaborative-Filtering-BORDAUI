@@ -5,13 +5,14 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func,desc
 import database,models,token_1
 import pandas as pd
-import csv,base64,pdfkit
+import csv,base64
 from repository.sort_requests import OpDB
 from plotly.subplots import make_subplots
 import numpy as np
 import plotly.graph_objs as go
 import plotly.express as px
 from io import StringIO
+from weasyprint import HTML
 
 router = APIRouter(
     prefix='/admin_',
@@ -65,6 +66,51 @@ async def upload_dataset(request:Request,jwt_validated: bool = Depends(token_1.v
     if jwt_validated != True:
         return jwt_validated
     return templates.TemplateResponse('upload_dataset.html',{'request':request},headers={"Cache-Control": "no-store, must-revalidate"})
+
+@router.get('remove_user')
+async def upload_dataset(send_req,request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
+    if jwt_validated != True:
+        return jwt_validated
+    user_id = int(send_req)
+    user_sent_reqs = db.query(models.Users_S_Req).filter(models.Users_S_Req.uid == user_id)
+    if user_sent_reqs.first() and user_sent_reqs.first().sent_reqs:
+        req_list = user_sent_reqs.first().sent_reqs.split(',')
+        if '' in req_list:
+            req_list.remove('')
+        for fr_id in req_list:
+            friend = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == int(fr_id))
+            if friend.first() and friend.first().rec_reqs:
+                fr_req_list = friend.first().rec_reqs
+                if '' in fr_req_list:
+                    fr_req_list.remove('')
+                fr_req_list.remove(send_req)
+                friend.update({"rec_reqs":",".join(fr_req_list)})
+    user_sent_reqs.delete(synchronize_session=False)
+    db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == user_id).delete(synchronize_session=False)
+    db.query(models.Recommended_Vids).filter(models.Recommended_Vids.Uid == user_id).delete(synchronize_session=False)
+    db.query(models.Uinterest).filter(models.Uinterest.Uid == user_id).delete(synchronize_session=False)
+    user = db.query(models.Users).filter(models.Users.id == user_id)
+    if user.first().friends:
+        friends = user.first().friends.split(',')
+        if '' in friends:
+            friends.remove('')
+        for friend_id in friends:
+            friend = db.query(models.Users).filter(models.Users.id == int(friend_id))
+            friend_list = friend.first().friends
+            if friend_list:
+                friend_list = friend_list.split(',')
+                if '' in friend_list:
+                    friend_list.remove('')
+                if send_req in friend_list:
+                    friend_list.remove(send_req)
+            friend.update({"friends":",".join(friend_list)})
+    user.delete(synchronize_session=False)
+    db.commit()
+    recom_vids = db.query(models.Recommended_Vids).all()
+    for i, recom_vid in enumerate(recom_vids,start=1):
+        recom_vid.id = i
+    db.commit()
+    return responses.RedirectResponse("/admin_view_users",status_code=status.HTTP_302_FOUND,headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('viewDataset')
 def viewDataset(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
@@ -333,8 +379,19 @@ def generate_report(request:Request,db:Session=Depends(get_db),jwt_validated: bo
         df.loc[row_len] = row
         row_len += 1
     df.fillna(" ",inplace=True)
-    print(df[88:])
-    return templates.TemplateResponse("report.html", {"request": request,"pdf":[]},headers={"Cache-Control": "no-store, must-revalidate"})
+    # print(df)
+    ############################# Converting data to csv #######################################
+    csv_str = StringIO()
+    df.to_csv(csv_str,index=False)
+    csv_str.seek(0)
+    csv_data = csv_str.read()
+    b64_data = base64.b64encode(csv_data.encode("utf-8")).decode("utf-8")
+    csv_file = "data:text/csv;base64," + b64_data
+    html_string = df.to_html()
+    pdf_data = HTML(string=html_string).write_pdf()
+    b64_data = base64.b64encode(pdf_data).decode("utf-8")
+    pdf_file = "data:application/pdf;base64," + b64_data
+    return templates.TemplateResponse("report.html", {"request": request,"csv_file":csv_file,"pdf_file":pdf_file},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('logout')
 async def logout(request:Request,response:Response,jwt_validated: bool = Depends(token_1.verify_token)):
