@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request,Depends,status,responses,Response,UploadF
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func,desc
 import database,models,token_1
 import pandas as pd
 import csv,base64,pdfkit
@@ -32,7 +32,7 @@ async def admin_menu(request:Request,db:Session=Depends(get_db),jwt_validated: b
     # print(avg_ratings)
     videos = db.query(func.count(models.Videos.id)).scalar()
     users = db.query(func.count(models.Users.id)).scalar()
-    return templates.TemplateResponse('admin_menu.html',{'request':request,'views':views,'likes':likes,'dislikes':dislikes,'avg_ratings':round(avg_ratings,2),'videos':videos,'users':users},headers={"Cache-Control": "no-store, must-revalidate"})
+    return templates.TemplateResponse('admin_menu.html',{'request':request,'views':views,'likes':likes,'dislikes':dislikes,'avg_ratings':round(avg_ratings,1),'videos':videos,'users':users},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('profile',response_class=HTMLResponse)
 async def admin_profile(request:Request,db:Session=Depends(get_db)):
@@ -81,7 +81,7 @@ def viewDataset(request:Request,db:Session=Depends(get_db),jwt_validated: bool =
     df.to_csv(csv_str,index=False)
     csv_str.seek(0)
     csv_data = csv_str.read()
-    b64_data = base64.b64encode(csv_data.encode("Windows-1252")).decode("Windows-1252")
+    b64_data = base64.b64encode(csv_data.encode("utf-8")).decode("utf-8")
     data_uri = "data:text/csv;base64," + b64_data
     # print(csv_data)
     return templates.TemplateResponse('viewDataset.html',{'request':request,'videos':videos,'csvfile':data_uri},headers={"Cache-Control": "no-store, must-revalidate"})
@@ -98,7 +98,7 @@ async def operation_on_dataset(file:UploadFile = File(...),db:Session=Depends(ge
         existing_data = existing_data.reindex(columns=['Category','Title','Src'])
     # print(existing_data)
     contents = await file.read()
-    dataset_str = contents.decode("Windows-1252")
+    dataset_str = contents.decode("utf-8")
     rows = csv.reader(dataset_str.splitlines())
     new_data = pd.DataFrame().from_records(rows)
     # print(new_data)
@@ -236,20 +236,104 @@ async def view_all_views_in_graph(request:Request,db:Session=Depends(get_db),jwt
 def generate_report(request:Request,db:Session=Depends(get_db),jwt_validated: bool = Depends(token_1.verify_token)):
     if jwt_validated != True:
         return jwt_validated
-    all_views = db.query(func.sum(models.Videos.Views)).scalar()
+    total_views = db.query(func.sum(models.Videos.Views)).scalar()
     total_likes = db.query(func.sum(models.Videos.Like)).scalar()
     total_dislikes = db.query(func.sum(models.Videos.Dislike)).scalar()
     total_vids = db.query(func.count(models.Videos.id)).scalar()
     total_users = db.query(func.count(models.Users.id)).scalar()
-    df = pd.DataFrame([["All Views","Likes","Dislikes","Total Vid","Total Users"],[all_views,total_likes,total_dislikes,total_vids,total_users],[" "," "," "," "," "]])
-    row4 = ["Views Report"," "," "," "," "]
+    df = pd.DataFrame([["All Views","Likes","Dislikes","Total Vid","Total Users"],[total_views,total_likes,total_dislikes,total_vids,total_users],[" "," "," "," "," "]])
+    
+    ################################## Views Report ############################################
+    
+    row4 = [" "," ","Views Report"," "," "]
     row5 = [" "," "," "," "," "]
-    row6 = ["All Views", " -> ",all_views," "," "]
+    row6 = ["All Views", " -> ",total_views," "," "]
     row7 = [" "," "," "," "," "]
-    df.loc[4],df.loc[5],df.loc[6],df.loc[7] = row4,row5,row6,row7
-    row8 = ["Views Report"," "," "," "," "]
-    row9 = [" "," "," "," "," "]
-    row10 = ["All Views", " -> ",all_views," "," "]
+    row8,row9 = ["Categories","Views"," % "," "," "],[" "," "," "," "," "]
+    df.loc[4],df.loc[5],df.loc[6],df.loc[7],df.loc[8],df.loc[9] = row4,row5,row6,row7,row8,row9
+    categories = db.query(models.Videos.Category).distinct().all()
+    categories = [category[0] for category in categories]
+    multi_use_list = [[],[]]
+    for category in categories:
+        one_cat_view = db.query(func.sum(models.Videos.Views)).filter(models.Videos.Category == category).scalar()
+        multi_use_list[0].append(one_cat_view)
+        multi_use_list[1].append(round((one_cat_view/total_views)*100,2))
+    new_dict = {0:categories,1:multi_use_list[0],2:multi_use_list[1]}
+    new_df = pd.DataFrame(new_dict)
+    df = df.append(new_df,ignore_index=True)
+
+    ################################## Likes Report ############################################
+    
+    rows = [[" "," "," "," "," "],[" "," ","Likes Report"," "," "],[" "," "," "," "," "],["All Likes", " -> ",total_likes," "," "],[" "," "," "," "," "],["Categories","Likes"," % "," "," "],[" "," "," "," "," "]]
+    row_len = len(df)
+    for row in rows:
+        df.loc[row_len] = row
+        row_len += 1
+    multi_use_list = [[],[]]
+    for category in categories:
+        one_cat_like = db.query(func.sum(models.Videos.Like)).filter(models.Videos.Category == category).scalar()
+        multi_use_list[0].append(one_cat_like)
+        multi_use_list[1].append(round((one_cat_like/total_likes)*100,2))
+    new_dict = {0:categories,1:multi_use_list[0],2:multi_use_list[1]}
+    new_df = pd.DataFrame(new_dict)
+    df = df.append(new_df,ignore_index=True) 
+
+    ################################## Dislikes Report ############################################
+    
+    rows = [[" "," "," "," "," "],[" "," ","Dislikes Report"," "," "],[" "," "," "," "," "],["All Dislikes", " -> ",total_dislikes," "," "],[" "," "," "," "," "],["Categories","Dislikes"," % "," "," "],[" "," "," "," "," "]]
+    row_len = len(df)
+    for row in rows:
+        df.loc[row_len] = row
+        row_len += 1
+    multi_use_list = [[],[]]
+    for category in categories:
+        one_cat_dislike = db.query(func.sum(models.Videos.Dislike)).filter(models.Videos.Category == category).scalar()
+        multi_use_list[0].append(one_cat_dislike)
+        multi_use_list[1].append(round((one_cat_dislike/total_dislikes)*100,2))
+    new_dict = {0:categories,1:multi_use_list[0],2:multi_use_list[1]}
+    new_df = pd.DataFrame(new_dict)
+    df = df.append(new_df,ignore_index=True)
+
+    ################################## Video Report ############################################
+    
+    rows = [[" "," "," "," "," "],[" "," ","Video Report"," "," "],[" "," "," "," "," "],["All Videos", " -> ",total_vids," "," "],[" "," "," "," "," "],[" ","Top 10","Trending","Videos"," "],[" "," "," "," "," "]]
+    row_len = len(df)
+    for row in rows:
+        df.loc[row_len] = row
+        row_len += 1
+    multi_use_list = [[],[]]
+    videos = db.query(models.Videos).order_by(desc(models.Videos.Views)).limit(10).all()
+    videos = [video.Title for video in videos]
+    new_dict = {0:videos}
+    new_df = pd.DataFrame(new_dict)
+    df = df.append(new_df,ignore_index=True)
+
+    ################################## Rating Report ############################################
+    
+    avg_rating = db.query(func.sum(models.Uinterest.Rating)).filter(models.Uinterest.Rating > 0).scalar()/db.query(func.count(models.Uinterest.Rating)).filter(models.Uinterest.Rating > 0).scalar()
+    rows = [[" "," "," "," "," "],[" "," ","Rating Report"," "," "],[" "," "," "," "," "],["Avg. Rating", " -> ",avg_rating," "," "],[" "," "," "," "," "],["Categories","Avg.Rating"," "," "," "],[" "," "," "," "," "]]
+    row_len = len(df)
+    for row in rows:
+        df.loc[row_len] = row
+        row_len += 1
+    multi_use_list = [[],[]]
+    cat_avg_ratings = db.query(models.Videos.Category,func.coalesce(func.avg(models.Uinterest.Rating),0)).outerjoin(models.Uinterest,models.Videos.id == models.Uinterest.vid_id).group_by(models.Videos.Category).all()
+    for cat in cat_avg_ratings:
+        multi_use_list[0].append(cat[0])
+        multi_use_list[1].append(cat[1])
+    new_dict = {0:multi_use_list[0],1:multi_use_list[1]}
+    new_df = pd.DataFrame(new_dict)
+    df = df.append(new_df,ignore_index=True)
+
+    ################################## User Report ############################################
+    
+    rows = [[" "," "," "," "," "],["Rating Report"," "," "," "," "],[" "," "," "," "," "],["Total Users", " -> ",total_users," "," "],[" "," "," "," "," "]]
+    row_len = len(df)
+    for row in rows:
+        df.loc[row_len] = row
+        row_len += 1
+    df.fillna(" ",inplace=True)
+    print(df[88:])
     return templates.TemplateResponse("report.html", {"request": request,"pdf":[]},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('logout')

@@ -576,7 +576,7 @@ async def open_video(url1,request:Request,vid_id:int,db:Session=Depends(get_db),
     else:
         video = db.query(models.Videos).filter(models.Videos.id == vid_id).first()
         user = db.query(models.Users).filter(models.Users.username == user_token.get("sub")).first()
-        add_uint = models.Uinterest(Uid = user.id,UName = user.username,UEmail = user.email,Title = video.Title,Src = video.Src,vid_id = vid_id)
+        add_uint = models.Uinterest(Uid = user.id,UName = user.username,UEmail = user.email,Title = video.Title,Src = video.Src,vid_id = vid_id,Views = 1)
         db.add(add_uint)
         db.commit()
         db.refresh(add_uint)
