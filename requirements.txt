@@ -12,5 +12,4 @@ pandas
 matplotlib
 scikit-learn
 bcrypt
-libpango-1.0-0
-tabulate
+xhtml2pdf
