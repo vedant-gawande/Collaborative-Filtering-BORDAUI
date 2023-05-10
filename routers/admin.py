@@ -1,18 +1,18 @@
 from fastapi import APIRouter, Request,Depends,status,responses,Response,UploadFile,File
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse,FileResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from sqlalchemy import func,desc
 import database,models,token_1
 import pandas as pd
-import csv,base64
+import csv,base64,tempfile
 from repository.sort_requests import OpDB
 from plotly.subplots import make_subplots
 import numpy as np
 import plotly.graph_objs as go
 import plotly.express as px
-from io import StringIO
-from weasyprint import HTML
+from io import StringIO,BytesIO
+from xhtml2pdf import pisa
 
 router = APIRouter(
     prefix='/admin_',
@@ -81,6 +81,7 @@ async def upload_dataset(send_req,request:Request,db:Session=Depends(get_db),jwt
             friend = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == int(fr_id))
             if friend.first() and friend.first().rec_reqs:
                 fr_req_list = friend.first().rec_reqs
+                fr_req_list = fr_req_list.split(',')
                 if '' in fr_req_list:
                     fr_req_list.remove('')
                 fr_req_list.remove(send_req)
@@ -373,7 +374,7 @@ def generate_report(request:Request,db:Session=Depends(get_db),jwt_validated: bo
 
     ################################## User Report ############################################
     
-    rows = [[" "," "," "," "," "],["Rating Report"," "," "," "," "],[" "," "," "," "," "],["Total Users", " -> ",total_users," "," "],[" "," "," "," "," "]]
+    rows = [[" "," "," "," "," "],["User Report"," "," "," "," "],[" "," "," "," "," "],["Total Users", " -> ",total_users," "," "],[" "," "," "," "," "]]
     row_len = len(df)
     for row in rows:
         df.loc[row_len] = row
@@ -387,11 +388,42 @@ def generate_report(request:Request,db:Session=Depends(get_db),jwt_validated: bo
     csv_data = csv_str.read()
     b64_data = base64.b64encode(csv_data.encode("utf-8")).decode("utf-8")
     csv_file = "data:text/csv;base64," + b64_data
-    html_string = df.to_html()
-    pdf_data = HTML(string=html_string).write_pdf()
-    b64_data = base64.b64encode(pdf_data).decode("utf-8")
-    pdf_file = "data:application/pdf;base64," + b64_data
-    return templates.TemplateResponse("report.html", {"request": request,"csv_file":csv_file,"pdf_file":pdf_file},headers={"Cache-Control": "no-store, must-revalidate"})
+
+    ############################# Converting data to pdf #######################################
+    
+    table_html = df.to_html(index=False,header=False,border=0)
+
+    styles = """
+    <style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    td, th {
+        text-align: left;
+        font-size: 14px;
+        padding-top: 0.5rem;
+    }
+    td {
+        border: none;
+    }
+    </style>
+    """
+
+    # Generate PDF from HTML table
+    pdf = BytesIO()
+    pisa.CreatePDF(StringIO(styles + table_html), pdf)
+    pdf.seek(0)
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        temp_file.write(pdf.getvalue())
+        temp_file.seek(0)
+        file_path = temp_file.name
+
+    return templates.TemplateResponse("report.html", {"request": request,"csv_file":csv_file,"pdf":file_path},headers={"Cache-Control": "no-store, must-revalidate"})
+
+@router.get("download_pdf")
+async def download_report_pdf(file_path: str):
+    return FileResponse(file_path, media_type="application/pdf", filename="report.pdf")
 
 @router.get('logout')
 async def logout(request:Request,response:Response,jwt_validated: bool = Depends(token_1.verify_token)):
