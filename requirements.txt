@@ -9,3 +9,6 @@ weasyprint
 plotly
 numpy 
 pandas
+matplotlib
+scikit-learn
+bcrypt
