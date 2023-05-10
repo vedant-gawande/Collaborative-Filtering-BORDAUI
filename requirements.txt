@@ -5,3 +5,10 @@ sqlalchemy
 passlib
 python-multipart
 python-jose
+weasyprint
+plotly
+csv 
+base64
+io
+numpy 
+pandas
