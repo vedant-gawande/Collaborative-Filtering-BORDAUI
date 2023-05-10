@@ -184,7 +184,9 @@ async def search_users(search_value,request:Request,db:Session=Depends(get_db),j
         total_requests = len(total_requests)
     total_requests = total_requests or 0
     if bool(l1) and '' not in l1 :
-        req_list = db.query(models.Req_list).filter(models.Req_list.Uid == user_id).first().req_list
+        req_list = db.query(models.Req_list).filter(models.Req_list.Uid == user_id).first()
+        if req_list:
+            req_list = req_list.req_list
         if req_list:
             req_list = req_list.split(" ")
             if ' ' in req_list:
