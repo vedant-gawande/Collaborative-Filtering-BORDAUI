@@ -7,7 +7,5 @@ python-multipart
 python-jose
 weasyprint
 plotly
-base64
-io
 numpy 
 pandas
