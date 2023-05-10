@@ -318,7 +318,8 @@ async def friend_list(request:Request,db:Session=Depends(get_db),jwt_validated: 
                 for user1 in users:
                     if user1.id == int(fr) and user_token.get("sub") != user1.username:
                         list_of_friends.append(user1.username)
-            fr_fr_list.append(list_of_friends:=', '.join(list_of_friends))
+            list_of_friends = ','.join(list_of_friends)
+            fr_fr_list.append(list_of_friends)
     return templates.TemplateResponse('friendList.html',{'request':request,'users':users,'fr_list':fr_list,'fr_fr_list':fr_fr_list,'bool':True,'lname':user_token.get("sub"),'total_requests':total_requests},headers={"Cache-Control": "no-store, must-revalidate"})
 
 @router.get('search_friend_list',response_class=HTMLResponse)
