@@ -246,7 +246,20 @@ section
 }
 
 
-.btn{
+.btn1{
+    padding: 0.4rem;
+  font-size: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #fc0404;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.2rem #999;
+}
+
+.btn2{
     padding: 0.4rem;
   font-size: 0.8rem;
   text-align: center;
@@ -266,7 +279,7 @@ section
   cursor: pointer;
   outline: none;
   color: #fff;
-  background-color: #f91d0d;
+  background-color: #f68c02;
   border: none;
   border-radius: 1rem;
   box-shadow: 0 0.2rem #999;
@@ -383,7 +396,7 @@ color: #000;
 
 	<div class="searchbar">
 		<input type="text"
-			placeholder="Search">
+			placeholder="Search" id="myInput" onkeyup="myFunction()">
 		<div class="searchbtn">
 		<img src="static/images/Untitled-design-(28).png"
 				class="icn srchicn"
@@ -549,10 +562,16 @@ color: #000;
                                 <input type="hidden" name="boolean" value="False">
                                 <!-- <script src="https://use.fontawesome.com/fe459689b4.js"></script> -->
                                 
-                                <button class="btn white" id="green" name="lik_di" value="1" type="submit"><img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px">
-                                    Like
-                                </button><span style="padding-left: 5px;">{{video.Like}}</span>
-                                <button class="btn" id="red" name="lik_di" value="0" type="submit"><img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button>
+                                {% if video.Like %}
+                                <button class="btn1" id="green" name="lik_di" value="1" type="submit"><img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px">Like <span style="color: black; font-size: 20px;">{{video.Like}}</span></button><span style="padding-left: 5px;"></span>
+                                <button class="btn2" id="red" name="lik_di" value="0" type="submit"><img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button>
+                                {% elif video.Dislike %}
+                                <button class="btn2" id="green" name="lik_di" value="1" type="submit"><img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px">Like <span style="color: black; font-size: 20px;">{{video.Like}}</span></button><span style="padding-left: 5px;"></span>
+                                <button class="btn1" id="red" name="lik_di" value="0" type="submit"><img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button>
+                                {% else %}
+                                <button class="btn2" id="green" name="lik_di" value="1" type="submit"><img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px">Like <span style="color: black; font-size: 20px;">{{video.Like}}</span></button><span style="padding-left: 5px;"></span>
+                                <button class="btn2" id="red" name="lik_di" value="0" type="submit"><img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button>
+                                {% endif %}
 
                             </form>
                             
@@ -587,6 +606,27 @@ color: #000;
 		{
 			nav.classList.toggle("navclose");
 		})
+
+
+        function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("playlist");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+            } else {
+            li[i].style.display = "none";
+            }
+        }
+        }
 	</script>
 
 	

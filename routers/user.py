@@ -412,12 +412,12 @@ async def see_videos(request:Request,db:Session=Depends(get_db),jwt_validated: b
         # print(id_ordering,video_ids)
         # if video_ids:
         if str(id_ordering) != 'CASE END':
-            videos = db.query(models.Videos).order_by(id_ordering.desc(),text("RANDOM()"))
+            videos = db.query(models.Videos).order_by(id_ordering.desc(),text("RANDOM()")).offset(10).all()
         else:
-            videos = db.query(models.Videos).order_by(text("RANDOM()"))
+            videos = db.query(models.Videos).order_by(text("RANDOM()")).offset(10).all()
         #     videos = db.query(models.Videos).all()
     else:
-        videos = db.query(models.Videos).order_by(text("RANDOM()"))
+        videos = db.query(models.Videos).order_by(text("RANDOM()")).offset(10).all()
     user = db.query(models.Users).filter(models.Users.id == int(user_token.get("user_id"))).first()
     recommended_videos = ''
     if user and user.recommend:
