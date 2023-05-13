@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+<title>Recieved Requests</title>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',path='/css/util.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',path='/css/main1.css') }}">
+	<style>
+#lname{
+    font-size: 1.8rem;
+	color: rgb(215, 255, 14);
+    }
+    #lname:hover{
+        filter: grayscale();
+    }
+    .badge {
+  /* visibility: hidden; */
+  position: absolute;
+  top: -10px;
+  right: 160px;
+  padding: 4px 4px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+
+.notification{
+	margin-right: 40px;
+}
+
+
+
+
+</style>
+<script>
+	if(performance.navigation.type == performance.navigation.TYPE_RELOAD)
+	{
+		window.location.href='user_request';
+	}
+</script>
+</head>
+<body>
+<!-- for header part -->
+<header>
+
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
+
+	<div class="title">
+		<h3>COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+	<form action="/user_search_req" method="get">
+	<div class="searchbar">
+		<input type="text"
+			placeholder="Search" name="search_value" id="myInput" onkeyup="myFunction()">
+		<div class="searchbtn">
+		<button><img src="static/images/Untitled-design-(28).png"
+				class="icn srchicn"
+				alt="search-icon"></button>
+		<!-- <input type="submit" value="Search" src="static/images/Untitled-design-(28).png" class="icn srchicn"> -->
+		</div>
+	</div>
+	</form>
+
+	<div class="message">
+		<!-- <div class="circle"></div>
+		<a href="user_request" class="notification">
+		<img src="static/images/non_notify.png"
+			class="icn"
+			alt="">
+				<span class="badge">10</span>
+			  </a> -->
+		<div class="dp">
+			<a href="user_profile" style="text-decoration: none;"><img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+		</div><span id="lname">{{lname}}</span></a>
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+				<a href="/user_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;">
+				<div class="nav-option option2">
+						<img src="static/images/home1.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3>Dashboard</h3>
+				</div>
+			</a>
+
+			<a href="user_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> 
+				<div class="nav-option option2">
+					<img src="static/images/search1.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3>SEARCH FRIEND</h3>
+				</div>
+			</a>
+
+			<a href="user_request" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+				<div class="nav-option option1">
+					<img src="static/images/notify2.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3> VIEW REQUESTS</h3>
+				</div>
+			</a>
+
+			<a href="user_friend_list" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+				<div class="nav-option option2">
+					<img src="static/images/eye1.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3> VIEW FRIENDS LIST</h3>
+				</div>
+			</a>
+
+			<a href="user_view_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+				<div class="nav-option option2">
+					<img src="static/images/vid2.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3> VIEW ALL VIDEOS</h3>
+				</div>
+			</a>
+
+			<a href="user_recommended_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;">
+				<div class="nav-option option2">
+					<img src="static/images/vid1.png"
+						class="nav-img"
+						alt="dashboard">
+					<h3> FRIENDS RECOMMENDED VIDEOS</h3>
+				</div>
+			</a>
+				
+			<a href="user_credits" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;">
+				<div class="nav-option option2">
+				<img src="static/images/cr.png"
+					class="nav-img"
+					alt="credits" title="CREDITS">
+				<h3>CREDITS</h3>
+			</div>
+			</a>
+
+			<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px; margin-top: -25px;">
+				<div class="nav-option logout">
+					<img src="static/images/log1.png"
+						class="nav-img"
+						alt="logout">
+					<h3>Logout</h3>
+				</div>
+			</a>
+
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+		
+		<center><h1>View All User Requests</h1></center>
+		<br><br>
+<div class="limiter">
+		<div class="container-table101">
+			<div class="wrap-table100">
+				<div class="table100 ver1 m-b-110">
+					<div class="table100-head">
+					<table >
+							<thead >
+								<tr class="row100 head" >
+									<th class="cell100 column1" ><div style="color: rgb(9, 1, 8);font-size: 1.5em;">SENDER</div></th>
+                                        <!-- <th class="cell100 column2">RECIVER</th> -->
+                                        <!-- <th class="cell100 column2">RECIEVE-DATE</th> -->
+                                        <th class="cell100 column2"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">PHONE NUMBER</div></th>
+                                        <th class="cell100 column3"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">ACCEPT/REJECT</div></th>
+									
+								</tr>
+							</thead>
+						</table>
+					</div>
+                <div class="table100-body js-pscroll">
+			<form action="/user_operate_req" method="get">
+		<table id="myTable">
+			<tbody style="text-align: center;">
+				{% if bool %}
+				{% for req in req_list %}
+				{% for user in users %}
+				{% if req == user.id %}
+				<tr class="row100 body">
+					<td class="cell100 column1">{{user.username}}</td>
+					<td class="cell100 column3">{{user.phone_number}}</td>
+					<td class="cell100 column3">
+						<button type="submit" style="margin-right: 2rem;" name="req_status" value="{{user.id}},ACCEPT">
+						<img src="../static/images/right tick mark.png" height="17rem" width="20rem" alt="right tick" >
+					</button>
+						<button type="submit" name="req_status" value="{{user.id}},REJECT">
+							<img src="../static/images/wrong red cross symbol.png" height="17rem" width="20rem" alt="wrong tick">
+						</button>
+					</td>
+					<!-- <td class="cell100 column4"></td>
+					<td class="cell100 column5"></td> -->
+				</tr>
+				{% endif %}
+				{% endfor %}
+				{% endfor %}
+				{% else %}
+				{% if users.id in req_list %}
+				<tr class="row100 body">
+					<td class="cell100 column1">{{users.username}}</td>
+					<td class="cell100 column3">{{users.phone_number}}</td>
+					<td class="cell100 column3">
+						<button type="submit" style="margin-right: 2rem;" name="req_status" value="{{users.id}},ACCEPT">
+						<img src="../static/images/right tick mark.png" height="17rem" width="20rem" alt="right tick" >
+					</button>
+						<button type="submit" name="req_status" value="{{users.id}},REJECT">
+							<img src="../static/images/wrong red cross symbol.png" height="17rem" width="20rem" alt="wrong tick">
+						</button>
+					</td>
+					<!-- <td class="cell100 column4"></td>
+					<td class="cell100 column5"></td> -->
+				</tr>
+				{% endif %}
+				{% endif %}
+	</tbody>
+		</table>
+	</form>
+	</div>					
+
+					
+				</div>
+				
+			</tbody>
+						</table>
+					</div>
+				</div>
+</div>
+
+<footer style="color: red; padding: 35vh 0 0 71vh; justify-content: center;">
+	Copyright By 2023 All Rights Reserve
+</footer>
+</div>
+
+
+<script>
+let menuicn = document.querySelector(".menuicn");
+let nav = document.querySelector(".navcontainer");
+
+menuicn.addEventListener("click",()=>
+{
+	nav.classList.toggle("navclose");
+})
+
+$('.js-pscroll').each(function(){
+	var ps = new PerfectScrollbar(this);
+
+	$(window).on('resize', function(){
+		ps.update();
+	})
+});
+
+function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+        td1 = tr[i].getElementsByTagName("td")[0];
+        td2 = tr[i].getElementsByTagName("td")[1];
+        if (td1 || td2) {
+          txtValue1 = td1.textContent || td1.innerText;
+          txtValue2 = td2.textContent || td2.innerText;
+          if (txtValue1.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          }
+          else if (txtValue2.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          }
+          else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+        }
+</script>
+
+</body>
+</html>

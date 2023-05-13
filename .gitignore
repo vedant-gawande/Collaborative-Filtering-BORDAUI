@@ -1,0 +1,9 @@
+<<<<<<< HEAD
+.vscode/
+*__pycache__/
+templates/viewVideos.html
+=======
+cfbordui.db
+*__pycache__
+app
+>>>>>>> main

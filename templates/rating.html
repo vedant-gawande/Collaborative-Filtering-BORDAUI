@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>5-STAR RATING</title>
+	<style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+		*,
+		*::before,
+		*::after {
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+		html,
+		body {
+			background-color: #002333;
+			color: white;
+		}
+		.center {
+			min-height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.rating input {
+			display: none;
+		}
+		.rating {
+			display: flex;
+		}
+		.rating > label {
+			display: block;
+			width: 50px;
+			height: 50px;
+			font-size: 50px;
+			color: yellow; /* color browser dependent */
+			font-family: sans-serif;
+			opacity: 0.33;
+			transition: opacity .2s; /* OPTIONAL */
+		}
+		
+		#star-1:checked ~ label[for="star-1"],
+		#star-1:hover ~ label[for="star-1"],
+
+		#star-2:checked ~ label[for="star-1"],
+		#star-2:checked ~ label[for="star-2"],
+		#star-2:hover ~ label[for="star-1"],
+		#star-2:hover ~ label[for="star-2"],
+
+		#star-3:checked ~ label[for="star-1"],
+		#star-3:checked ~ label[for="star-2"],
+		#star-3:checked ~ label[for="star-3"],
+		#star-3:hover ~ label[for="star-1"],
+		#star-3:hover ~ label[for="star-2"],
+		#star-3:hover ~ label[for="star-3"],
+
+		#star-4:checked ~ label[for="star-1"],
+		#star-4:checked ~ label[for="star-2"],
+		#star-4:checked ~ label[for="star-3"],
+		#star-4:checked ~ label[for="star-4"],
+		#star-4:hover ~ label[for="star-1"],
+		#star-4:hover ~ label[for="star-2"],
+		#star-4:hover ~ label[for="star-3"],
+		#star-4:hover ~ label[for="star-4"],
+
+		#star-5:checked ~ label[for="star-1"],
+		#star-5:checked ~ label[for="star-2"],
+		#star-5:checked ~ label[for="star-3"],
+		#star-5:checked ~ label[for="star-4"],
+		#star-5:checked ~ label[for="star-5"],
+		#star-5:hover ~ label[for="star-1"],
+		#star-5:hover ~ label[for="star-2"],
+		#star-5:hover ~ label[for="star-3"],
+		#star-5:hover ~ label[for="star-4"],
+		#star-5:hover ~ label[for="star-5"] {
+			opacity: 1;
+		}
+#head1{
+  position: relative;
+ top:-14rem;
+ left: 8rem;
+ font-size: 3rem;
+}
+
+.rating{
+  position: relative;
+  right: 11rem;
+  top:1.5rem;
+}
+
+.comment-box{
+  position: relative;
+  top: 4rem;
+  right:13rem;
+}
+textarea{
+  width: 21rem;
+  height: 9rem;
+  font-size: 1.5rem;
+  color:whitesmoke;
+  background-color: #121212;
+  resize: none;
+}
+
+button{
+  margin-top: 0.3rem;
+  padding: 0.7rem;
+  cursor: pointer;
+  color: #121212;
+  background-color: darkgray;
+  font-weight: 700;
+  font-size: medium;
+  width: 21rem;
+}
+
+.title a
+{
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 500;
+    color: red;
+    text-align: right;
+    width: 100%;
+    margin-bottom: 10px;
+}
+	</style>
+</head>
+<body>
+	
+	<div class="center">
+		{% if boolean %}
+		<h2 class="title" style="position: relative; bottom: 21rem; right: 23rem;"><a href="/user_view_videos">Back</a></h2>
+		{% else %}
+		<h2 class="title" style="position: relative; bottom: 21rem; right: 23rem;"><a href="/user_recommended_videos">Back</a></h2>
+		{% endif %}
+    <h1 id="head1">Rate & Comment</h1>
+	
+		<form action="/user_video_rating/cal_rating/{{video_id}}" method="get">
+		
+			<div class="rating">
+				<input type="radio" name="star" id="star-1" value="1">
+				<input type="radio" name="star" id="star-2" value="2">
+				<input type="radio" name="star" id="star-3" value="3">
+				<input type="radio" name="star" id="star-4" value="4">
+				<input type="radio" name="star" id="star-5" value="5">
+				<label for="star-1">&#11088;</label>
+				<label for="star-2">&#11088;</label>
+				<label for="star-3">&#11088;</label>
+				<label for="star-4">&#11088;</label>
+				<label for="star-5">&#11088;</label>
+			</div>
+      <div class="comment-box ml-2">
+        <div class="comment-area"> <textarea class="form-control" placeholder="what is your view?" rows="4" name="descript"></textarea> </div>
+		<input type="hidden" name="boolean" value="{{boolean}}">
+        <div class="comment-btns mt-2" >
+        <div class="row">
+        <div class="col-6" style="text-align: center;">
+        <div class="pull-left" > <button class="btn btn-success send btn-sm">Post <i class="fa fa-long-arrow-right ml-1"></i></button> </div>
+        </div>
+        </div>
+        </div>
+        </div>
+		</form>
+	</div>
+</body>
+</html> 

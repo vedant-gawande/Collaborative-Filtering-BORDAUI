@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title>Upload Dataset</title>
+	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
+</head>
+<style>
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .wrapper .file-upload {
+    height: 200px;
+    width: 200px;
+    border-radius: 100px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid #FFFFFF;
+    overflow: hidden;
+    background-image: linear-gradient(to bottom, #2590EB 50%, #FFFFFF 50%);
+    background-size: 100% 200%;
+    transition: all 1s;
+    color: #FFFFFF;
+    font-size: 100px; }
+    .wrapper .file-upload input[type='file'] {
+      height: 200px;
+      width: 200px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer; }
+    .wrapper .file-upload:hover {
+      background-position: 0 -100%;
+      color: #2590EB; 
+    background: #290265;
+  }
+
+      .fa-arrow-up:before {
+    content: '\f062';
+}
+
+button{
+  padding: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.3rem #fff;
+  transition: box-shadow 0.3s ease-in-out;
+  position: relative;
+  left: 3.8rem;
+}
+
+button:hover {background-color: white;
+color: #b7c8fb;
+box-shadow: 0 0.3rem #2196F3;
+}
+
+button:active {
+  background-color: #1747d7;
+  box-shadow: 0 0.11rem white;
+  transform: translateY(4px);
+}
+
+#lname{
+    font-size: 1.8rem;
+	color: green;
+}
+#lname:hover{
+    filter: grayscale();
+}
+
+#admin{
+    font-size: 1.8rem;
+	color: red;
+}
+#admin:hover{
+    filter: grayscale();
+}
+
+
+
+
+
+.title .lbl{
+	position: relative;
+ right: 13.2rem;
+}
+</style>
+
+<body>
+
+<!-- for header part -->
+<header>
+
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
+
+	<div class="title">
+		<h3 class="lbl">COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+
+	<div class="message">
+		<!-- <div class="circle"></div> -->
+		<div class="dp">
+			<a href="admin_profile" style="text-decoration: none;"><img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+		</div><span id="admin">Admin</span></a>
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+				<a href="/admin_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;">
+          <div class="nav-option option2">
+              <img src="static/images/home1.png"
+              class="nav-img"
+              alt="dashboard" title="Dashboard">
+            <h3>Dashboard</h3>
+          </div>
+          </a>
+  
+          <a href="admin_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+          <div class="nav-option option2">
+              <img src="static/images/user1.png"
+              class="nav-img"
+              alt="dashboard" title="VIEW USERS">
+            <h3> VIEW USERS</h3>
+          </div>
+          </a>
+  
+          <a href="admin_upload_dataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+          <div class="nav-option option1">
+              <img src="static/images/up1.png"
+              class="nav-img"
+              alt="dashboard" title="UPLOAD DATASET">
+            <h3> UPLOAD DATASET</h3>
+          </div>
+          </a>
+  
+          <a href="admin_viewDataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+          <div class="nav-option option2">
+              <img src="static/images/eye1.png"
+              class="nav-img"
+              alt="dashboard" title="VIEW DATASET">
+            <h3>VIEW DATASET</h3>
+          </div>
+          </a>
+  
+          <a href="admin_viewAllViews" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+          <div class="nav-option option2">
+              <img src="static/images/VG1.png"
+              class="nav-img"
+              alt="dashboard" title="VIEW ALL VIDEOS VIEWS IN GRAPH">
+            <h3>VIEWS ANALYSIS</h3>
+          </div>
+          </a>
+  
+          <a href="admin_viewAllLikesDislikes" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+          <div class="nav-option option2">
+              <img src="static/images/LG1.png"
+              class="nav-img"
+              alt="dashboard" title="VIEW ALL VIDEOS LIKES / DISLIKES IN GRAPH">
+            <h3>LIKES / DISLIKES ANALYSIS</h3>
+          </div>
+          </a>
+          
+        
+        <a href="admin_gen_report" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option2">
+							<img src="static/images/report1.png"
+							class="nav-img"
+							alt="dashboard" title="REPORT GENERATE">
+						<h3>REPORT GENERATE</h3>
+					</div>
+				</a>
+          
+          <a href="admin_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px; margin-top: -20px;">
+          <div class="nav-option logout">
+              <img src="static/images/log1.png"
+              class="nav-img"
+              alt="logout" title="LOGOUT">
+            <h3>LOGOUT</h3>
+          </div>
+          </a>
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+		
+        <div style=" height: 75vh; display: grid; place-items: center; overflow: hidden;" >
+            <form id="csv-form" method="POST" action="/admin_operation_on_dataset" enctype="multipart/form-data">
+                <div class="wrapper" >
+                    <div class="file-upload">
+                        <input type="file" accept=".csv" name="file" required/>
+                        <img src="static/images/up1.png" width="80px" height="60px">
+                    </div>
+                </div>
+                <br><br>
+                <button type="submit" name="submit" width="20rem" >Upload</button>
+            </form>
+        </div>
+		
+		<footer style="color: red; padding: 1vh 0 0 65vh; justify-content: center;">
+			Copyright By 2023 All Rights Reserve
+		</footer>
+	</div>
+</div>
+
+
+	<script>
+		let menuicn = document.querySelector(".menuicn");
+		let nav = document.querySelector(".navcontainer");
+		
+		menuicn.addEventListener("click",()=>
+		{
+			nav.classList.toggle("navclose");
+		})
+	</script>
+
+	
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <!-- <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/style.css') }}" />
+    <style>
+      .message {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background-color: #f44336;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+      }
+      @media only screen and (max-width: 767px) , screen and (max-height: 600px) {
+        .message {
+          display: block;
+          z-index: 2;
+        }
+        body > *:not(.message) {
+              display: none;
+         }
+      }
+
+      
+    </style>
+    {% endblock %}
+  </head>
+  <body>
+    {% block page_content %}
+    <div class="message">
+      This website is designed for desktop mode only. Please view on a desktop or laptop computer for the best experience.
+    </div>
+ <div class="background-wrap">
+  <div class="background"></div>
+</div>
+<h1>COLLABORATIVE FILTERING ALGORITHM BASED ON <br> <span style="font-size: 1.5rem;">RATING DIFFERENCE AND USER INTEREST</span></h1>
+
+
+<form id="accesspanel" action="verify_admin" method="post">
+  <h1 id="litheader">Admin Login<br><span style="font-size:13px; color:green;">WELCOME TO ADMIN PANEL</span></h1>
+  <div class="inset">
+    <p>
+      <input type="text" name="username" id="email" placeholder="Admin Name">
+    </p>
+    <p>
+      <input type="password" name="password" id="password" placeholder="Access code">
+      <div style="margin-left: 240px; margin-top: -43px;margin-bottom: 35px; color: white;"><i class="bi bi-eye-slash" id="togglePassword"></i></div>
+    </p>
+    
+    <input class="loginLoginValue" type="hidden" name="service" value="login" />
+    <a href="user_login"><input class="loginLoginValue" type="button" name="service" value="USER LOGIN" /></a>
+    <!-- <a href="register_page"><input class="loginLoginValue" type="button" name="service" value="REGISTER" /></a> -->
+  </div>
+  <p class="p-container">
+    <input type="submit" id="go" value="Authorize">
+  </p>
+</form>
+{% endblock %}
+  </body>
+  <script>
+    const togglePassword = document.querySelector("#togglePassword");
+      const password = document.querySelector("#password");
+
+      togglePassword.addEventListener("click", function () {
+          // toggle the type attribute
+          const type = password.getAttribute("type") === "password" ? "text" : "password";
+          password.setAttribute("type", type);
+          
+          // toggle the icon
+          this.classList.toggle("bi-eye");
+      });
+
+      
+   </script>
+</html>

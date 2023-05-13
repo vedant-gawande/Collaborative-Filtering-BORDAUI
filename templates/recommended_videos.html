@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title>Recommended Videos</title>
+	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
+</head>
+<style>
+    *
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body::-webkit-scrollbar
+{
+   width: 10px;
+}
+body::-webkit-scrollbar-thumb
+{
+   height: 80px;
+   background: #375666;
+   border: 8px solid transparent;
+   border-radius: 12px;
+}
+body::-webkit-scrollbar-thumb:active
+{
+    background: #003349;
+}
+body
+{
+    font-family: sans-serif;
+    background: #cad7fda4;
+}
+li
+{
+    list-style: none;
+}
+section
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 2.5%;
+    min-height: 100vh;
+}
+.title a
+{
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 500;
+    color: red;
+    text-align: right;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.container
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0fr 1fr;
+    overflow: hidden;
+    /* border: 2px solid red; */
+}
+
+.container #main-Video
+{
+    position: relative;
+    width: 100%;
+    height: 585px;
+    overflow: hidden;
+    outline: none;
+}
+
+.playlistBx
+{
+    position: relative;
+    height: 100%;
+    margin: 0 10px 0 10px;
+    /* border: 2px solid green; */
+}
+.playlist
+{
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 40px);
+    overflow-y: scroll;
+    border-top: 1px solid #dcdee1;
+}
+.playlist::-webkit-scrollbar
+{
+   width: 0px;
+}
+.playlistBx .row .AllLessons
+{
+   display: block;
+   text-align: left;
+   color: black;
+   font-size: 25px;
+   font-weight: 700;
+   margin-left: 40px;
+   line-height: 40px;
+}
+.playlist li
+{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   list-style: none;
+   color: #dcdee1;
+   cursor: pointer;
+   border: 1px solid transparent;
+   padding: 15px 20px;
+   border-radius: 5px;
+}
+
+.playlist li:hover
+{
+    border: 0.5px solid #375666;
+    background: #90aaf9a4;
+}
+.playlist li .row span
+{
+    font-size: 17px;
+    font-weight: 300;
+    color: #62057c;
+    text-decoration: none;
+    display: inline-block;
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 2px;
+}
+
+
+.playlist li .row video{
+    width: 80px;
+    border-radius: 5px;
+}
+
+/* .playlist li .row span::before
+{
+    content: '\f01d';
+    font-family: FontAwesome;
+    color: #FFbb00;
+    margin-right: 15px;
+    font-size: 20px;
+} */
+/* ul li.playing .row span::before
+{
+    content: '\f28c';
+    font-family: FontAwesome;
+    color: #FFbb00;
+    margin-right: 15px;
+    font-size: 20px;
+} */
+/* .playlist li.playing .row span
+{
+   color: #FFbb00;
+} */
+
+
+.playlist li span.duration
+{
+    font-size: 20px;
+    font-weight: 300;
+    display: inline-block;
+    color: red;
+    text-align: right;
+}
+
+.playlist li span.duration form
+{
+    display: inline-block;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #eee;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+}
+.playlist li.playing
+{
+   pointer-events: none;
+   background: #1d3541;
+   border: 0.5px solid #1d3541;
+}
+
+@media(max-width: 1092px){
+    section
+    {
+        padding: 30px 10px;
+    }
+    .container
+    {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+        overflow: hidden;
+    }
+    .container #main-Video
+    {
+        height: 400px;
+    }
+    .playlistBx
+    {
+        height: 380px;
+        margin-top: 10px;
+    }
+    .playlist
+    {
+        position: absolute;
+        width: 100%;
+        height: calc(100% - 40px);
+        overflow-y: scroll;
+    }
+}
+@media(max-width: 650px){
+    #main-Video
+    {
+        height: 300px !important;
+    }
+}
+@media(max-width: 500px){
+    #main-Video
+    {
+        height: 280px !important;
+    }
+}
+@media(max-width: 400px){
+    #main-Video
+    {
+        height: 250px !important;
+    }
+}
+
+
+.btn1{
+    padding: 0.4rem;
+  font-size: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #fc0404;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.2rem #999;
+}
+
+.btn2{
+    padding: 0.4rem;
+  font-size: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.2rem #999;
+}
+
+#nonrec{
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #f68c02;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.2rem #999;
+}
+
+#rating{
+  padding: 0.5rem;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #370a49;
+  border: none;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.2rem #999;
+}
+
+#rec{
+    padding: 0.4rem;
+  font-size: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #aa095f;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.2rem #999;
+}
+
+
+.btn:focus {
+  outline: none;
+}
+
+.green{
+  color: green;
+}
+
+.red{
+  color: red;
+}
+
+
+#lname{
+    font-size: 1.8rem;
+	color: rgb(215, 255, 14);
+}
+#lname:hover{
+    filter: grayscale();
+}
+.badge {
+  /* visibility: hidden; */
+  position: absolute;
+  top: -10px;
+  right: 160px;
+  padding: 4px 4px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+
+.notification{
+	margin-right: 40px;
+}
+
+
+
+
+.demo {
+  font-family: 'Raleway', sans-serif;
+  color:#fff;
+    display: block;
+    margin: 0 auto;
+    padding: 15px 0;
+    text-align: center;
+}
+.demo a{
+  font-family: 'Raleway', sans-serif;
+color: #000;    
+}
+
+</style>
+
+<body>
+
+<!-- for header part -->
+<header>
+
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
+
+	<div class="title">
+		<h3>COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+	<div class="searchbar">
+		<input type="text"
+			placeholder="Search" id="myInput" onkeyup="myFunction()">
+		<div class="searchbtn">
+		<img src="static/images/Untitled-design-(28).png"
+				class="icn srchicn"
+				alt="search-icon">
+		</div>
+	</div>
+
+	<div class="message">
+		<div class="circle"></div>
+		<a href="user_request" class="notification">
+		<img src="static/images/notify2.png"
+			class="icn"
+			alt="">
+            {% if total_requests %}
+                <span class="badge">{{total_requests}}</span>
+            {% endif %}
+			  </a>
+		<div class="dp">
+			<a href="user_profile" style="text-decoration: none;"><img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+            </div><span id="lname">{{lname}}</span></a>
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+                <a href="/user_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;">
+					<div class="nav-option option2">
+							<img src="static/images/home1.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3>Dashboard</h3>
+					</div>
+				</a>
+	
+				<a href="user_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"> 
+					<div class="nav-option option2">
+						<img src="static/images/search1.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3>SEARCH FRIEND</h3>
+					</div>
+				</a>
+	
+				<a href="user_request" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option2">
+						<img src="static/images/notify2.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3> VIEW REQUESTS</h3>
+					</div>
+				</a>
+	
+				<a href="user_friend_list" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option2">
+						<img src="static/images/eye1.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3> VIEW FRIENDS LIST</h3>
+					</div>
+				</a>
+	
+				<a href="user_view_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option2">
+						<img src="static/images/vid2.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3> VIEW ALL VIDEOS</h3>
+					</div>
+				</a>
+	
+				<a href="user_recommended_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;">
+					<div class="nav-option option1">
+						<img src="static/images/vid1.png"
+							class="nav-img"
+							alt="dashboard">
+						<h3> FRIENDS RECOMMENDED VIDEOS</h3>
+					</div>
+				</a>
+					
+				<a href="user_credits" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;">
+					<div class="nav-option option2">
+					<img src="static/images/cr.png"
+						class="nav-img"
+						alt="credits" title="CREDITS">
+					<h3>CREDITS</h3>
+				</div>
+				</a>
+	
+				<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px; margin-top: -25px;">
+					<div class="nav-option logout">
+						<img src="static/images/log1.png"
+							class="nav-img"
+							alt="logout">
+						<h3>Logout</h3>
+					</div>
+				</a>
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+		
+		<div class="container">
+            <div id="video_player">
+            <iframe controls id="main-Video" src="{{videos.Src}}" frameborder="0">
+            </iframe>
+        </div>
+            <div class="playlistBx">
+                <div class="header">
+                    <div class="row">
+                        <span class="AllLessons">Recommended Videos</span>
+                    </div>
+                </div>
+                <ul class="playlist" id="playlist">
+                    {% for video in videos %}
+                    {% if video.id in recommend_from %}
+                    <li li-index="{{video.id}}">
+                        <div class="row"><video width="80px" height="50px" controls="controls" preload="metadata" poster=
+                            "static/images/vid.png">
+                            <source src="{{video.Src}}#t=0.5" type="video/mp4">
+                          </video>
+                           <a href="{{video.Src}}"><span onclick="">{{video.Title}} </span></a>
+                        </div>
+                        <span id="abc" class="duration" >
+                            <form action="/user_videos/li_di/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
+    
+                                <!-- <button id="li" >&nbsp;<img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px">Like</button>
+    
+                                <button id="dli" >&nbsp;<img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button> -->
+                                <input type="hidden" name="boolean" value="False">
+                                <!-- <script src="https://use.fontawesome.com/fe459689b4.js"></script> -->
+                                
+                                {% if video.Like %}
+                                <button class="btn1" id="green" name="lik_di" value="1" type="submit"><img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px"> <span style="color: black; font-size: 20px;">{{video.Like}}</span></button><span style="padding-left: 5px;"></span>
+                                <button class="btn2" id="red" name="lik_di" value="0" type="submit"><img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px"></button>
+                                {% elif video.Dislike %}
+                                <button class="btn2" id="green" name="lik_di" value="1" type="submit"><img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px"> <span style="color: black; font-size: 20px;">{{video.Like}}</span></button><span style="padding-left: 5px;"></span>
+                                <button class="btn1" id="red" name="lik_di" value="0" type="submit"><img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px"></button>
+                                {% else %}
+                                <button class="btn2" id="green" name="lik_di" value="1" type="submit"><img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px"> <span style="color: black; font-size: 20px;">{{video.Like}}</span></button><span style="padding-left: 5px;"></span>
+                                <button class="btn2" id="red" name="lik_di" value="0" type="submit"><img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px"></button>
+                                {% endif %}
+
+                            </form>
+                            
+                            <form action="/user_videos_recommend/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
+                                <input type="hidden" name="boolean" value="False">
+                                {% if video.id|string in recommend_to %}
+                                <button id="rec">&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommended</button>
+                                {% else %}
+                                <button id="nonrec" type="submit">&nbsp;<img src="{{ url_for('static', path='assets/reco.png') }}" width="20px" height="20px">Recommend</button>
+                                {% endif %}
+                            </form>
+                            <a href="/user_video_rating/{{video.id}}?boolean=False"><button id="rating" style="padding: 0.3rem 0.4rem 0rem 0.2rem; font-size: 1rem;" >&nbsp;Rating</button></a>
+                        </span>
+                    </li>
+                    {% endif %}
+                     {% endfor %}
+                </ul>
+            </div>
+        </div>
+		<footer style="color: red; padding: 0 0 0 71vh; justify-content: center;">
+			Copyright By 2023 All Rights Reserve
+		</footer>
+	</div>
+</div>
+
+
+	<script>
+		let menuicn = document.querySelector(".menuicn");
+		let nav = document.querySelector(".navcontainer");
+		
+		menuicn.addEventListener("click",()=>
+		{
+			nav.classList.toggle("navclose");
+		})
+
+
+        function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("playlist");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+            } else {
+            li[i].style.display = "none";
+            }
+        }
+        }
+	</script>
+
+	
+</body>
+</html>

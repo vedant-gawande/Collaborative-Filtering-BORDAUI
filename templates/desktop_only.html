@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site visible in Desktop mode only</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 16px;
+        color: #333;
+        background-color: #f5f5f5;
+        text-align: center;
+      }
+      .message {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background-color: #f44336;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+      }
+      @media only screen and (max-width: 767px) {
+        .message {
+          display: block;
+        }
+      }
+    </style>
+    
+  </head>
+  <body>
+    <div class="message">
+      This website is designed for desktop mode only. Please view on a desktop or laptop computer for the best experience.
+    </div>
+    
+    <!-- Rest of your HTML code goes here -->
+  </body>
+</html>

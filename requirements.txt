@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+jinja2
+sqlalchemy
+passlib
+python-multipart
+python-jose
+weasyprint
+plotly
+numpy 
+pandas
+matplotlib
+scikit-learn
+bcrypt
+xhtml2pdf

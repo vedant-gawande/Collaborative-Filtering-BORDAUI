@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title>View Users</title>
+	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',path='/css/util.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',path='/css/main1.css') }}">
+</head>
+<style>
+#lname{
+    font-size: 1.8rem;
+	color: green;
+}
+#lname:hover{
+    filter: grayscale();
+}
+
+#admin{
+    font-size: 1.8rem;
+	color: red;
+}
+#admin:hover{
+    filter: grayscale();
+}
+
+
+
+
+
+
+
+.btn{
+  padding: 0.5rem;
+  font-size: 0.7rem;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #ee0202;
+  border: none;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.2rem #999;
+}
+
+.btn:hover {background-color: #de0505}
+
+.btn:active {
+  background-color: #ee0207;
+  box-shadow: 0 0.11rem #666;
+  transform: translateY(4px);
+}
+</style>
+
+<body>
+
+<!-- for header part -->
+<header>
+
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
+
+	<div class="title">
+		<h3>COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+	<div class="searchbar">
+		<input type="text"
+			placeholder="Search" id="myInput" onkeyup="myFunction()">
+		<div class="searchbtn">
+		<img src="static/images/Untitled-design-(28).png"
+				class="icn srchicn"
+				alt="search-icon">
+		</div>
+	</div>
+
+	<div class="message">
+		<!-- <div class="circle"></div> -->
+		<div class="dp">
+			<a href="admin_profile" style="text-decoration: none;"><img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+			</div><span id="admin">Admin</span></a>
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+        <a href="/admin_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;">
+          <div class="nav-option option2">
+              <img src="static/images/home1.png"
+              class="nav-img"
+              alt="dashboard" title="Dashboard">
+            <h3>Dashboard</h3>
+          </div>
+          </a>
+  
+          <a href="admin_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+          <div class="nav-option option1">
+              <img src="static/images/user1.png"
+              class="nav-img"
+              alt="dashboard" title="VIEW USERS">
+            <h3> VIEW USERS</h3>
+          </div>
+          </a>
+  
+          <a href="admin_upload_dataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+          <div class="nav-option option2">
+              <img src="static/images/up1.png"
+              class="nav-img"
+              alt="dashboard" title="UPLOAD DATASET">
+            <h3> UPLOAD DATASET</h3>
+          </div>
+          </a>
+  
+          <a href="admin_viewDataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+          <div class="nav-option option2">
+              <img src="static/images/eye1.png"
+              class="nav-img"
+              alt="dashboard" title="VIEW DATASET">
+            <h3>VIEW DATASET</h3>
+          </div>
+          </a>
+  
+          <a href="admin_viewAllViews" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+          <div class="nav-option option2">
+              <img src="static/images/VG1.png"
+              class="nav-img"
+              alt="dashboard" title="VIEW ALL VIDEOS VIEWS IN GRAPH">
+            <h3>VIEWS ANALYSIS</h3>
+          </div>
+          </a>
+  
+          <a href="admin_viewAllLikesDislikes" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+          <div class="nav-option option2">
+              <img src="static/images/LG1.png"
+              class="nav-img"
+              alt="dashboard" title="VIEW ALL VIDEOS LIKES / DISLIKES IN GRAPH">
+            <h3>LIKES / DISLIKES ANALYSIS</h3>
+          </div>
+          </a>
+          
+        
+          <a href="admin_gen_report" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+            <div class="nav-option option2">
+                <img src="static/images/report1.png"
+                class="nav-img"
+                alt="dashboard" title="REPORT GENERATE">
+              <h3>REPORT GENERATE</h3>
+            </div>
+          </a>
+          
+          <a href="admin_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px; margin-top: -20px;">
+          <div class="nav-option logout">
+              <img src="static/images/log1.png"
+              class="nav-img"
+              alt="logout" title="LOGOUT">
+            <h3>LOGOUT</h3>
+          </div>
+          </a>
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+
+		
+        <center><h1>VIEW ALL USERS</h1></center>
+		<br><br>
+		
+		<div class="limiter">
+            <div class="container-table101">
+                <div class="wrap-table100" >
+                    <div class="table100 ver1 m-b-110" >
+                        <div class="table100-head">
+                        <table>
+                                <thead>
+                                    <tr class="row100 head" >
+                                      <th class="cell100 column4" ><div style="color: rgb(9, 1, 8);font-size: 1.5em;">USERNAME</div></th>
+                                      <th class="cell100 column2"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">EMAIL</div></th>
+                                      <th class="cell100 column3"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">CONTACT NUMBER</div></th>
+                                      <th class="cell100 column4"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">OCCUPATION</div></th>
+                                      <th class="cell100 column4"><div style="color: rgb(9, 1, 8);font-size: 1.5em;">ACTION</div></th>
+                                        <!-- <th class="cell100 column5">ACTIVATION STATUS</th>
+                                        <th class="cell100 column6">DE-ACTIVATION STATUS</th> -->
+                                        
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table100-body js-pscroll">
+            <table id="myTable">
+                <tbody style="text-align: center; ">
+                  <form action="admin_remove_user" method="get">
+                    {% if bool %}
+                    {% for users in users_list %}
+                    <tr class="row100 body" >
+                      <td class="cell100 column4">{{users.username}}</td>
+                      <td class="cell100 column2">{{users.email}}</td>
+                      <td class="cell100 column3">{{users.phone_number}}</td>
+                      <td class="cell100 column4">{{users.occupation}}</td>
+                      <td class="cell100 column5"><button class="btn" type="submit" name="send_req" width="20rem" value="{{users.id}}" >REMOVE</button></td>
+                        <!-- <td class="cell100 column5"></td>
+                        <td class="cell100 column6"></td> -->
+                        
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    {% for users in s_u_list %}
+                    <tr class="row100 body" >
+                      <td class="cell100 column4">{{users.username}}</td>
+                      <td class="cell100 column2">{{users.email}}</td>
+                      <td class="cell100 column3">{{users.phone_number}}</td>
+                      <td class="cell100 column4">{{users.occupation}}</td>
+                      <td class="cell100 column5"><button class="btn" type="submit" name="send_req" width="20rem" value="{{users.id}}" >REMOVE</button></td>
+                        <!-- <td class="cell100 column5"></td>
+                        <td class="cell100 column6"></td> -->
+                        
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                  </form>
+        </tbody>
+            </table>
+        </div>					
+    
+                        
+                    </div>
+                    
+                </tbody>
+                            </table>
+                        </div>
+                    </div>
+    </div>
+		<footer style="color: red; padding: 10px 0 0 71vh; justify-content: center;">
+			Copyright By 2023 All Rights Reserve
+		</footer>
+	</div>
+</div>
+
+
+	<script>
+		let menuicn = document.querySelector(".menuicn");
+		let nav = document.querySelector(".navcontainer");
+		
+		menuicn.addEventListener("click",()=>
+		{
+			nav.classList.toggle("navclose");
+		})
+	
+
+		function myFunction() {
+      // Declare variables
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 0; i < tr.length; i++) {
+        td1 = tr[i].getElementsByTagName("td")[0];
+        td2 = tr[i].getElementsByTagName("td")[1];
+        td3 = tr[i].getElementsByTagName("td")[2];
+        td4 = tr[i].getElementsByTagName("td")[3];
+        if (td1 || td2 || td3 || td4) {
+          txtValue1 = td1.textContent || td1.innerText;
+          txtValue2 = td2.textContent || td2.innerText;
+          txtValue3 = td3.textContent || td3.innerText;
+          txtValue4 = td4.textContent || td4.innerText;
+          if (txtValue1.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          }
+          else if (txtValue2.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          }
+          else if (txtValue3.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          }
+          else if (txtValue4.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          }
+          else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+	</script>
+
+	
+</body>
+</html>

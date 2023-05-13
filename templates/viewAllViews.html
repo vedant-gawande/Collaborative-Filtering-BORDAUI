@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title>View All Views</title>
+	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
+</head>
+<style>
+#lname{
+    font-size: 1.8rem;
+	color: green;
+}
+#lname:hover{
+    filter: grayscale();
+}
+
+#admin{
+    font-size: 1.8rem;
+	color: red;
+}
+#admin:hover{
+    filter: grayscale();
+}
+
+
+
+
+
+
+.demo {
+  font-family: 'Raleway', sans-serif;
+  color:#fff;
+    display: block;
+    margin: 0 auto;
+    padding: 15px 0;
+    text-align: center;
+}
+.demo a{
+  font-family: 'Raleway', sans-serif;
+color: #000;    
+}
+
+.title .lbl{
+	position: relative;
+ right: 13.2rem;
+}
+
+</style>
+
+<body>
+
+<!-- for header part -->
+<header>
+
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
+
+	<div class="title">
+		<h3 class="lbl">COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+
+	<div class="message">
+
+		<div class="dp">
+			<a href="admin_profile" style="text-decoration: none;"><img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+		</div><span id="admin">Admin</span></a>
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+				<a href="/admin_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;">
+					<div class="nav-option option2">
+							<img src="static/images/home1.png"
+							class="nav-img"
+							alt="dashboard" title="Dashboard">
+						<h3>Dashboard</h3>
+					</div>
+					</a>
+	
+					<a href="admin_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option2">
+							<img src="static/images/user1.png"
+							class="nav-img"
+							alt="dashboard" title="VIEW USERS">
+						<h3> VIEW USERS</h3>
+					</div>
+					</a>
+	
+					<a href="admin_upload_dataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option2">
+							<img src="static/images/up1.png"
+							class="nav-img"
+							alt="dashboard" title="UPLOAD DATASET">
+						<h3> UPLOAD DATASET</h3>
+					</div>
+					</a>
+	
+					<a href="admin_viewDataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option2">
+							<img src="static/images/eye1.png"
+							class="nav-img"
+							alt="dashboard" title="VIEW DATASET">
+						<h3>VIEW DATASET</h3>
+					</div>
+					</a>
+	
+					<a href="admin_viewAllViews" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option1">
+							<img src="static/images/VG1.png"
+							class="nav-img"
+							alt="dashboard" title="VIEW ALL VIDEOS VIEWS IN GRAPH">
+						<h3>VIEWS ANALYSIS</h3>
+					</div>
+					</a>
+	
+					<a href="admin_viewAllLikesDislikes" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+					<div class="nav-option option2">
+							<img src="static/images/LG1.png"
+							class="nav-img"
+							alt="dashboard" title="VIEW ALL VIDEOS LIKES / DISLIKES IN GRAPH">
+						<h3>LIKES / DISLIKES ANALYSIS</h3>
+					</div>
+					</a>
+					
+
+					<a href="admin_gen_report" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px; margin-top: -20px;">
+						<div class="nav-option option2">
+								<img src="static/images/report1.png"
+								class="nav-img"
+								alt="dashboard" title="REPORT GENERATE">
+							<h3>REPORT GENERATE</h3>
+						</div>
+					</a>
+				
+					
+					<a href="admin_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;">
+					<div class="nav-option logout">
+							<img src="static/images/log1.png"
+							class="nav-img"
+							alt="logout" title="LOGOUT">
+						<h3>LOGOUT</h3>
+					</div>
+					</a>
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+		
+			<div id="chart"></div>
+			<!-- <script>
+			var chart = {{ chart_html|safe }}
+			
+			</script> -->
+			{{ chart_html|safe }}
+		
+
+		<footer style="color: red; padding: 18vh 0 0 71vh; justify-content: center;">
+			Copyright By 2023 All Rights Reserve
+		</footer>
+	</div>
+</div>
+
+
+	<script>
+		let menuicn = document.querySelector(".menuicn");
+		let nav = document.querySelector(".navcontainer");
+		
+		menuicn.addEventListener("click",()=>
+		{
+			nav.classList.toggle("navclose");
+		})
+
+		
+	</script>
+
+	
+</body>
+</html>
