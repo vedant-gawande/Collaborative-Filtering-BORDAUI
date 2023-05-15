@@ -509,7 +509,7 @@ color: #000;
                             "static/images/vid.png">
                             <source src="{{video.Src}}#t=0.5" type="video/mp4">
                           </video>
-                           <a href="{{video.Src}}"><span onclick="">{{video.Title}} </span></a>
+                           <a href="{{video.Src}}" target="_blank"><span onclick="">{{video.Title}} </span></a>
                         </div>
                         <span id="abc" class="duration" >
                             <form action="/user_videos/li_di/{{video.id}}" method="get" style="background-color: transparent; border: transparent;">
@@ -518,7 +518,7 @@ color: #000;
     
                                 <button id="dli" >&nbsp;<img src="{{ url_for('static', path='assets/dislike.png') }}" width="20px" height="20px">Dislike</button> -->
                                 <input type="hidden" name="boolean" value="False">
-                                <!-- <script src="https://use.fontawesome.com/fe459689b4.js"></script> -->
+                                <!-- <script src="https://use.fontawesome.com/fe459689b4.js"></script> -->  
                                 
                                 {% if video.Like %}
                                 <button class="btn1" id="green" name="lik_di" value="1" type="submit"><img src="{{ url_for('static', path='assets/like_1.png') }}" width="20px" height="20px"> <span style="color: black; font-size: 20px;">{{video.Like}}</span></button><span style="padding-left: 5px;"></span>
