@@ -130,6 +130,13 @@ section
     border: 0.5px solid #375666;
     background: #90aaf9a4;
 }
+
+li.selected
+{
+    border: 0.5px solid #375666;
+    background: #90aaf9a4;
+}
+
 .playlist li .row span
 {
     font-size: 17px;
@@ -501,10 +508,10 @@ color: #000;
                         <span class="AllLessons">Recommended Videos</span>
                     </div>
                 </div>
-                <ul class="playlist" id="playlist">
+                <ul class="playlist" id="playlist" data-tag="channelList">
                     {% for video in videos %}
                     {% if video.id in recommend_from %}
-                    <li li-index="{{video.id}}">
+                    <li li-index="{{video.id}}" onclick="switchChannel(this)">
                         <div class="row"><video width="80px" height="50px" controls="controls" preload="metadata" poster=
                             "static/images/vid.png">
                             <source src="{{video.Src}}#t=0.5" type="video/mp4">
@@ -584,6 +591,16 @@ color: #000;
             li[i].style.display = "none";
             }
         }
+        }
+
+        function switchChannel(el){
+            // find all the elements in your channel list and loop over them
+            Array.prototype.slice.call(document.querySelectorAll('ul[data-tag="channelList"] li')).forEach(function(element){
+                // remove the selected class
+                element.classList.remove('selected');
+            });
+            // add the selected class to the element that was clicked
+            el.classList.add('selected');
         }
 	</script>
 
