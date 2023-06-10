@@ -64,5 +64,5 @@ def cluster(db:Session):
         db.add(recom_vids)
         db.commit()
         db.refresh(recom_vids)
-        # print(recommended_videos)
+        print(recommended_videos)
         print(f"User {user_id} should watch videos {recommended_videos}")
