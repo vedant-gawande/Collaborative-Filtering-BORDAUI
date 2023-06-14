@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .vscode/
 *__pycache__/
 templates/viewVideos.html
@@ -7,3 +8,14 @@ templates/viewVideos.html
 =======
 >>>>>>> version1
 app
+=======
+<<<<<<< HEAD
+.vscode/
+*__pycache__/
+templates/viewVideos.html
+=======
+cfbordui.db
+*__pycache__
+app
+>>>>>>> main
+>>>>>>> abc/master

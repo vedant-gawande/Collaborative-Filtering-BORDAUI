@@ -77,6 +77,27 @@ class OpDB:
         fr_id = ','.join(fr_id)
         rem_friend.update({'sent_reqs':fr_id})
         db.commit()
+<<<<<<< HEAD
+=======
+        rem_friend = db.query(models.Users_S_Req).filter(models.Users_S_Req.uid == user_id)
+        if rem_friend.first():
+            rem_friend1 = rem_friend.first()
+            fr_id = rem_friend1.sent_reqs.split(',')
+            if uid in fr_id:
+                fr_id.remove(uid)
+                fr_id = ','.join(fr_id)
+                rem_friend.update({'sent_reqs':fr_id})
+                db.commit()
+        rem_friend = db.query(models.Users_R_Req).filter(models.Users_R_Req.uid == int(uid))
+        if rem_friend.first():
+            rem_friend1 = rem_friend.first()
+            fr_id = rem_friend1.rec_reqs.split(',')
+            if str(user_id) in fr_id:
+                fr_id.remove(str(user_id))
+                fr_id = ','.join(fr_id)
+                rem_friend.update({'rec_reqs':fr_id})
+                db.commit()
+>>>>>>> abc/master
 
     def likes_dislikes(db:Session):
         join = db.query(models.Uinterest.vid_id).join(models.Videos,models.Uinterest.vid_id==models.Videos.id).distinct(models.Videos.id).order_by(models.Videos.id)

@@ -5,8 +5,19 @@ sqlalchemy
 passlib
 python-multipart
 python-jose
+<<<<<<< HEAD
 numpy
 pandas
 matplotlib
 scikit-learn
 bcrypt
+=======
+weasyprint
+plotly
+numpy 
+pandas
+matplotlib
+scikit-learn
+bcrypt
+xhtml2pdf
+>>>>>>> abc/master
