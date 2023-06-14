@@ -143,7 +143,11 @@ iframe {
 .container-table100 {
   width: 100%;
   min-height: 10vh;
+<<<<<<< HEAD
   background: #002333;
+=======
+  background: #cad7fda4;
+>>>>>>> abc/master
 
   display: -webkit-box;
   display: -webkit-flex;
@@ -156,6 +160,10 @@ iframe {
   padding: 33px 30px;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> abc/master
 .wrap-table100 {
   width: 1170px;
 }

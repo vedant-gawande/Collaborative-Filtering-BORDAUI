@@ -5,9 +5,17 @@ from sqlalchemy.orm import Session
 import models
 from sklearn.preprocessing import MinMaxScaler
 
+<<<<<<< HEAD
 def cluster(db:Session):
     video_count = db.query(models.Videos).count()
     users = db.query(models.Users).all()
+=======
+
+def cluster(db:Session):
+    video_count = db.query(models.Videos).count()
+    users = db.query(models.Users).all()
+    user_iterator = iter([user.id for user in users])
+>>>>>>> abc/master
     matrix = []
     for user in users:
         list1 = [0]*video_count
@@ -49,6 +57,7 @@ def cluster(db:Session):
     # Recommend videos
     
     user_cluster = kmeans.predict(user_video_matrix_norm)
+<<<<<<< HEAD
     for user_id, cluster_id in enumerate(user_cluster):
         recommended_videos = np.where(kmeans.labels_ == cluster_id)[0]
         recommended_videos += 1
@@ -62,3 +71,20 @@ def cluster(db:Session):
         db.refresh(recom_vids)
         # print(recommended_videos)
         # print(f"User {user_id+1} should watch videos {recommended_videos+1}")
+=======
+    for j, cluster_id in enumerate(user_cluster):
+        user_id = next(user_iterator)
+        recommended_videos = np.where(kmeans.labels_ == cluster_id)[0]
+        recommended_videos += 1
+        recommended_videos = [str(i) for i in recommended_videos]
+        print(user_id)
+        recommended_videos.remove(str(j+1))
+        # print(recommended_videos)
+        recommended_videos = ','.join(recommended_videos)
+        recom_vids = models.Recommended_Vids(Uid = user_id,R_U_Videos=recommended_videos)
+        db.add(recom_vids)
+        db.commit()
+        db.refresh(recom_vids)
+        print(recommended_videos)
+        print(f"User {user_id} should watch videos {recommended_videos}")
+>>>>>>> abc/master

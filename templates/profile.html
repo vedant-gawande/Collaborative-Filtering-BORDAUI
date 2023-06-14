@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title>User Profile</title>
+	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
+</head>
+<style>
+#lname{
+    font-size: 1.8rem;
+	color: rgb(215, 255, 14);
+	left: 10rem;
+}
+#lname:hover{
+    filter: grayscale();
+}
+.title .lbl{
+	position: relative;
+ right: 13.2rem;
+}
+body {
+    background-color: #e1e7ed;
+    text-align: center;
+    overflow: hidden;
+}
+
+.notification{
+	margin-right: 40px;
+}
+
+
+
+
+p{
+    font-size: 14px;
+    color: #868d9b;
+    margin-left: 40px;
+    margin-right: 40px;
+    
+}
+
+.card {
+    width: 360px;
+    height: auto;
+    background-color: #ffffff;
+    margin: 0 auto;
+    margin-top: 50px;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.15);
+}
+
+.card_profile_img {
+    width: 120px;
+    height: 120px;
+    background-color: #868d9b;
+    background: url("static/images/profile-removebg-preview.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #ffffff;
+    border-radius: 120px;
+    margin: 0 auto;
+    margin-top: -60px;
+
+}
+
+.card_background_img {
+    width: 100%;
+    height: 180px;
+    background-color: #e1e7ed;
+    background: url("static/images/pbg.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.user_details p {
+    margin-bottom: 20px;
+    margin-top: 0px;
+}
+
+.user_details h3 {
+    margin-top: 10px;
+}
+
+.card_count {
+    padding: 15px;
+    border-top: 1px solid #dde1e7;
+}
+
+.count {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+/* .count p {
+    margin-top: -10px;
+} */
+
+/* .btn {
+    padding: 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    background-color: #24c5a1;
+    color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+} */
+.badge {
+  /* visibility: hidden; */
+  position: absolute;
+  top: -10px;
+  right: 160px;
+  padding: 4px 4px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+
+.ball {
+  position: absolute;
+  border-radius: 100%;
+  opacity: 0.7;
+}
+</style>
+
+<body>
+
+<!-- for header part -->
+<header>
+
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
+
+	<div class="title">
+		<h3 class="lbl">COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+	<!-- <div class="searchbar">
+		<input type="text"
+			placeholder="Search">
+		<div class="searchbtn">
+		<img src="static/images/Untitled-design-(28).png"
+				class="icn srchicn"
+				alt="search-icon">
+		</div>
+	</div> -->
+
+	<div class="message">
+		<div class="circle"></div>
+		<a href="user_request" class="notification">
+		<img src="static/images/notify2.png"
+			class="icn"
+			alt="">
+			{% if total_requests %}
+				<span class="badge">{{total_requests}}</span>
+				{% endif %}
+			  </a>
+		<div class="dp">
+			<img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+		</div><span id="lname">{{lname}}</span>
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+				<div class="nav-option option2">
+					<a href="/user_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;"><img src="static/images/home1.png"
+						class="nav-img"
+						alt="dashboard" title="Dashboard">
+					<h3>Dashboard</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"><img src="static/images/search1.png"
+						class="nav-img"
+						alt="search friend" title="SEARCH FRIEND">
+					<h3>SEARCH FRIEND</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_request" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"><img src="static/images/notify2.png"
+						class="nav-img"
+						alt="view request" title="VIEW REQUESTS">
+					<h3>VIEW REQUESTS</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_friend_list" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"><img src="static/images/eye1.png"
+						class="nav-img"
+						alt="view friend list" title="VIEW FRIENDS LIST">
+					<h3>VIEW FRIENDS LIST</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_view_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"><img src="static/images/vid2.png"
+						class="nav-img"
+						alt="view all vid" title="VIEW ALL VIDEOS">
+					<h3>VIEW ALL VIDEOS</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_recommended_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;"><img src="static/images/vid1.png"
+						class="nav-img"
+						alt="friends rec vid" title="FRIENDS RECOMMENDED VIDEOS">
+					<h3>FRIENDS RECOMMENDED VIDEOS</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_credits" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 14px;"><img src="static/images/cr.png"
+						class="nav-img"
+						alt="credits" title="CREDITS">
+					<h3>CREDITS</a></h3>
+				</div>
+				
+			
+
+				<div class="nav-option logout">
+					<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 18px;"><img src="static/images/log1.png"
+						class="nav-img"
+						alt="logout" title="Logout">
+					<h3>Logout</a></h3>
+				</div>
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+        <div class=".ball">
+        <center><h1>USER PROFILE</h1></center>
+		<div class="card">
+            <div class="card_background_img"></div>
+            <div class="card_profile_img"></div>
+            <div class="user_details">
+                <h3>{{lname}}</h3>
+                <p>{{occupation}}</p>
+            </div>
+            <div class="card_count">
+                <div class="count">
+                    <div class="fans">
+                        <h3>{{total_friends}}</h3>
+                        <p>Connections</p>
+                    </div>
+                    <div class="post">
+                        <h3>0</h3>
+                        <p>Posts</p>
+                    </div>
+                </div>
+                 <!-- <div class="btn">Follow</div> -->
+            </div>
+        </div></div>
+		<footer style="color: red; padding: 8vh 0 0 1vh; justify-content: center;">
+			Copyright By 2023 All Rights Reserve
+		</footer>
+	</div>
+</div>
+
+
+	<script>
+		let menuicn = document.querySelector(".menuicn");
+		let nav = document.querySelector(".navcontainer");
+		
+		menuicn.addEventListener("click",()=>
+		{
+			nav.classList.toggle("navclose");
+		})
+
+        
+	</script>
+
+	
+</body>
+</html>

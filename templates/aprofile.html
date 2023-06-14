@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title>View Users</title>
+	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
+</head>
+<style>
+#lname{
+    font-size: 1.8rem;
+	color: rgb(215, 255, 14);
+	left: 10rem;
+}
+#lname:hover{
+    filter: grayscale();
+}
+.title .lbl{
+	position: relative;
+ right: 13.2rem;
+}
+body {
+    background-color: #e1e7ed;
+    text-align: center;
+    overflow: hidden;
+}
+
+
+
+
+p{
+    font-size: 14px;
+    color: #868d9b;
+    margin-left: 40px;
+    margin-right: 40px;
+    
+}
+
+.card {
+    width: 360px;
+    height: auto;
+    background-color: #ffffff;
+    margin: 0 auto;
+    margin-top: 50px;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.15);
+}
+
+.card_profile_img {
+    width: 120px;
+    height: 120px;
+    background-color: #868d9b;
+    background: url("static/images/profile-removebg-preview.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #ffffff;
+    border-radius: 120px;
+    margin: 0 auto;
+    margin-top: -60px;
+
+}
+
+.card_background_img {
+    width: 100%;
+    height: 180px;
+    background-color: #e1e7ed;
+    background: url("static/images/pbg.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.user_details p {
+    margin-bottom: 20px;
+    margin-top: -5px;
+}
+
+.user_details h3 {
+    margin-top: 10px;
+}
+
+.card_count {
+    padding: 15px;
+    border-top: 1px solid #dde1e7;
+}
+
+.count {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.count p {
+    margin-top: -10px;
+}
+
+.btn {
+    padding: 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    background-color: #24c5a1;
+    color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.badge {
+  /* visibility: hidden; */
+  position: absolute;
+  top: -10px;
+  right: 160px;
+  padding: 4px 4px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+
+.ball {
+  position: absolute;
+  border-radius: 100%;
+  opacity: 0.7;
+}
+
+.title .lbl{
+	position: relative;
+ right: 13.2rem;
+}
+</style>
+
+<body>
+
+<!-- for header part -->
+<header>
+
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
+
+	<div class="title">
+		<h3 class="lbl">COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+
+	<div class="message">
+		<!-- <div class="circle"></div> -->
+		
+		<div class="dp">
+            <!-- <a href="admin_profile" style="text-decoration: none;"> -->
+                <img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+            </div><span id="admin" style="font-size: 1.5rem; color: #FF0000;">Admin</span>
+        <!-- </a> -->
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+				<a href="/admin_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;">
+                    <div class="nav-option option2">
+                            <img src="static/images/home1.png"
+                            class="nav-img"
+                            alt="dashboard" title="Dashboard">
+                        <h3>Dashboard</h3>
+                    </div>
+                    </a>
+    
+                    <a href="admin_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                    <div class="nav-option option2">
+                            <img src="static/images/user1.png"
+                            class="nav-img"
+                            alt="dashboard" title="VIEW USERS">
+                        <h3> VIEW USERS</h3>
+                    </div>
+                    </a>
+    
+                    <a href="admin_upload_dataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                    <div class="nav-option option2">
+                            <img src="static/images/up1.png"
+                            class="nav-img"
+                            alt="dashboard" title="UPLOAD DATASET">
+                        <h3> UPLOAD DATASET</h3>
+                    </div>
+                    </a>
+    
+                    <a href="admin_viewDataset" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                    <div class="nav-option option2">
+                            <img src="static/images/eye1.png"
+                            class="nav-img"
+                            alt="dashboard" title="VIEW DATASET">
+                        <h3>VIEW DATASET</h3>
+                    </div>
+                    </a>
+    
+                    <a href="admin_viewAllViews" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                    <div class="nav-option option2">
+                            <img src="static/images/VG1.png"
+                            class="nav-img"
+                            alt="dashboard" title="VIEW ALL VIDEOS VIEWS IN GRAPH">
+                        <h3>VIEWS ANALYSIS</h3>
+                    </div>
+                    </a>
+    
+                    <a href="admin_viewAllLikesDislikes" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                    <div class="nav-option option2">
+                            <img src="static/images/LG1.png"
+                            class="nav-img"
+                            alt="dashboard" title="VIEW ALL VIDEOS LIKES / DISLIKES IN GRAPH">
+                        <h3>LIKES / DISLIKES ANALYSIS</h3>
+                    </div>
+                    </a>
+                    
+    
+                    <a href="#" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;">
+                        <div class="nav-option option2">
+                                <img src="static/images/report1.png"
+                                class="nav-img"
+                                alt="dashboard" title="REPORT GENERATE">
+                            <h3>REPORT GENERATE</h3>
+                        </div>
+                    </a>
+                
+                    
+                    <a href="admin_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px; margin-top: -20px;">
+                    <div class="nav-option logout">
+                            <img src="static/images/log1.png"
+                            class="nav-img"
+                            alt="logout" title="LOGOUT">
+                        <h3>LOGOUT</h3>
+                    </div>
+                    </a>
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+		
+	<!-- Quantity should be the same in Sass-->
+	<div class=".ball">
+        <center><h1>ADMIN PROFILE</h1></center>
+		<div class="card">
+            <div class="card_background_img"></div>
+            <div class="card_profile_img"></div>
+            <div class="user_details">
+                <h3>{{lname}}</h3>
+                <p>{{occupation}}</p>
+            </div>
+            <div class="card_count">
+                <div class="count">
+                    <div class="fans">
+                        <h3>-</h3>
+                        <p>-</p>
+                    </div>
+                    <div class="post">
+                        <h3>-</h3>
+                        <p>-</p>
+                    </div>
+                </div>
+                 <!-- <div class="btn">Follow</div> -->
+            </div>
+        </div></div>
+		<footer style="color: red; padding: 8vh 0 0 1vh; justify-content: center;">
+			Copyright By 2023 All Rights Reserve
+		</footer>
+	</div>
+</div>
+
+
+	<script>
+
+		let menuicn = document.querySelector(".menuicn");
+		let nav = document.querySelector(".navcontainer");
+		
+		menuicn.addEventListener("click",()=>
+		{
+			nav.classList.toggle("navclose");
+		})
+
+        
+	</script>
+
+	
+</body>
+</html>

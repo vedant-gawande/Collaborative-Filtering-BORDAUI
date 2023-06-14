@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title>User Menu</title>
+	<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static',path='style.css')}}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='newstyle.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='responsive.css')}}" />
+</head>
+<style>
+#lname{
+    font-size: 1.8rem;
+    color: rgb(215, 255, 14);
+	left: 12rem;
+}
+#lname:hover{
+    filter: grayscale();
+}
+.title .lbl{
+	position: relative;
+ right: 13.2rem;
+}
+
+
+.badge {
+  /* visibility: hidden; */
+  position: absolute;
+  top: -10px;
+  right: 160px;
+  padding: 4px 4px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+.notification{
+	margin-right: 40px;
+}
+
+
+
+* {
+  font-family: Nunito, sans-serif;
+}
+
+.text-blk {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  line-height: 25px;
+}
+
+.responsive-cell-block {
+  min-height: 75px;
+}
+
+.responsive-container-block {
+  min-height: 75px;
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+  justify-content: space-evenly;
+}
+
+.outer-container {
+  padding-top: 10px;
+  padding-right: 50px;
+  padding-bottom: 10px;
+  padding-left: 50px;
+  background-color: #cad7fda4;
+}
+
+.inner-container {
+  max-width: 1320px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  margin-right: auto;
+  margin-bottom: 50px;
+  margin-left: auto;
+}
+
+.section-head-text {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 5px;
+  margin-left: 0px;
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 20px;
+  color: rgb(0, 135, 177);
+  margin: 0 0 10px 0;
+}
+
+.section-subhead-text {
+  font-size: 25px;
+  color: rgb(153, 153, 153);
+  line-height: 35px;
+  max-width: 470px;
+  text-align: center;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 60px;
+  margin-left: 0px;
+}
+
+.img-wrapper {
+  width: 100%;
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.social-media-links {
+  width: 125px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: -23px;
+}
+
+.social-media-links .tw:hover{
+  color: #00ACED;
+  box-shadow: 0 0 24px 0 #00ACED;
+  border-radius: 50%;
+}
+
+.social-media-links .fb:hover{
+  color: #3b5998;
+  box-shadow: 0 0 24px 0 #3b5998;
+  border-radius: 50%;
+}
+
+.social-media-links .in:hover{
+  color: #bd081c;
+  box-shadow: 0 0 24px 0 #bd081c;
+  border-radius: 50%;
+}
+
+.social-media-links .gm:hover{
+  color: #4183c4;
+  box-shadow: 0 0 24px 0 #4183c4;
+  border-radius: 50%;
+}
+
+.name {
+  font-size: 25px;
+  font-weight: 700;
+  color: rgb(255, 11, 11);
+  margin-top: 22px;
+  margin-right: 0px;
+  margin-bottom: 5px;
+  margin-left: 0px;
+}
+
+.position {
+  font-size: 25px;
+  font-weight: 700;
+  color: rgb(62, 0, 177);
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 50px;
+  margin-left: 0px;
+}
+
+.team-img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  margin-left: 15px;
+}
+
+.team-img:hover{
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  margin-left: 15px;
+}
+
+.team-card-container {
+  width: 280px;
+  margin: 0 0 40px 0;
+}
+
+@media (max-width: 500px) {
+  .outer-container {
+    padding: 10px 20px 10px 20px;
+  }
+
+  .section-head-text {
+    text-align: center;
+  }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800&amp;display=swap');
+
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.wk-desk-1 {
+  width: 8.333333%;
+}
+
+.wk-desk-2 {
+  width: 16.666667%;
+}
+
+.wk-desk-3 {
+  width: 25%;
+}
+
+.wk-desk-4 {
+  width: 33.333333%;
+}
+
+.wk-desk-5 {
+  width: 41.666667%;
+}
+
+.wk-desk-6 {
+  width: 50%;
+}
+
+.wk-desk-7 {
+  width: 58.333333%;
+}
+
+.wk-desk-8 {
+  width: 66.666667%;
+}
+
+.wk-desk-9 {
+  width: 75%;
+}
+
+.wk-desk-10 {
+  width: 83.333333%;
+}
+
+.wk-desk-11 {
+  width: 91.666667%;
+}
+
+.wk-desk-12 {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .wk-ipadp-1 {
+    width: 8.333333%;
+  }
+
+  .wk-ipadp-2 {
+    width: 16.666667%;
+  }
+
+  .wk-ipadp-3 {
+    width: 25%;
+  }
+
+  .wk-ipadp-4 {
+    width: 33.333333%;
+  }
+
+  .wk-ipadp-5 {
+    width: 41.666667%;
+  }
+
+  .wk-ipadp-6 {
+    width: 50%;
+  }
+
+  .wk-ipadp-7 {
+    width: 58.333333%;
+  }
+
+  .wk-ipadp-8 {
+    width: 66.666667%;
+  }
+
+  .wk-ipadp-9 {
+    width: 75%;
+  }
+
+  .wk-ipadp-10 {
+    width: 83.333333%;
+  }
+
+  .wk-ipadp-11 {
+    width: 91.666667%;
+  }
+
+  .wk-ipadp-12 {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .wk-tab-1 {
+    width: 8.333333%;
+  }
+
+  .wk-tab-2 {
+    width: 16.666667%;
+  }
+
+  .wk-tab-3 {
+    width: 25%;
+  }
+
+  .wk-tab-4 {
+    width: 33.333333%;
+  }
+
+  .wk-tab-5 {
+    width: 41.666667%;
+  }
+
+  .wk-tab-6 {
+    width: 50%;
+  }
+
+  .wk-tab-7 {
+    width: 58.333333%;
+  }
+
+  .wk-tab-8 {
+    width: 66.666667%;
+  }
+
+  .wk-tab-9 {
+    width: 75%;
+  }
+
+  .wk-tab-10 {
+    width: 83.333333%;
+  }
+
+  .wk-tab-11 {
+    width: 91.666667%;
+  }
+
+  .wk-tab-12 {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .wk-mobile-1 {
+    width: 8.333333%;
+  }
+
+  .wk-mobile-2 {
+    width: 16.666667%;
+  }
+
+  .wk-mobile-3 {
+    width: 25%;
+  }
+
+  .wk-mobile-4 {
+    width: 33.333333%;
+  }
+
+  .wk-mobile-5 {
+    width: 41.666667%;
+  }
+
+  .wk-mobile-6 {
+    width: 50%;
+  }
+
+  .wk-mobile-7 {
+    width: 58.333333%;
+  }
+
+  .wk-mobile-8 {
+    width: 66.666667%;
+  }
+
+  .wk-mobile-9 {
+    width: 75%;
+  }
+
+  .wk-mobile-10 {
+    width: 83.333333%;
+  }
+
+  .wk-mobile-11 {
+    width: 91.666667%;
+  }
+
+  .wk-mobile-12 {
+    width: 100%;
+  }
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  /* background: #003366; */
+  overflow: hidden;
+}
+
+.pyro > .before, .pyro > .after {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff;
+  -moz-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  -webkit-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  -o-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  -ms-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+  animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+}
+
+.pyro > .after {
+  -moz-animation-delay: 1.25s, 1.25s, 1.25s;
+  -webkit-animation-delay: 1.25s, 1.25s, 1.25s;
+  -o-animation-delay: 1.25s, 1.25s, 1.25s;
+  -ms-animation-delay: 1.25s, 1.25s, 1.25s;
+  animation-delay: 1.25s, 1.25s, 1.25s;
+  -moz-animation-duration: 1.25s, 1.25s, 6.25s;
+  -webkit-animation-duration: 1.25s, 1.25s, 6.25s;
+  -o-animation-duration: 1.25s, 1.25s, 6.25s;
+  -ms-animation-duration: 1.25s, 1.25s, 6.25s;
+  animation-duration: 1.25s, 1.25s, 6.25s;
+}
+
+@-webkit-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-moz-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-o-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-ms-keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@keyframes bang {
+  to {
+    box-shadow: 102px -312.3333333333px #00ffb7, 25px -269.3333333333px #ff008c, 51px -143.3333333333px #00ffee, 24px -74.3333333333px #00eeff, -151px -231.3333333333px #d5ff00, -118px -88.3333333333px #0040ff, -246px -295.3333333333px #8c00ff, -105px -137.3333333333px #a200ff, 104px -13.3333333333px #003cff, -151px -299.3333333333px #4400ff, -208px -27.3333333333px #1100ff, 119px -118.3333333333px #9100ff, -199px 57.6666666667px #ddff00, -106px 19.6666666667px #000dff, 186px -30.3333333333px #aeff00, 50px -99.3333333333px #00ffbf, 166px -291.3333333333px #f2ff00, 196px 22.6666666667px #00ffc4, -166px 53.6666666667px #ff0073, 137px -245.3333333333px #00c8ff, 38px -185.3333333333px #0077ff, -124px 52.6666666667px #ffa200, 89px -276.3333333333px #00ff66, -102px -150.3333333333px #ff4d00, -236px -158.3333333333px #ff4d00, -37px -91.3333333333px #4000ff, -105px -142.3333333333px #ffa200, -17px -4.3333333333px #a600ff, 177px -245.3333333333px #00ff73, -114px -4.3333333333px #59ff00, -37px -324.3333333333px #66ff00, -192px -162.3333333333px #00d9ff, 32px -173.3333333333px #cc00ff, -72px -322.3333333333px #1e00ff, -183px -99.3333333333px #0dff00, 190px -286.3333333333px #00ff73, -243px -31.3333333333px #40ff00, 241px -235.3333333333px #00a6ff, -211px -234.3333333333px #00ffcc, 10px 62.6666666667px #b300ff, -208px 42.6666666667px #77ff00, -237px -141.3333333333px #ddff00, -235px 4.6666666667px #00ff55, -87px -242.3333333333px #4400ff, 207px -3.3333333333px #48ff00, 7px -135.3333333333px #00ff22, -210px -200.3333333333px #ffe100, 16px -265.3333333333px #00ff0d, -204px -318.3333333333px #ff00e6, 71px 30.6666666667px #ff00e6, 141px -10.3333333333px #ff0048, -136px -119.3333333333px #000dff, 129px -269.3333333333px #ff00cc, 91px -232.3333333333px #0011ff, 217px -32.3333333333px red, -11px -304.3333333333px #0051ff, -47px 26.6666666667px #0d00ff, 99px 50.6666666667px #00ffd5, -182px -310.3333333333px #ff006a, -201px -275.3333333333px #003cff, 202px -34.3333333333px #b3ff00;
+  }
+}
+@-webkit-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@-moz-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@-o-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@-ms-keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@keyframes gravity {
+  to {
+    transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -webkit-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@-moz-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@-o-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@-ms-keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+@keyframes position {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%, 59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%, 79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%, 99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+
+</style>
+
+<body>
+
+<!-- for header part -->
+<header>
+
+	<div class="logosec">
+		<div class="logo"><img src="static/images/log.svg" width="150px" height="50px"></div>
+		<img src="static/images/Untitled-design-(30).png"
+			class="icn menuicn"
+			id="menuicn"
+			alt="menu-icon">
+	</div>
+
+	<div class="title">
+		<h3 class="lbl">COLLABORATIVE FILTERING ALGORITHM</h3>
+	</div>
+
+	<div class="message">
+		<!-- <div class="circle"></div> -->
+		<!-- <a href="user_request" class="notification">
+		<img src="static/images/non_notify.png"
+			class="icn"
+			alt="">
+				<span class="badge">{{total_requests}}</span>
+			  </a> -->
+		<div class="dp">
+			<a href="user_profile" style="text-decoration: none;"><img src="../static/images/profile-removebg-preview.png" alt="person-circle" class="dpicn" />
+		</div><span id="lname">{{lname}}</span></a>
+	</div>
+
+</header>
+
+<div class="main-container">
+	<div class="navcontainer">
+		<nav class="nav">
+			<div class="nav-upper-options">
+				<div class="nav-option option2">
+					<a href="/user_menu" style="text-decoration: none;color: #FFBB00; cursor: pointer;"><img src="static/images/home1.png"
+						class="nav-img"
+						alt="dashboard" title="Dashboard">
+					<h3>Dashboard</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_view_users" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"><img src="static/images/search1.png"
+						class="nav-img"
+						alt="search friend" title="SEARCH FRIEND">
+					<h3>SEARCH FRIEND</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_request" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"><img src="static/images/notify2.png"
+						class="nav-img"
+						alt="view request" title="VIEW REQUESTS">
+					<h3>VIEW REQUESTS</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_friend_list" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"><img src="static/images/eye1.png"
+						class="nav-img"
+						alt="view friend list" title="VIEW FRIENDS LIST">
+					<h3>VIEW FRIENDS LIST</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_view_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 12px;"><img src="static/images/vid2.png"
+						class="nav-img"
+						alt="view all vid" title="VIEW ALL VIDEOS">
+					<h3>VIEW ALL VIDEOS</a></h3>
+				</div>
+
+				<div class="nav-option option2">
+					<a href="user_recommended_videos" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;"><img src="static/images/vid1.png"
+						class="nav-img"
+						alt="friends rec vid" title="FRIENDS RECOMMENDED VIDEOS">
+					<h3>FRIENDS RECOMMENDED VIDEOS</a></h3>
+				</div>
+
+				<div class="nav-option option1">
+					<a href="user_credits" style="text-decoration: none;color: #FFBB00; cursor: pointer; font-size: 10.5px;"><img src="static/images/cr.png"
+						class="nav-img"
+						alt="credits" title="CREDITS">
+					<h3>CREDITS</a></h3>
+				</div>
+				
+			
+
+				<div class="nav-option logout">
+					<a href="user_logout" style="text-decoration: none;color: red; cursor: pointer; font-size: 14px;"><img src="static/images/log1.png"
+						class="nav-img"
+						alt="logout" title="Logout">
+					<h3>Logout</a></h3>
+				</div>
+
+			</div>
+		</nav>
+	</div>
+	<div class="main">
+		
+		  
+		<!-- <center><h1>WELCOME TO USER PANEL</h1></center><br><br> -->
+		<div class="responsive-container-block outer-container">
+      <div class="pyro">
+        <div class="before"></div>
+        <div class="after"></div>
+            <div class="responsive-container-block inner-container">
+              
+              <p class="text-blk section-head-text">
+                Our Team
+              </p>
+              <p class="text-blk section-subhead-text">
+                Together we can accomplish a job worth doing, and a success worth reaching.
+              </p>
+              
+              <div class="responsive-container-block">
+                <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container">
+                  <div class="team-card">
+                    <div class="img-wrapper">
+                      <img class="team-img" src="static/images/sh.jpg">
+                    </div>
+                    <p class="text-blk name">
+                      Prof.Swapnil Chaudhari 
+                    </p>
+                    <p class="text-blk position">
+                      Project Guide
+                    </p>
+                    <div class="social-media-links">
+                      <a href="#" target="_blank" class="tw">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-twitter.svg">
+                      </a>
+                      <a href="#" target="_blank" class="fb">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-fb.svg">
+                      </a>
+                      <a href="#" target="_blank" class="in">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-insta.svg">
+                      </a>
+                      <a href="#" target="_blank" class="gm">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-mail.svg">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container" style="margin-right: 40px;">
+                  <div class="team-card">
+                    <div class="img-wrapper">
+                      <img class="team-img" src="static/images/vedant.jpg">
+                    </div>
+                    <p class="text-blk name">
+                      Vedant Gawande
+                    </p>
+                    <p class="text-blk position">
+                      Backend Developer
+                    </p>
+                    <div class="social-media-links">
+                      <a href="#" target="_blank" class="tw">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-twitter.svg">
+                      </a>
+                      <a href="#" target="_blank" class="fb">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-fb.svg">
+                      </a>
+                      <a href="#" target="_blank" class="in">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-insta.svg">
+                      </a>
+                      <a href="#" target="_blank" class="gm">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-mail.svg">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container">
+                  <div class="team-card">
+                    <div class="img-wrapper">
+                      <img class="team-img" src="static/images/mohit.png">
+                    </div>
+                    <p class="text-blk name">
+                      Mohit Pawar
+                    </p>
+                    <p class="text-blk position">
+                      Frontend Developer
+                    </p>
+                    <div class="social-media-links">
+                      <a href="#" target="_blank" class="tw">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-twitter.svg">
+                      </a>
+                      <a href="#" target="_blank" class="fb">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-fb.svg">
+                      </a>
+                      <a href="#" target="_blank" class="in">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-insta.svg">
+                      </a>
+                      <a href="#" target="_blank" class="gm">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-mail.svg">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container" style="margin-left: 50px;">
+                  <div class="team-card">
+                    <div class="img-wrapper">
+                      <img class="team-img" src="static/images/tarun.jpeg">
+                    </div>
+                    <p class="text-blk name">
+                      Tarun Kukreja
+                    </p>
+                    <p class="text-blk position">
+                      ML Developer
+                    </p>
+                    <div class="social-media-links">
+                      <a href="#" target="_blank" class="tw">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-twitter.svg">
+                      </a>
+                      <a href="#" target="_blank" class="fb">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-fb.svg">
+                      </a>
+                      <a href="#" target="_blank" class="in">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-insta.svg">
+                      </a>
+                      <a href="#" target="_blank" class="gm">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-mail.svg">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container" style="margin-right: 50px;">
+                  <div class="team-card">
+                    <div class="img-wrapper">
+                      <img class="team-img" src="static/images/chandu.jpeg">
+                    </div>
+                    <p class="text-blk name">
+                      Chandrakant Patil
+                    </p>
+                    <p class="text-blk position">
+                      Analyst
+                    </p>
+                    <div class="social-media-links">
+                      <a href="#" target="_blank" class="tw">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-twitter.svg">
+                      </a>
+                      <a href="#" target="_blank" class="fb">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-fb.svg">
+                      </a>
+                      <a href="#" target="_blank" class="in">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-insta.svg">
+                      </a>
+                      <a href="#" target="_blank" class="gm">
+                        <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-mail.svg">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div></div>
+            </div>
+          </div>
+		<footer style="color: red; padding: 1vh 0 0 71vh; justify-content: center;">
+			Copyright By 2023 All Rights Reserve
+		</footer>
+	</div>
+</div>
+
+
+	<script>
+		let menuicn = document.querySelector(".menuicn");
+		let nav = document.querySelector(".navcontainer");
+		
+		menuicn.addEventListener("click",()=>
+		{
+			nav.classList.toggle("navclose");
+		})
+
+		
+	</script>
+
+	
+</body>
+</html>
